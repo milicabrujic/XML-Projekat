@@ -19,7 +19,7 @@ public class Messages {
 
     public static final String TIME_WRONG_FORMAT = "TIME_WRONG_FORMAT";
 
-    public static final String USERNAME_NOT_FOUND = "USERNAME_NOT_FOUND";
+    public static final String USERNAME_NOT_FOUND = "USERNAME_NOT_FOUNDD";
 
    
 
