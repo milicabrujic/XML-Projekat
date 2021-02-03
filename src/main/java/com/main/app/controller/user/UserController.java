@@ -85,7 +85,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/search")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Entities<User>> getAllBySearchParam(Pageable pageable, @RequestParam(name = "searchParam") String searchParam) {
         return new ResponseEntity<>(userService.getAllBySearchParam(searchParam, pageable), HttpStatus.OK);
     }
@@ -98,8 +98,8 @@ public class UserController {
 
     @PostMapping(path = "/")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<UserDTO> add(@RequestBody @Valid UserDTO userDTO) {
-        return new ResponseEntity<>(userEntityToUserDTO(userService.save(new User(userDTO))), HttpStatus.OK);
+    public ResponseEntity<User> add(@RequestBody UserDTO userDTO) {
+        return new ResponseEntity<>(userService.adminUserSave(userDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
