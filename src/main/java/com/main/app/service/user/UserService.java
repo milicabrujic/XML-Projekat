@@ -21,6 +21,8 @@ public interface UserService {
 
     User save(User user);
 
+    User adminUserSave(UserDTO user);
+
     User edit(User user, Long id);
 
     User delete(Long id);

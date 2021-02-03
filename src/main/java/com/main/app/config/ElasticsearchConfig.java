@@ -58,7 +58,7 @@ public class ElasticsearchConfig {
     public ElasticsearchOperations elasticsearchTemplate() throws IOException {
 
         String[] indexesForAnalyzer = new String[] {
-                //TODO Indeksi za elasticsearch
+                "user"
         };
 
         for (String indexName : indexesForAnalyzer) {

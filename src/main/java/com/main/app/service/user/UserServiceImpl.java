@@ -38,6 +38,7 @@ import java.util.Optional;
 import static com.main.app.converter.user.UserConverter.usersListToUsersDTOList;
 import static com.main.app.static_data.Messages.*;
 import static com.main.app.util.UserUtil.*;
+import static com.main.app.util.Util.adminUsersToIds;
 import static com.main.app.util.Util.usersToIds;
 
 
@@ -112,13 +113,66 @@ public class UserServiceImpl implements UserService {
         User savedUser = userRepository.save(user);
         userElasticRepository.save(new UserElasticDTO(savedUser));
 
-        registrationEmailService.sendEmail(
-                deeplinkUrl,
-                "?registrationToken=" + user.getRegistrationToken(),
-                emailFrom,
-                user.getEmail(),
-                Constants.URL_PART_USER
-        );
+//        registrationEmailService.sendEmail(
+//                deeplinkUrl,
+//                "?registrationToken=" + user.getRegistrationToken(),
+//                emailFrom,
+//                user.getEmail(),
+//                Constants.URL_PART_USER
+//        );
+        return savedUser;
+    }
+
+    @Override
+    public User adminUserSave(UserDTO user) {
+        Optional<User> oneUser = userRepository.findOneByEmailAndDeletedFalse(user.getEmail());
+
+        if (oneUser.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, USER_WITH_EMAIL_ALREADY_EXIST);
+        }
+
+        if (user.getEmail() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, USER_EMAIL_CANT_BE_NULL);
+        }
+
+        if(!validateEmail(user.getEmail())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, USER_EMAIL_NOT_VALID);
+        }
+
+        if (user.getName() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, USER_NAME_CANT_BE_NULL);
+        }
+
+        if (user.getSurname() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, USER_SURNAME_CANT_BE_NULL);
+        }
+        User userToSave = new User();
+        userToSave.setEmail(user.getEmail());
+        userToSave.setName(user.getName());
+        userToSave.setSurname(user.getSurname());
+        userToSave.setPassword(encryptUserPassword("123"));
+        userToSave.setDateCreated(Calendar.getInstance().toInstant());
+        userToSave.setDateUpdated(Calendar.getInstance().toInstant());
+        userToSave.setRegistrationConfirmed(true);
+        userToSave.setRole(Role.ROLE_USER);
+        userToSave.setRegistrationToken(Util.generateUniqueString());
+        userToSave.setPhoneNumber("XXX-XXX-XXX");
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, Constants.VALIDITY_OF_TOKEN_IN_DAYS);
+        userToSave.setRegistrationTokenExpirationDate(c.getTime().toInstant());
+
+        User savedUser = userRepository.save(userToSave);
+        userElasticRepository.save(new UserElasticDTO(savedUser));
+
+//        registrationEmailService.sendEmail(
+//                deeplinkUrl,
+//                "?registrationToken=" + user.getRegistrationToken(),
+//                emailFrom,
+//                user.getEmail(),
+//                Constants.URL_PART_USER
+//        );
         return savedUser;
     }
 
@@ -191,22 +245,41 @@ public class UserServiceImpl implements UserService {
         return entities;
     }
 
+
     @Override
     public Entities getAllBySearchParam(String searchParam, Pageable pageable) {
-        Page<UserElasticDTO> pagedUsers = userElasticRepository.search(userElasticRepositoryBuilder.generateQuery(searchParam), pageable);
 
-        List<Long> ids = usersToIds(pagedUsers);
+        if(searchParam == "" || searchParam == null ){
+            Page<User> pagedUserss = userRepository.findAllByDeletedFalse(pageable);
+            List<Long> ids = adminUsersToIds(pagedUserss);
 
-        Pageable mySqlPaging = PageRequest.of(0, pageable.getPageSize(), pageable.getSort());
-        List<User> users = userRepository.findAllByIdInAndDeletedFalse(ids, mySqlPaging).getContent();
+            Pageable mySqlPaging = PageRequest.of(0, pageable.getPageSize(), pageable.getSort());
+            List<User> users = userRepository.findAllByIdInAndDeletedFalse(ids, mySqlPaging).getContent();
 
-        List<UserDTO> usersDTO = usersListToUsersDTOList(users);
+            //List<UserDTO> usersDTO = usersListToUsersDTOList(users);
 
-        Entities entities = new Entities();
-        entities.setEntities(usersDTO);
-        entities.setTotal(pagedUsers.getTotalElements());
+            Entities entities = new Entities();
+            entities.setEntities(users);
+            entities.setTotal(pagedUserss.getTotalElements());
 
-        return entities;
+            return entities;
+        }else{
+            Page<UserElasticDTO> pagedUsers = userElasticRepository.search(userElasticRepositoryBuilder.generateQuery(searchParam), pageable);
+
+            List<Long> ids = usersToIds(pagedUsers);
+
+            Pageable mySqlPaging = PageRequest.of(0, pageable.getPageSize(), pageable.getSort());
+            List<User> users = userRepository.findAllByIdInAndDeletedFalse(ids, mySqlPaging).getContent();
+
+            List<UserDTO> usersDTO = usersListToUsersDTOList(users);
+
+            Entities entities = new Entities();
+            entities.setEntities(usersDTO);
+            entities.setTotal(pagedUsers.getTotalElements());
+
+            return entities;
+
+        }
     }
 
     @Override

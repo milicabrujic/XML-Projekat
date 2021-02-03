@@ -55,8 +55,9 @@ com/main/app/domain/dto/user/EmailDTO.java
  com.main.app.domain.dto.user.EmailDTO
 com/main/app/service/email/RegistrationEmailService.java
  com.main.app.service.email.RegistrationEmailService
-com/main/app/service/user/UserServiceImpl.java
- com.main.app.service.user.UserServiceImpl
+com/main/app/domain/dto/user/UserDTO.java
+ com.main.app.domain.dto.user.UserDTO
+ com.main.app.domain.dto.user.UserDTO$UserDTOBuilder
 com/main/app/config/ResourceServerConfig.java
  com.main.app.config.ResourceServerConfig
 com/main/app/static_data/Messages.java
@@ -78,8 +79,8 @@ com/main/app/elastic/dto/EntityElasticDTO.java
  com.main.app.elastic.dto.EntityElasticDTO
 com/main/app/config/CORSFilterConfig.java
  com.main.app.config.CORSFilterConfig
-com/main/app/controller/user/UserController.java
- com.main.app.controller.user.UserController
+com/main/app/domain/dto/user/PasswordDTO.java
+ com.main.app.domain.dto.user.PasswordDTO
 com/main/app/util/UserUtil.java
  com.main.app.util.UserUtil
 com/main/app/service/email/RegistrationEmailServiceImpl.java
@@ -100,18 +101,17 @@ com/main/app/service/email/PasswordRecoveryEmailService.java
  com.main.app.service.email.PasswordRecoveryEmailService
 com/main/app/domain/dto/user/EmailPassDTO.java
  com.main.app.domain.dto.user.EmailPassDTO
-com/main/app/service/email/SubmitContactEmailService.java
- com.main.app.service.email.SubmitContactEmailService
 com/main/app/elastic/dto/user/UserElasticDTO.java
  com.main.app.elastic.dto.user.UserElasticDTO
+com/main/app/service/email/SubmitContactEmailService.java
+ com.main.app.service.email.SubmitContactEmailService
 com/main/app/controller/elasticsearch_reindex/ElasticsearchReindexController.java
  com.main.app.controller.elasticsearch_reindex.ElasticsearchReindexController
 com/main/app/config/auditor_aware/AuditorAwareImpl.java
  com.main.app.config.auditor_aware.AuditorAwareImpl
 com/main/app/service/email/EmailClient.java
  com.main.app.service.email.EmailClient
-com/main/app/domain/dto/user/PasswordDTO.java
- com.main.app.domain.dto.user.PasswordDTO
-com/main/app/domain/dto/user/UserDTO.java
- com.main.app.domain.dto.user.UserDTO
- com.main.app.domain.dto.user.UserDTO$UserDTOBuilder
+com/main/app/service/user/UserServiceImpl.java
+ com.main.app.service.user.UserServiceImpl
+com/main/app/controller/user/UserController.java
+ com.main.app.controller.user.UserController
