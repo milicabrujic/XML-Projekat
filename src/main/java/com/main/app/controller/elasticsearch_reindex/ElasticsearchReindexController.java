@@ -22,6 +22,19 @@ public class ElasticsearchReindexController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(path="/users")
+    public ResponseEntity<Void> reindexUsers(){
+        elasticsearchReindexService.reindexUser();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @GetMapping(path="/category")
+    public ResponseEntity<Void> reindexCategories(){
+        elasticsearchReindexService.reindexCategory();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 
 }
