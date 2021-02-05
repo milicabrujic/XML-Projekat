@@ -22,12 +22,6 @@ import java.io.IOException;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
-
-/**
- * ElasticSearch configuration
- *
- * @author Nikola
- */
 @Configuration
 @EnableElasticsearchRepositories(basePackages = "com.main.app.elastic")
 public class ElasticsearchConfig {
@@ -58,7 +52,7 @@ public class ElasticsearchConfig {
     public ElasticsearchOperations elasticsearchTemplate() throws IOException {
 
         String[] indexesForAnalyzer = new String[] {
-                "user", "category"
+                "user", "category", "attribute", "attribute_value","brand"
         };
 
         for (String indexName : indexesForAnalyzer) {

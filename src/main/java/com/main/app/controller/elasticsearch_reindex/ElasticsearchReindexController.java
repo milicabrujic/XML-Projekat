@@ -35,7 +35,24 @@ public class ElasticsearchReindexController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(path="/attribute")
+    public ResponseEntity<Void> reindexAttribute(){
+        elasticsearchReindexService.reindexAttribute();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
+    @GetMapping(path="/attributeValue")
+    public ResponseEntity<Void> reindexAttributeValue(){
+        elasticsearchReindexService.reindexAttributeValue();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @GetMapping(path="/brand")
+    public ResponseEntity<Void> reindexBrand(){
+        elasticsearchReindexService.reindexBrand();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }
 
