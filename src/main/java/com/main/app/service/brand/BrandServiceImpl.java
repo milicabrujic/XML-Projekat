@@ -192,32 +192,4 @@ public class BrandServiceImpl implements BrandService {
         return folderName;
     }
 
-//    @Override
-//    public Entities getAllWithoutIds() {
-//        List<Brand> brandList = brandRepository.findAll();
-//
-//        Entities entities = new Entities();
-//        entities.setEntities(listToDTOListWithoutIds(brandList));
-//        entities.setTotal(brandList.size());
-//
-//        return entities;
-//    }
-//
-//
-//    @Override
-//    public Entities getAllWhereIdIsProductCategoryId(Long categoryId) {
-//        List<Long> brandIds = productService.getAllBrandsForCategoryId(categoryId);
-//
-//        List<Brand> brandList = new ArrayList<>();
-//        for(int i=0; i < brandIds.size(); i++){
-//            Brand brand = brandRepository.getOne(brandIds.get(i));
-//            brandList.add(brand);
-//        }
-//
-//        Entities entities = new Entities();
-//        entities.setEntities(listToDTOListWithoutIds(brandList));
-//        entities.setTotal(brandList.size());
-//
-//        return entities;
-//    }
 }

@@ -73,14 +73,4 @@ public class BrandController {
         return new ResponseEntity<>(entityToSafeDTO(brandService.getOne(id)), HttpStatus.OK);
     }
 
-//    @GetMapping(path = "/safe/all")
-//    public ResponseEntity<Entities<Brand>> getAllWithoutIds() {
-//        return new ResponseEntity<>(brandService.getAllWithoutIds(), HttpStatus.OK);
-//    }
-//
-//    @GetMapping(path = "/safe/category/{id}")
-//    public ResponseEntity<Entities<Brand>> getAllWhereIdIsProductCategoryId(@PathVariable Long id) {
-//        return new ResponseEntity<>(brandService.getAllWhereIdIsProductCategoryId(id), HttpStatus.OK);
-//    }
-
 }

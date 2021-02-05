@@ -31,8 +31,4 @@ public interface BrandService {
     void uploadImage(Long id, MultipartFile[] images, MultipartFile[] homepageImages) throws IOException;
 
 
-
-    // Entities getAllWithoutIds();
-    // Entities getAllWhereIdIsProductCategoryId(Long id);
-
 }
