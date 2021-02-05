@@ -21,6 +21,9 @@ public class Messages {
 
     public static final String USERNAME_NOT_FOUND = "USERNAME_NOT_FOUNDD";
 
+    public static final String CATEGORY_WITH_NAME_ALREADY_EXIST = "CATEGORY_WITH_NAME_ALREADY_EXIST";
+    public static final String CATEGORY_NAME_CANT_BE_NULL = "CATEGORY_NAME_CANT_BE_NULL";
+    public static final String CATEGORY_NOT_EXIST = "CATEGORY_NOT_EXIST";
    
 
 }

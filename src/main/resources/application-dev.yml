@@ -44,8 +44,8 @@ spring:
 
 document:
   productcategory:
-    path: /media/korisnik/New Volume/work/images/
-    filepath: file:/media/korisnik/New Volume/work/images/
+    path: /home/user/Desktop/Work/images/
+    filepath: file:/home/user/Desktop/Work/images/
 
 server:
   servlet:
