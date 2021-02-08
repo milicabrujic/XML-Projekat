@@ -40,4 +40,22 @@ public class Messages {
     public static final String BRAND_NOT_EXIST = "BRAND_NOT_EXIST";
 
 
+
+
+
+    public static final String PRODUCT_WITH_NAME_ALREADY_EXIST = "PRODUCT_WITH_NAME_ALREADY_EXIST";
+    public static final String PRODUCT_NAME_CANT_BE_NULL = "PRODUCT_NAME_CANT_BE_NULL";
+    public static final String PRODUCT_NOT_EXIST = "PRODUCT_NOT_EXIST";
+
+    public static final String PRODUCT_PRODUCT_CATEGORY_CANT_BE_NULL = "PRODUCT_PRODUCT_CATEGORY_CANT_BE_NULL";
+    public static final String PRODUCT_BRAND_CANT_BE_NULL = "PRODUCT_BRAND_CANT_BE_NULL";
+    public static final String PRODUCT_ATTRIBUTE_VALUES_CANT_BE_NULL = "PRODUCT_ATTRIBUTE_VALUES_CANT_BE_NULL";
+    public static final String BRAND_IN_PRODUCT_EXISTS = "BRAND_IN_PRODUCT_EXISTS";
+    public static final String PRODUCT_CATEGORY_IN_PRODUCT_EXISTS = "PRODUCT_CATEGORY_IN_PRODUCT_EXISTS";
+    public static final String ATTRIBUTE_IN_PRODUCT_EXISTS = "ATTRIBUTE_IN_PRODUCT_EXISTS";
+    public static final String ATTRIBUTE_VALUE_IN_PRODUCT_EXISTS = "ATTRIBUTE_VALUE_IN_PRODUCT_EXISTS";
+
+
+    public static final String IMAGE_NOT_EXIST = "IMAGE_NOT_EXIST";
+
 }

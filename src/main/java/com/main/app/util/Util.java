@@ -6,6 +6,7 @@ import com.main.app.elastic.dto.attribute.AttributeElasticDTO;
 import com.main.app.elastic.dto.attribute_value.AttributeValueElasticDTO;
 import com.main.app.elastic.dto.brand.BrandElasticDTO;
 import com.main.app.elastic.dto.category.CategoryElasticDTO;
+import com.main.app.elastic.dto.product.ProductElasticDTO;
 import com.main.app.elastic.dto.user.UserElasticDTO;
 import org.springframework.data.domain.Page;
 
@@ -79,6 +80,14 @@ public class Util {
         return ids;
     }
 
+
+    public static List<Long> productsToIds(Page<ProductElasticDTO> entities) {
+        List<Long> ids = new ArrayList<>();
+        entities.forEach(item -> {
+            ids.add(item.getId());
+        });
+        return ids;
+    }
 
 
 }

@@ -54,5 +54,13 @@ public class ElasticsearchReindexController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(path="/product")
+    public ResponseEntity<Void> reindexProducts(){
+        elasticsearchReindexService.reindexProduct();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+
 }
 
