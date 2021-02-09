@@ -249,10 +249,20 @@ public class ProductServiceImpl implements ProductService {
 
         if(foundProduct.isActive()){
             foundProduct.setActive(false);
-
+//            if(!productVariations.isEmpty()){
+//                for(Variation variation : productVariations){
+//                    variation.setActive(false);
+//                    variationRepository.save(variation);
+//                }
+//            }
         }else{
             foundProduct.setActive(true);
-
+//            if(!productVariations.isEmpty()){
+//                for(Variation variation : productVariations){
+//                    variation.setActive(true);
+//                    variationRepository.save(variation);
+//                }
+//            }
         }
         Product savedProduct = productRepository.save(foundProduct);
         productElasticRepository.save(ObjectMapperUtils.map(foundProduct, ProductElasticDTO.class));

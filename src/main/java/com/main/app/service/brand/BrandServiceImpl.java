@@ -6,6 +6,7 @@ import com.main.app.elastic.dto.brand.BrandElasticDTO;
 import com.main.app.elastic.repository.brand.BrandElasticRepository;
 import com.main.app.elastic.repository.brand.BrandElasticRepositoryBuilder;
 import com.main.app.repository.brand.BrandRepository;
+import com.main.app.service.product.ProductService;
 import com.main.app.util.ObjectMapperUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,7 @@ public class BrandServiceImpl implements BrandService {
 
     private final BrandElasticRepositoryBuilder brandElasticRepositoryBuilder;
 
+    private final ProductService productService;
 
     @Override
     public Entities getAll() {
@@ -137,7 +139,7 @@ public class BrandServiceImpl implements BrandService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, BRAND_NOT_EXIST);
         }
 
-        //TODO Check if has foregin key
+        productService.checkIfHasForeignKey(id, "brand");
 
         Brand foundBrand = optionalBrand.get();
         foundBrand.setDeleted(true);

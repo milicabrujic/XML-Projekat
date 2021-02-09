@@ -41,4 +41,26 @@ public class ImageController {
     }
 
 
+
+
+
+    @GetMapping(path = "/variation/{variationId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<ImageDTO>> getAllByVariationId(@PathVariable Long variationId) {
+        return new ResponseEntity<>(listToDTOList(imageService.getAllImagesByVariationId(variationId)), HttpStatus.OK);
+    }
+
+    @PutMapping(path = "/variation/{id}/{variationId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<ImageDTO> setNewPrimaryImageForVariation(@PathVariable Long id, @PathVariable Long variationId) {
+        return new ResponseEntity<>(entityToDTO(imageService.setPrimaryImageForVariation(id, variationId)), HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/variation/{id}/{variationId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<ImageDTO> deleteForVariation(@PathVariable Long id, @PathVariable Long variationId) {
+        return new ResponseEntity<>(entityToDTO(imageService.deleteForVariation(id, variationId)), HttpStatus.OK);
+    }
+
 }

@@ -11,6 +11,7 @@ import com.main.app.elastic.repository.attribute_value.AttributeValueElasticRepo
 import com.main.app.repository.attribute.AttributeRepository;
 import com.main.app.repository.attribute_value.AttributeValueRepository;
 import com.main.app.service.attribute_value.AttributeValueService;
+import com.main.app.service.product.ProductService;
 import com.main.app.util.ObjectMapperUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,8 @@ public class AttributeServiceImpl implements AttributeService {
     private final AttributeValueRepository attributeValueRepository;
 
     private final AttributeValueService attributeValueService;
+
+    private final ProductService productService;
 
 
     @Override
@@ -129,7 +132,9 @@ public class AttributeServiceImpl implements AttributeService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ATTRIBUTE_NOT_EXIST);
         }
 
-        //TODO Check if has foregin key
+
+        productService.checkIfHasForeignKey(id, "attribute");
+
         List<AttributeValue> attrValueList = attributeValueRepository.findAllByAttributeId(id);
         for (int i=0;i<attrValueList.size();i++) {
             attributeValueService.delete(attrValueList.get(i).getId());

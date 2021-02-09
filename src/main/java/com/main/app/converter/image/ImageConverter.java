@@ -27,6 +27,7 @@ public class ImageConverter {
                 .url(imageDTO.getUrl())
                 .primaryImage(imageDTO.isPrimaryImage())
                 .product(imageDTO.getProductId() != null ? productService.getOne(imageDTO.getProductId()) : null)
+                .variation(null)
                 .build();
     }
 
@@ -36,6 +37,7 @@ public class ImageConverter {
                 .id(image.getId())
                 .name(image.getName())
                 .productId(image.getProduct() != null ? image.getProduct().getId() : null)
+                .variationId(image.getVariation() != null ? image.getVariation().getId() : null)
                 .url(image.getUrl())
                 .primaryImage(image.isPrimaryImage())
                 .dateCreated(image.getDateCreated())
