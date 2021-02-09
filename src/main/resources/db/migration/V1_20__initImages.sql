@@ -1,0 +1,8 @@
+--INSERT INTO `image` (`name`, `primary_image`, `url`, `product_id`) VALUES ("berberis", 1, "images/12-2020/berberis.jpg", 7);
+--INSERT INTO `image` (`name`, `primary_image`, `url`, `product_id`) VALUES ("berber", 1, "images/12-2020/berber.jpg", 7);
+--INSERT INTO `image` (`name`, `primary_image`, `url`, `product_id`) VALUES ("acer", 1, "images/12-2020/acer.jpg", 3);
+--INSERT INTO `image` (`name`, `primary_image`, `url`, `product_id`) VALUES ("aceer", 1, "images/12-2020/aceer.jpg", 4);
+--INSERT INTO `image` (`name`, `primary_image`, `url`, `product_id`) VALUES ("magnolija", 1, "images/12-2020/magnolija.jpg", 10);
+--INSERT INTO `image` (`name`, `primary_image`, `url`, `product_id`) VALUES ("mag", 1, "images/12-2020/mag.jpg", 10);
+--INSERT INTO `image` (`name`, `primary_image`, `url`, `product_id`) VALUES ("abradr", 1, "images/12-2020/abradr.jpg", 8);
+--INSERT INTO `image` (`name`, `primary_image`, `url`, `product_id`) VALUES ("rhododendron", 1, "images/12-2020/rhododendron.jpg", 8);
