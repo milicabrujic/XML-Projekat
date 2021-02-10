@@ -144,8 +144,6 @@ public class VariationServiceImpl implements VariationService{
                 attributeValueNames.add(attributeValue.getName());
                 attributeValueIds.add(String.valueOf(attributeValue.getId()));
                 productAttributeValueIds.add(attributeValue.getId());
-
-
             }
 
             numberOfAttributeIdsRepeating *= attributeValueIds.size();
