@@ -39,7 +39,7 @@ public class ProductConverter {
                 .newAdded(productDTO.isNewAdded())
                 .productPosition(productDTO.getProductPosition())
                 .discount(productDTO.getDiscount())
-
+                .discountProductPosition(productDTO.getDiscountProductPosition())
                 .build();
     }
 

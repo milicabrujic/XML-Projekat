@@ -6,6 +6,7 @@ import com.main.app.domain.model.image.Image;
 import com.main.app.domain.model.product.Product;
 import com.main.app.domain.model.product_attribute_values.ProductAttributeValues;
 import com.main.app.domain.model.product_attributes.ProductAttributes;
+import com.main.app.domain.model.variation.Variation;
 import com.main.app.elastic.dto.product.ProductElasticDTO;
 import com.main.app.elastic.repository.product.ProductElasticRepository;
 import com.main.app.elastic.repository.product.ProductElasticRepositoryBuilder;
@@ -14,6 +15,7 @@ import com.main.app.repository.product.ProductAttributeAttrValueRepository;
 import com.main.app.repository.product.ProductRepository;
 import com.main.app.repository.product_attribute_values.ProductAttributeValuesRepository;
 import com.main.app.repository.product_attributes.ProductAttributesRepository;
+import com.main.app.repository.variation.VariationRepository;
 import com.main.app.util.ObjectMapperUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +64,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductAttributeValuesRepository productAttributeValuesRepository;
 
     private final ProductAttributeAttrValueRepository productAttributeAttrValueRepository;
+
+    private final VariationRepository variationRepository;
 
 
     @Override
@@ -243,29 +247,39 @@ public class ProductServiceImpl implements ProductService {
     public Product toggleActivate(Long id) {
         Optional<Product> optionalProduct = productRepository.findOneById(id);
 
+        Optional<ProductElasticDTO> elasticProductFound = productElasticRepository.findById(id);
+
         optionalProduct.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_NOT_EXIST));
+        elasticProductFound.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_NOT_EXIST));
 
         Product foundProduct = optionalProduct.get();
+        ProductElasticDTO elasticProduct = elasticProductFound.get();
+
+        List<Variation> productVariations = variationRepository.findAllByProductId(id);
+
+        elasticProduct.setActive(!foundProduct.isActive());
 
         if(foundProduct.isActive()){
             foundProduct.setActive(false);
-//            if(!productVariations.isEmpty()){
-//                for(Variation variation : productVariations){
-//                    variation.setActive(false);
-//                    variationRepository.save(variation);
-//                }
-//            }
+            if(!productVariations.isEmpty()){
+                for(Variation variation : productVariations){
+                    variation.setActive(false);
+                    variationRepository.save(variation);
+                }
+            }
         }else{
             foundProduct.setActive(true);
-//            if(!productVariations.isEmpty()){
-//                for(Variation variation : productVariations){
-//                    variation.setActive(true);
-//                    variationRepository.save(variation);
-//                }
-//            }
+            if(!productVariations.isEmpty()){
+                for(Variation variation : productVariations){
+                    variation.setActive(true);
+                    variationRepository.save(variation);
+                }
+            }
         }
+
+
         Product savedProduct = productRepository.save(foundProduct);
-        productElasticRepository.save(ObjectMapperUtils.map(foundProduct, ProductElasticDTO.class));
+        productElasticRepository.save(elasticProduct);
 
         return savedProduct;
     }
