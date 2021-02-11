@@ -166,13 +166,13 @@ public class UserServiceImpl implements UserService {
         User savedUser = userRepository.save(userToSave);
         userElasticRepository.save(new UserElasticDTO(savedUser));
 
-//        registrationEmailService.sendEmail(
-//                deeplinkUrl,
-//                "?registrationToken=" + user.getRegistrationToken(),
-//                emailFrom,
-//                user.getEmail(),
-//                Constants.URL_PART_USER
-//        );
+        registrationEmailService.sendEmail(
+                deeplinkUrl,
+                "?registrationToken=" + userToSave.getRegistrationToken(),
+                emailFrom,
+                user.getEmail(),
+                Constants.URL_PART_USER
+        );
         return savedUser;
     }
 
@@ -271,10 +271,10 @@ public class UserServiceImpl implements UserService {
             Pageable mySqlPaging = PageRequest.of(0, pageable.getPageSize(), pageable.getSort());
             List<User> users = userRepository.findAllByIdInAndDeletedFalse(ids, mySqlPaging).getContent();
 
-            List<UserDTO> usersDTO = usersListToUsersDTOList(users);
+            //List<UserDTO> usersDTO = usersListToUsersDTOList(users);
 
             Entities entities = new Entities();
-            entities.setEntities(usersDTO);
+            entities.setEntities(users);
             entities.setTotal(pagedUsers.getTotalElements());
 
             return entities;

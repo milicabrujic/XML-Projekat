@@ -12,8 +12,13 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 
     List<Image> findAllImagesByProductId(Long productId);
 
+    List<Image> findAllImagesByVariationId(Long variationId);
+
     Image findOneByProductIdAndPrimaryImageTrue(Long productId);
 
+    Image findOneByVariationIdAndPrimaryImageTrue(Long variationId);
+
     Optional<Image> findOneById(Long id);
+
 
 }

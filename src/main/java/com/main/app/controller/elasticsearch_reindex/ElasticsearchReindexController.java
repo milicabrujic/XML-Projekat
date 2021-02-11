@@ -61,6 +61,12 @@ public class ElasticsearchReindexController {
     }
 
 
+    @GetMapping(path="/variation")
+    public ResponseEntity<Void> reindexVariations(){
+        elasticsearchReindexService.reindexVariation();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }
 

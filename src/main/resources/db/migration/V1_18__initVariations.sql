@@ -1,0 +1,69 @@
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  1, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  1, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  1, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  1, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  1, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  1, true);
+--
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  2, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  2, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  2, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  2, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  2, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  2, true);
+--
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  3, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  3, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  3, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  3, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  3, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  3, true);
+--
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  4, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  4, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  4, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  4, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  4, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  4, true);
+--
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  5, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  5, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  5, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  5, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  5, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  5, true);
+--
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  6, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  6, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  6, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  6, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  6, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  6, true);
+--
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  7, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  7, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  7, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  7, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  7, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  7, true);
+--
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  8, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  8, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  8, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  8, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  8, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  8, true);
+--
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  9, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  9, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  9, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  9, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  9, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  9, true);
+--
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  10, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  10, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Crvena", "images/11-2020/81375ef4801dd003ca7ed37e31b9596d.png", 19000,  10, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-S-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  10, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-M-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  10, true);
+--INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`) VALUES ("Kaciga-Kacige-Dainese-L-Zelena", "images/11-2020/9949a41ea417d8be108e5e5c3086a9fa.png", 29000,  10, true);

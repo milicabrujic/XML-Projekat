@@ -23,6 +23,8 @@ public class ImageDTO {
 
     private Long productId;
 
+    private Long variationId;
+
     private Instant dateCreated;
 
 }

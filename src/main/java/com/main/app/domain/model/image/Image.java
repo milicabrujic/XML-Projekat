@@ -2,6 +2,7 @@ package com.main.app.domain.model.image;
 
 import com.main.app.domain.model.AbstractEntity;
 import com.main.app.domain.model.product.Product;
+import com.main.app.domain.model.variation.Variation;
 import lombok.*;
 import org.hibernate.annotations.Where;
 
@@ -29,6 +30,6 @@ public class Image extends AbstractEntity {
     @ManyToOne
     private Product product;
 
-
-
+    @ManyToOne
+    private Variation variation;
 }

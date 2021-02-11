@@ -6,6 +6,7 @@ import com.main.app.elastic.dto.category.CategoryElasticDTO;
 import com.main.app.elastic.repository.category.CategoryElasticRepository;
 import com.main.app.elastic.repository.category.CategoryElasticRepositoryBuilder;
 import com.main.app.repository.category.CategoryRepository;
+import com.main.app.service.product.ProductService;
 import com.main.app.util.ObjectMapperUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,8 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryElasticRepository categoryElasticRepository;
 
     private  final CategoryElasticRepositoryBuilder categoryElasticRepositoryBuilder;
+
+    private final ProductService productService;
 
 
     @Override
@@ -134,7 +137,7 @@ public class CategoryServiceImpl implements CategoryService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, CATEGORY_NOT_EXIST);
         }
 
-        //productService.checkIfHasForeignKey(id, "category");
+        productService.checkIfHasForeignKey(id, "category");
 
         Category foundCategory = optionalProductCategory.get();
         foundCategory.setDeleted(true);

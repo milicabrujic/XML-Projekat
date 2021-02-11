@@ -58,4 +58,9 @@ public class Messages {
 
     public static final String IMAGE_NOT_EXIST = "IMAGE_NOT_EXIST";
 
+
+    public static final String VARIATION_WITH_NAME_ALREADY_EXIST = "VARIATION_WITH_NAME_ALREADY_EXIST";
+    public static final String VARIATION_NOT_EXIST = "VARIATION_NOT_EXIST";
+    public static final String VARIATION_WITH_COMBINATION_NOT_EXIST = "VARIATION_WITH_COMBINATION_NOT_EXIST";
+
 }

@@ -6,6 +6,7 @@ import com.main.app.elastic.dto.attribute_value.AttributeValueElasticDTO;
 import com.main.app.elastic.repository.attribute_value.AttributeValueElasticRepository;
 import com.main.app.elastic.repository.attribute_value.AttributeValueElasticRepositoryBuilder;
 import com.main.app.repository.attribute_value.AttributeValueRepository;
+import com.main.app.service.product.ProductService;
 import com.main.app.util.ObjectMapperUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,9 @@ public class AttributeValueServiceImpl implements AttributeValueService {
     private final AttributeValueElasticRepository attributeValueElasticRepository;
 
     private final AttributeValueElasticRepositoryBuilder attributeValueElasticRepositoryBuilder;
+
+    private final ProductService productService;
+
 
 
     @Override
@@ -143,7 +147,7 @@ public class AttributeValueServiceImpl implements AttributeValueService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ATTRIBUTE_VALUE_NOT_EXIST);
         }
 
-        //TODO Check if has foregin key
+        productService.checkIfHasForeignKey(id, "attribute_value");
 
         AttributeValue foundAttributeValue = optionalAttributeValue.get();
         foundAttributeValue.setDeleted(true);

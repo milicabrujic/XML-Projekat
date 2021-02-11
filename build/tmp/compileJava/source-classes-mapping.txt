@@ -6,15 +6,15 @@ com/main/app/service/email/PasswordRecoveryEmailServiceImpl.java
  com.main.app.service.email.PasswordRecoveryEmailServiceImpl
 com/main/app/controller/category/CategoryController.java
  com.main.app.controller.category.CategoryController
-com/main/app/repository/product/ProductAttributeAttrValueRepository.java
- com.main.app.repository.product.ProductAttributeAttrValueRepository
+com/main/app/domain/dto/product/ProductDTO.java
+ com.main.app.domain.dto.product.ProductDTO
+ com.main.app.domain.dto.product.ProductDTO$ProductDTOBuilder
 com/main/app/exception/InvalidPasswordException.java
  com.main.app.exception.InvalidPasswordException
 com/main/app/repository/image/ImageRepository.java
  com.main.app.repository.image.ImageRepository
-com/main/app/domain/dto/product/ProductDTO.java
- com.main.app.domain.dto.product.ProductDTO
- com.main.app.domain.dto.product.ProductDTO$ProductDTOBuilder
+com/main/app/service/product/ProductServiceImpl.java
+ com.main.app.service.product.ProductServiceImpl
 com/main/app/service/email/SubmitContactEmailServiceImpl.java
  com.main.app.service.email.SubmitContactEmailServiceImpl
 com/main/app/domain/dto/user/RegisterRequestDTO.java
@@ -41,6 +41,9 @@ com/main/app/config/ElasticsearchConfig.java
  com.main.app.config.ElasticsearchConfig
 com/main/app/config/OAuth2SecurityConfig.java
  com.main.app.config.OAuth2SecurityConfig
+com/main/app/domain/model/variation/Variation.java
+ com.main.app.domain.model.variation.Variation
+ com.main.app.domain.model.variation.Variation$VariationBuilder
 com/main/app/domain/dto/user/LanguageDTO.java
  com.main.app.domain.dto.user.LanguageDTO
 com/main/app/service/user/UserService.java
@@ -51,18 +54,24 @@ com/main/app/elastic/dto/brand/BrandElasticDTO.java
  com.main.app.elastic.dto.brand.BrandElasticDTO
 com/main/app/elastic/dto/attribute/AttributeElasticDTO.java
  com.main.app.elastic.dto.attribute.AttributeElasticDTO
-com/main/app/domain/dto/user/UserDTO.java
- com.main.app.domain.dto.user.UserDTO
- com.main.app.domain.dto.user.UserDTO$UserDTOBuilder
+com/main/app/converter/product/ProductConverter.java
+ com.main.app.converter.product.ProductConverter
 com/main/app/elastic/repository/user/UserElasticRepository.java
  com.main.app.elastic.repository.user.UserElasticRepository
+com/main/app/elastic/repository/variation/VariationElasticRepositoryBuilderImpl.java
+ com.main.app.elastic.repository.variation.VariationElasticRepositoryBuilderImpl
 com/main/app/service/attribute_value/AttributeValueServiceImpl.java
  com.main.app.service.attribute_value.AttributeValueServiceImpl
+com/main/app/elastic/repository/variation/VariationElasticRepository.java
+ com.main.app.elastic.repository.variation.VariationElasticRepository
 com/main/app/service/image/ImageServiceImpl.java
  com.main.app.service.image.ImageServiceImpl
 com/main/app/domain/model/product/Product.java
  com.main.app.domain.model.product.Product
  com.main.app.domain.model.product.Product$ProductBuilder
+com/main/app/domain/model/variation_attribute_value_id/VariationAttributeValue.java
+ com.main.app.domain.model.variation_attribute_value_id.VariationAttributeValue
+ com.main.app.domain.model.variation_attribute_value_id.VariationAttributeValue$VariationAttributeValueBuilder
 com/main/app/domain/dto/product_attributes/ProductAttributesDTO.java
  com.main.app.domain.dto.product_attributes.ProductAttributesDTO
  com.main.app.domain.dto.product_attributes.ProductAttributesDTO$ProductAttributesDTOBuilder
@@ -80,13 +89,17 @@ com/main/app/converter/attribute/AttributeConverter.java
  com.main.app.converter.attribute.AttributeConverter
 com/main/app/domain/dto/user/EmailDTO.java
  com.main.app.domain.dto.user.EmailDTO
-com/main/app/service/user/UserServiceImpl.java
- com.main.app.service.user.UserServiceImpl
+com/main/app/elastic/dto/attribute_value/AttributeValueElasticDTO.java
+ com.main.app.elastic.dto.attribute_value.AttributeValueElasticDTO
+com/main/app/converter/variation/VariationConverter.java
+ com.main.app.converter.variation.VariationConverter
 com/main/app/domain/model/product_attribute_values/ProductAttributeValues.java
  com.main.app.domain.model.product_attribute_values.ProductAttributeValues
  com.main.app.domain.model.product_attribute_values.ProductAttributeValues$ProductAttributeValuesBuilder
 com/main/app/converter/user/UserConverter.java
  com.main.app.converter.user.UserConverter
+com/main/app/repository/variation_attribute_value_id/VariationAttributeValueRepository.java
+ com.main.app.repository.variation_attribute_value_id.VariationAttributeValueRepository
 com/main/app/static_data/Messages.java
  com.main.app.static_data.Messages
 com/main/app/controller/attribute/AttributeController.java
@@ -98,6 +111,8 @@ com/main/app/util/ObjectMapperUtils.java
 com/main/app/domain/model/user/User.java
  com.main.app.domain.model.user.User
  com.main.app.domain.model.user.User$UserBuilder
+com/main/app/service/variation/VariationService.java
+ com.main.app.service.variation.VariationService
 com/main/app/controller/brand/BrandController.java
  com.main.app.controller.brand.BrandController
 com/main/app/elastic/repository/product/ProductElasticRepositoryBuilder.java
@@ -111,6 +126,8 @@ com/main/app/service/attribute_value/AttributeValueService.java
 com/main/app/domain/model/category/Category.java
  com.main.app.domain.model.category.Category
  com.main.app.domain.model.category.Category$CategoryBuilder
+com/main/app/repository/variation/VariationRepository.java
+ com.main.app.repository.variation.VariationRepository
 com/main/app/controller/user/UserController.java
  com.main.app.controller.user.UserController
 com/main/app/util/UserUtil.java
@@ -130,6 +147,9 @@ com/main/app/service/elasticsearch_reindex/ElasticsearchReindexService.java
 com/main/app/domain/dto/attribute_value/AttributeValueDTO.java
  com.main.app.domain.dto.attribute_value.AttributeValueDTO
  com.main.app.domain.dto.attribute_value.AttributeValueDTO$AttributeValueDTOBuilder
+com/main/app/domain/dto/variation/VariationDTO.java
+ com.main.app.domain.dto.variation.VariationDTO
+ com.main.app.domain.dto.variation.VariationDTO$VariationDTOBuilder
 com/main/app/config/JpaConfig.java
  com.main.app.config.JpaConfig
 com/main/app/repository/product_attributes/ProductAttributesRepository.java
@@ -138,6 +158,8 @@ com/main/app/converter/brand/BrandConverter.java
  com.main.app.converter.brand.BrandConverter
 com/main/app/elastic/repository/product/ProductElasticRepositoryBuilderImpl.java
  com.main.app.elastic.repository.product.ProductElasticRepositoryBuilderImpl
+com/main/app/elastic/repository/variation/VariationElasticRepositoryBuilder.java
+ com.main.app.elastic.repository.variation.VariationElasticRepositoryBuilder
 com/main/app/service/attribute/AttributeServiceImpl.java
  com.main.app.service.attribute.AttributeServiceImpl
 com/main/app/config/auditor_aware/AuditorAwareImpl.java
@@ -156,6 +178,8 @@ com/main/app/domain/dto/attribute/AttributeDTO.java
  com.main.app.domain.dto.attribute.AttributeDTO$AttributeDTOBuilder
 com/main/app/service/category/CategoryServiceImpl.java
  com.main.app.service.category.CategoryServiceImpl
+com/main/app/elastic/dto/variation/VariationElasticDTO.java
+ com.main.app.elastic.dto.variation.VariationElasticDTO
 com/main/app/domain/model/product_attributes/ProductAttributes.java
  com.main.app.domain.model.product_attributes.ProductAttributes
  com.main.app.domain.model.product_attributes.ProductAttributes$ProductAttributesBuilder
@@ -164,6 +188,8 @@ com/main/app/domain/dto/brand/BrandDTO.java
  com.main.app.domain.dto.brand.BrandDTO$BrandDTOBuilder
 com/main/app/service/user/CurrentUserService.java
  com.main.app.service.user.CurrentUserService
+com/main/app/service/user/UserServiceImpl.java
+ com.main.app.service.user.UserServiceImpl
 com/main/app/config/auditor_aware/AuditorAwareConfig.java
  com.main.app.config.auditor_aware.AuditorAwareConfig
 com/main/app/elastic/repository/brand/BrandElasticRepositoryBuilderImpl.java
@@ -181,10 +207,12 @@ com/main/app/service/user/CurrentUserServiceImpl.java
  com.main.app.service.user.CurrentUserServiceImpl
 com/main/app/config/MigrationConfig.java
  com.main.app.config.MigrationConfig
-com/main/app/elastic/dto/attribute_value/AttributeValueElasticDTO.java
- com.main.app.elastic.dto.attribute_value.AttributeValueElasticDTO
+com/main/app/controller/product/ProductController.java
+ com.main.app.controller.product.ProductController
 com/main/app/elastic/repository/brand/BrandElasticRepositoryBuilder.java
  com.main.app.elastic.repository.brand.BrandElasticRepositoryBuilder
+com/main/app/controller/variation/VariationController.java
+ com.main.app.controller.variation.VariationController
 com/main/app/elastic/repository/attribute_value/AttributeValueElasticRepositoryBuilderImpl.java
  com.main.app.elastic.repository.attribute_value.AttributeValueElasticRepositoryBuilderImpl
 com/main/app/service/category/CategoryService.java
@@ -203,6 +231,8 @@ com/main/app/repository/attribute_value/AttributeValueRepository.java
  com.main.app.repository.attribute_value.AttributeValueRepository
 com/main/app/util/DateTimeUtil.java
  com.main.app.util.DateTimeUtil
+com/main/app/domain/dto/variation/VariationAttributeAttributeValueProductDTO.java
+ com.main.app.domain.dto.variation.VariationAttributeAttributeValueProductDTO
 com/main/app/config/CustomWebMvcAutoConfig.java
  com.main.app.config.CustomWebMvcAutoConfig
 com/main/app/service/email/RegistrationEmailService.java
@@ -262,9 +292,10 @@ com/main/app/elastic/dto/product/ProductElasticDTO.java
  com.main.app.elastic.dto.product.ProductElasticDTO
 com/main/app/domain/dto/user/PasswordDTO.java
  com.main.app.domain.dto.user.PasswordDTO
-com/main/app/service/product/ProductServiceImpl.java
- com.main.app.service.product.ProductServiceImpl
-com/main/app/controller/product/ProductController.java
- com.main.app.controller.product.ProductController
-com/main/app/converter/product/ProductConverter.java
- com.main.app.converter.product.ProductConverter
+com/main/app/repository/product/ProductAttributeAttrValueRepository.java
+ com.main.app.repository.product.ProductAttributeAttrValueRepository
+com/main/app/domain/dto/user/UserDTO.java
+ com.main.app.domain.dto.user.UserDTO
+ com.main.app.domain.dto.user.UserDTO$UserDTOBuilder
+com/main/app/service/variation/VariationServiceImpl.java
+ com.main.app.service.variation.VariationServiceImpl

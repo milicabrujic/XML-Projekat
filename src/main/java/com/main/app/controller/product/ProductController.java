@@ -4,6 +4,7 @@ import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.product.ProductDTO;
 import com.main.app.domain.model.product.Product;
 import com.main.app.service.product.ProductService;
+import com.main.app.service.variation.VariationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +27,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-
+    private final VariationService variationService;
 
     @GetMapping(path="/all")
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -50,6 +51,7 @@ public class ProductController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ProductDTO> add(@RequestBody @Valid ProductDTO productDTO) {
         Product product = productService.save(DTOtoEntity(productDTO));
+        variationService.save(productDTO, product.getId());
         return new ResponseEntity<>(entityToDTO(product), HttpStatus.OK);
     }
 
