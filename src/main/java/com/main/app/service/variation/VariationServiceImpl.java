@@ -79,9 +79,6 @@ public class VariationServiceImpl implements VariationService{
 
     private final EntityManager em;
 
-
-
-
     @Override
     public Entities getAll() {
         List<Variation> variationList = variationRepository.findAll();
@@ -281,12 +278,6 @@ public class VariationServiceImpl implements VariationService{
         return savedVariation;
     }
 
-
-
-
-
-
-
     @Override
     public void uploadImage(Long id, MultipartFile[] images) throws IOException {
         int i = 0;
@@ -336,11 +327,6 @@ public class VariationServiceImpl implements VariationService{
 
         return savedVariation;
     }
-
-
-
-
-
 
 
     @Override
