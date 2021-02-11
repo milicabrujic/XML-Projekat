@@ -14,6 +14,8 @@ import com.main.app.domain.model.variation_attribute_value_id.VariationAttribute
 import com.main.app.elastic.dto.variation.VariationElasticDTO;
 import com.main.app.elastic.repository.variation.VariationElasticRepository;
 import com.main.app.elastic.repository.variation.VariationElasticRepositoryBuilder;
+import com.main.app.repository.attribute.AttributeRepository;
+import com.main.app.repository.attribute_value.AttributeValueRepository;
 import com.main.app.repository.image.ImageRepository;
 import com.main.app.repository.product_attribute_values.ProductAttributeValuesRepository;
 import com.main.app.repository.product_attributes.ProductAttributesRepository;
@@ -65,6 +67,8 @@ public class VariationServiceImpl implements VariationService{
 
     private final AttributeService attributeService;
 
+    private final AttributeValueRepository attributeValueRepository;
+
     private final ImageRepository imageRepository;
 
     private final VariationAttributeValueRepository variationAttributeValueRepository;
@@ -74,6 +78,7 @@ public class VariationServiceImpl implements VariationService{
     private final ProductAttributeValuesRepository productAttributeValuesRepository;
 
     private final EntityManager em;
+
 
 
 
@@ -246,6 +251,29 @@ public class VariationServiceImpl implements VariationService{
         }
 
         foundVariation.setPrice(variation.getPrice());
+
+
+
+        String[] parts = variation.getName().split("-");
+        ArrayList<String> attributeValueParts = new ArrayList<String>();
+
+        for(int i=3;i<parts.length;i++){
+            attributeValueParts.add(parts[i]);
+        }
+
+        ArrayList<AttributeValue> attributeValueList = new ArrayList<>();
+        for(String name: attributeValueParts){
+            if(!attributeValueRepository.findOneByName(name).isPresent()){   throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ATTRIBUTE_VALUE_NOT_EXIST);}
+            attributeValueList.add(attributeValueRepository.findOneByName(name).get());
+        }
+
+        List<VariationAttributeValue> variationAttributeValues = variationAttributeValueRepository.findAllByVariationIdAndDeletedFalse(id);
+        for (int i=0;i<variationAttributeValues.size();i++) {
+            if(variationAttributeValues.get(i).getAttribute().getName() == attributeValueList.get(i).getAttribute().getName()){
+                variationAttributeValues.get(i).setAttributeValue(attributeValueList.get(i));
+                variationAttributeValueRepository.save(variationAttributeValues.get(i));
+            }
+        }
 
         Variation savedVariation = variationRepository.save(foundVariation);
         variationElasticRepository.save(new VariationElasticDTO(savedVariation));
