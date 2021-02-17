@@ -63,4 +63,9 @@ public class Messages {
     public static final String VARIATION_NOT_EXIST = "VARIATION_NOT_EXIST";
     public static final String VARIATION_WITH_COMBINATION_NOT_EXIST = "VARIATION_WITH_COMBINATION_NOT_EXIST";
 
+
+    public static final String SHOPPING_CART_NOT_EXIST = "SHOPPING_CART_NOT_EXIST";
+    public static final String SHOPPING_CART_ITEM_NOT_EXIST = "SHOPPING_CART_ITEM_NOT_EXIST";
+    public static final String SHOPPING_CART_IS_EMPTY = "SHOPPING_CART_IS_EMPTY";
+
 }
