@@ -1,7 +1,12 @@
 package com.main.app.converter.order;
 
 import com.main.app.domain.dto.order.OrderDto;
+import com.main.app.domain.dto.user.UserDTO;
 import com.main.app.domain.model.order.CustomerOrder;
+import com.main.app.domain.model.user.User;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.main.app.converter.order.OrderItemConverter.toDtoListItems;
 
@@ -24,6 +29,7 @@ public class OrderConverter {
 
     public static OrderDto toDto(CustomerOrder order) {
         return OrderDto.builder()
+                .id(order.getId())
                 .city(order.getBuyerCity())
                 .email(order.getBuyerEmail())
                 .name(order.getBuyerName())
@@ -40,4 +46,13 @@ public class OrderConverter {
                 .user_id(order.getUser().getId())
                 .build();
     }
+
+    public static List<OrderDto> ordersListToOrdersDTOList(List<CustomerOrder> orders) {
+        return orders
+                .stream()
+                .map(order -> toDto(order))
+                .collect(Collectors.toList());
+    }
+
+
 }

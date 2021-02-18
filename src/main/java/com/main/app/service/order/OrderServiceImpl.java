@@ -1,5 +1,6 @@
 package com.main.app.service.order;
 
+import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.order.OrderDto;
 import com.main.app.domain.model.order.CustomerOrder;
 import com.main.app.domain.model.order_item.OrderItem;
@@ -13,14 +14,19 @@ import com.main.app.service.order_item.OrderItemService;
 import com.main.app.service.shopping_cart.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static com.main.app.converter.order.OrderConverter.toEntity;
+import static com.main.app.converter.order.OrderConverter.*;
 import static com.main.app.static_data.Messages.SHOPPING_CART_IS_EMPTY;
+import static com.main.app.util.Util.ordersToIds;
 
 
 @Service
@@ -74,5 +80,31 @@ public class OrderServiceImpl implements OrderService {
         CustomerOrder orderSaved = orderRepository.save(order);
 
         return orderSaved;
+    }
+
+    @Override
+    public Entities getAllBySearchParam(String searchParam, Pageable pageable) {
+        if(searchParam == "" || searchParam == null ){
+
+            Page<CustomerOrder> pagedOrders = orderRepository.findAll(pageable);
+            List<Long> ids = ordersToIds(pagedOrders);
+
+            Pageable mySqlPaging = PageRequest.of(0, pageable.getPageSize(), pageable.getSort());
+            List<CustomerOrder> orders = orderRepository.findAllByIdInAndDeletedFalse(ids, mySqlPaging).getContent();
+
+            List<OrderDto> ordersDto = ordersListToOrdersDTOList(orders);
+
+
+            Entities entities = new Entities();
+            entities.setEntities(ordersDto);
+            entities.setTotal(pagedOrders.getTotalElements());
+
+            return entities;
+        }else{return null;}
+    }
+
+    @Override
+    public CustomerOrder getOne(Long id) {
+        return orderRepository.getOne(id);
     }
 }

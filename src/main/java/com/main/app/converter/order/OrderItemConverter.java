@@ -15,6 +15,7 @@ public class OrderItemConverter {
                 .order_id(item.getCustomerOrder().getId())
                 .name(item.getVariation().getName())
                 .price(item.getVariation().getPrice().toString())
+                .imageUrl(item.getVariation().getPrimaryImageUrl())
                 .build();
     }
 

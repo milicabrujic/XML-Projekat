@@ -22,5 +22,7 @@ public class OrderItemDto {
 
     private int quantity;
 
+    private String imageUrl;
+
 
 }

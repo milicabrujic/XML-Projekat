@@ -1,5 +1,6 @@
 package com.main.app.util;
 
+import com.main.app.domain.model.order.CustomerOrder;
 import com.main.app.domain.model.user.User;
 import com.main.app.elastic.dto.EntityElasticDTO;
 import com.main.app.elastic.dto.attribute.AttributeElasticDTO;
@@ -98,4 +99,13 @@ public class Util {
         });
         return ids;
     }
+
+    public static List<Long> ordersToIds(Page<CustomerOrder> entities){
+        List<Long> ids = new ArrayList<>();
+        entities.forEach(item->{
+            ids.add(item.getId());
+        });
+        return  ids;
+    }
+
 }
