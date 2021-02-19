@@ -8,4 +8,9 @@ import org.springframework.stereotype.Service;
 public interface OrderItemService {
 
     public OrderItem create(ShoppingCartItem shoppingCartItem);
+
+    OrderItem findById(Long id);
+
+    public  OrderItem removeItemById(Long id);
+
 }

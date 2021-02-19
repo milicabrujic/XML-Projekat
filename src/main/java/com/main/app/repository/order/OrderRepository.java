@@ -15,4 +15,6 @@ public interface OrderRepository extends JpaRepository<CustomerOrder, Long> {
 
     Page<CustomerOrder> findAllByIdInAndDeletedFalse(List<Long> idsList, Pageable pageable);
 
+    Optional<CustomerOrder> findById(Long id);
+
 }

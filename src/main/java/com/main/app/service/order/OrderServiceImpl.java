@@ -23,9 +23,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.main.app.converter.order.OrderConverter.*;
-import static com.main.app.static_data.Messages.SHOPPING_CART_IS_EMPTY;
+import static com.main.app.static_data.Messages.*;
 import static com.main.app.util.Util.ordersToIds;
 
 
@@ -106,5 +107,38 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public CustomerOrder getOne(Long id) {
         return orderRepository.getOne(id);
+    }
+
+    @Override
+    public CustomerOrder removeOrderItem(Long id, Long itemId) {
+
+        CustomerOrder customerOrder = orderRepository.findById(id).get();
+        OrderItem orderItem = orderItemRepository.findById(itemId).get();
+        customerOrder.getOrderItems().remove(orderItem);
+        orderItemService.removeItemById(itemId);
+
+        int total = 0;
+        for (OrderItem item: customerOrder.getOrderItems()) {
+            total += item.getQuantity() * item.getVariation().getPrice();
+        }
+
+        customerOrder.setTotalPrice(total);
+
+        return orderRepository.save(customerOrder);
+
+    }
+
+    @Override
+    public CustomerOrder changeStatusOfOrder(Long id) {
+
+      CustomerOrder customerOrder = orderRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ORDER_NOT_EXIST));
+      if(customerOrder.getStatus().equals("Pregledano.Poslato")){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ORDER_STATUS_IS_FINISHED);
+      }else{
+        customerOrder.setStatus("Pregledano.Poslato");
+      }
+      CustomerOrder savedCustomOrder = orderRepository.save(customerOrder);
+
+        return savedCustomOrder;
     }
 }

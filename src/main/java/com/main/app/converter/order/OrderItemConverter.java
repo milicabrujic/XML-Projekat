@@ -10,6 +10,7 @@ public class OrderItemConverter {
 
     public static OrderItemDto toDtoItems(OrderItem item) {
         return OrderItemDto.builder()
+                .id(item.getId())
                 .quantity(item.getQuantity())
                 .variation_id(item.getVariation().getId())
                 .order_id(item.getCustomerOrder().getId())

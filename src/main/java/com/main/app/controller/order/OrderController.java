@@ -1,7 +1,9 @@
 package com.main.app.controller.order;
 
+import com.main.app.converter.shopping_cart.ShoppingCartConverter;
 import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.order.OrderDto;
+import com.main.app.domain.dto.shopping_cart.ShoppingCartDto;
 import com.main.app.domain.model.order.CustomerOrder;
 import com.main.app.domain.model.user.User;
 import com.main.app.service.order.OrderService;
@@ -37,5 +39,15 @@ public class OrderController {
         return new ResponseEntity<>(toDto(orderService.getOne(id)), HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}/delete/{itemId}")
+    public ResponseEntity<OrderDto> removeItemFromShoppingCart(@PathVariable("id") Long id, @PathVariable("itemId") Long itemId) {
+        return ResponseEntity.ok().body(toDto(orderService.removeOrderItem(id, itemId)));
+    }
+
+
+    @PostMapping(path = "/status/{id}")
+    public ResponseEntity<OrderDto> changeOrderStatus(@PathVariable("id") Long id){
+        return ResponseEntity.ok().body(toDto(orderService.changeStatusOfOrder(id)));
+    }
 
 }

@@ -16,4 +16,8 @@ public interface OrderService {
 
     CustomerOrder getOne(Long id);
 
+    CustomerOrder removeOrderItem(Long id,Long itemId);
+
+    CustomerOrder changeStatusOfOrder(Long id);
+
 }

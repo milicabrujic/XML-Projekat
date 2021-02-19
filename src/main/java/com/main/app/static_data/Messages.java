@@ -68,4 +68,9 @@ public class Messages {
     public static final String SHOPPING_CART_ITEM_NOT_EXIST = "SHOPPING_CART_ITEM_NOT_EXIST";
     public static final String SHOPPING_CART_IS_EMPTY = "SHOPPING_CART_IS_EMPTY";
 
+
+    public static final String ORDER_ITEM_NOT_EXIST = "ORDER_ITEM_NOT_EXIST";
+    public static final String ORDER_NOT_EXIST = "ORDER_NOT_EXIST";
+    public static final String ORDER_STATUS_IS_FINISHED = "ORDER_STATUS_IS_FINISHED";
+
 }
