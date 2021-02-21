@@ -29,6 +29,7 @@ public class OrderConverter {
 
     public static OrderDto toDto(CustomerOrder order) {
         return OrderDto.builder()
+                .dateCreated(order.getDateCreated())
                 .id(order.getId())
                 .city(order.getBuyerCity())
                 .email(order.getBuyerEmail())

@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import java.util.List;
 public class OrderDto {
 
     private Long id;
+
+    private Instant dateCreated;
 
     private String postalCode;
     private Integer deliveryMethod;

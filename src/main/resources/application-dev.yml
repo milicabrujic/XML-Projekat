@@ -44,8 +44,8 @@ spring:
 
 document:
   productcategory:
-    path: /home/user/Desktop/Work/images/
-    filepath: file:/home/user/Desktop/Work/images/
+    path: C:/Users/Korisnik2/Desktop/Work/images/
+    filepath: file:C:/Users/Korisnik2/Desktop/Work/images/
 
 server:
   servlet:
