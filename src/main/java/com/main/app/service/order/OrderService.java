@@ -12,7 +12,7 @@ public interface OrderService {
 
     public CustomerOrder createOrder(OrderDto orderDto);
 
-    Entities getAllBySearchParam(String searchParam, Pageable pageable);
+    Entities getAllBySearchParam(String searchParam, Pageable pageable,String startDate, String endDate, String startPrice, String endPrice);
 
     CustomerOrder getOne(Long id);
 

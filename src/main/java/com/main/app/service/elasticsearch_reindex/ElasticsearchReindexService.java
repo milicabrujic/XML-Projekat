@@ -3,6 +3,7 @@ import com.main.app.domain.model.attribute.Attribute;
 import com.main.app.domain.model.attribute_value.AttributeValue;
 import com.main.app.domain.model.brand.Brand;
 import com.main.app.domain.model.category.Category;
+import com.main.app.domain.model.order.CustomerOrder;
 import com.main.app.domain.model.product.Product;
 import com.main.app.domain.model.user.User;
 import com.main.app.domain.model.variation.Variation;
@@ -10,6 +11,7 @@ import com.main.app.elastic.dto.attribute.AttributeElasticDTO;
 import com.main.app.elastic.dto.attribute_value.AttributeValueElasticDTO;
 import com.main.app.elastic.dto.brand.BrandElasticDTO;
 import com.main.app.elastic.dto.category.CategoryElasticDTO;
+import com.main.app.elastic.dto.order.OrdersElasticDTO;
 import com.main.app.elastic.dto.product.ProductElasticDTO;
 import com.main.app.elastic.dto.user.UserElasticDTO;
 import com.main.app.elastic.dto.variation.VariationElasticDTO;
@@ -17,6 +19,7 @@ import com.main.app.elastic.repository.attribute.AttributeElasticRepository;
 import com.main.app.elastic.repository.attribute_value.AttributeValueElasticRepository;
 import com.main.app.elastic.repository.brand.BrandElasticRepository;
 import com.main.app.elastic.repository.category.CategoryElasticRepository;
+import com.main.app.elastic.repository.order.OrderElasticRepository;
 import com.main.app.elastic.repository.product.ProductElasticRepository;
 import com.main.app.elastic.repository.user.UserElasticRepository;
 import com.main.app.elastic.repository.variation.VariationElasticRepository;
@@ -24,6 +27,7 @@ import com.main.app.repository.attribute.AttributeRepository;
 import com.main.app.repository.attribute_value.AttributeValueRepository;
 import com.main.app.repository.brand.BrandRepository;
 import com.main.app.repository.category.CategoryRepository;
+import com.main.app.repository.order.OrderRepository;
 import com.main.app.repository.product.ProductRepository;
 import com.main.app.repository.user.UserRepository;
 import com.main.app.repository.variation.VariationRepository;
@@ -72,6 +76,10 @@ public class ElasticsearchReindexService {
 
     private final VariationElasticRepository variationElasticRepository;
 
+    private final OrderRepository orderRepository;
+
+    private final OrderElasticRepository orderElasticRepository;
+
 
     public void reindexAll(){
         reindexUser();
@@ -81,6 +89,7 @@ public class ElasticsearchReindexService {
         reindexBrand();
         reindexProduct();
         reindexVariation();
+        reindexOrders();
         logger.info("[RE-INDEX]Successfully re-indexed ALL");
     }
 
@@ -142,4 +151,11 @@ public class ElasticsearchReindexService {
         logger.info("[RE-INDEX]Successfully re-indexed VARIATION");
     }
 
+    public void reindexOrders() {
+        List<CustomerOrder> ordersList = orderRepository.findAll();
+        ordersList.forEach(order -> {
+            orderElasticRepository.save(new OrdersElasticDTO(order));
+        });
+        logger.info("[RE-INDEX]Successfully re-indexed ORDERS");
+    }
 }

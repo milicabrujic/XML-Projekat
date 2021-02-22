@@ -1,13 +1,9 @@
 package com.main.app.controller.order;
 
-import com.main.app.converter.shopping_cart.ShoppingCartConverter;
 import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.order.OrderDto;
-import com.main.app.domain.dto.shopping_cart.ShoppingCartDto;
 import com.main.app.domain.model.order.CustomerOrder;
-import com.main.app.domain.model.user.User;
 import com.main.app.service.order.OrderService;
-import com.sun.mail.iap.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -30,9 +26,15 @@ public class OrderController {
     }
 
     @GetMapping(path = "/search")
-    public ResponseEntity<Entities<CustomerOrder>> getAllBySearchParam(Pageable pageable, @RequestParam(name = "searchParam") String searchParam) {
-        return new ResponseEntity<>(orderService.getAllBySearchParam(searchParam, pageable), HttpStatus.OK);
+    public ResponseEntity<Entities<CustomerOrder>> getAllBySearchParam(@RequestParam(name = "searchParam") String searchParam,
+                                                                       @RequestParam(name = "startDate") String startDate,
+                                                                       @RequestParam(name = "endDate") String endDate,
+                                                                       @RequestParam(name = "startPrice") String startPrice,
+                                                                       @RequestParam(name = "endPrice") String endPrice,
+                                                                       Pageable pageable) {
+        return new ResponseEntity<>(orderService.getAllBySearchParam(searchParam, pageable,startDate, endDate, startPrice, endPrice), HttpStatus.OK);
     }
+
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<OrderDto> getById(@PathVariable Long id){

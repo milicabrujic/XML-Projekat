@@ -6,6 +6,9 @@ import com.main.app.domain.model.order.CustomerOrder;
 import com.main.app.domain.model.order_item.OrderItem;
 import com.main.app.domain.model.shopping_cart.ShoppingCart;
 import com.main.app.domain.model.shopping_cart_item.ShoppingCartItem;
+import com.main.app.elastic.dto.order.OrdersElasticDTO;
+import com.main.app.elastic.repository.order.OrderElasticRepository;
+import com.main.app.elastic.repository.order.OrderElasticRepositoryBuilder;
 import com.main.app.repository.order.OrderItemRepository;
 import com.main.app.repository.order.OrderRepository;
 import com.main.app.repository.shopping_cart.ShoppingCartRepository;
@@ -27,6 +30,7 @@ import java.util.Optional;
 
 import static com.main.app.converter.order.OrderConverter.*;
 import static com.main.app.static_data.Messages.*;
+import static com.main.app.util.Util.dtoOrdersToIds;
 import static com.main.app.util.Util.ordersToIds;
 
 
@@ -37,6 +41,10 @@ public class OrderServiceImpl implements OrderService {
     private final ShoppingCartService shoppingCartService;
 
     private final ShoppingCartRepository shoppingCartRepository;
+
+    private final OrderElasticRepository orderElasticRepository;
+
+    private final OrderElasticRepositoryBuilder orderElasticRepositoryBuilder;
 
     private final OrderItemService orderItemService;
 
@@ -79,16 +87,18 @@ public class OrderServiceImpl implements OrderService {
         shoppingCartRepository.save(shoppingCart);
 
         CustomerOrder orderSaved = orderRepository.save(order);
+        orderElasticRepository.save(new OrdersElasticDTO(orderSaved));
 
         return orderSaved;
     }
 
     @Override
-    public Entities getAllBySearchParam(String searchParam, Pageable pageable) {
-        if(searchParam == "" || searchParam == null ){
+    public Entities getAllBySearchParam(String searchParam, Pageable pageable, String startDate, String endDate, String startPrice, String endPrice) {
 
-            Page<CustomerOrder> pagedOrders = orderRepository.findAll(pageable);
-            List<Long> ids = ordersToIds(pagedOrders);
+
+            Page<OrdersElasticDTO> pageOrders = orderElasticRepository.search(orderElasticRepositoryBuilder.generateQuery(searchParam,startDate,endDate,startPrice,endPrice), pageable);
+
+            List<Long> ids = dtoOrdersToIds(pageOrders);
 
             Pageable mySqlPaging = PageRequest.of(0, pageable.getPageSize(), pageable.getSort());
             List<CustomerOrder> orders = orderRepository.findAllByIdInAndDeletedFalse(ids, mySqlPaging).getContent();
@@ -98,10 +108,9 @@ public class OrderServiceImpl implements OrderService {
 
             Entities entities = new Entities();
             entities.setEntities(ordersDto);
-            entities.setTotal(pagedOrders.getTotalElements());
+            entities.setTotal(pageOrders.getTotalElements());
 
             return entities;
-        }else{return null;}
     }
 
     @Override
@@ -124,7 +133,11 @@ public class OrderServiceImpl implements OrderService {
 
         customerOrder.setTotalPrice(total);
 
-        return orderRepository.save(customerOrder);
+        CustomerOrder savedOrder = orderRepository.save(customerOrder);
+
+        orderElasticRepository.save(new OrdersElasticDTO(savedOrder));
+
+        return savedOrder;
 
     }
 
@@ -132,12 +145,15 @@ public class OrderServiceImpl implements OrderService {
     public CustomerOrder changeStatusOfOrder(Long id) {
 
       CustomerOrder customerOrder = orderRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ORDER_NOT_EXIST));
-      if(customerOrder.getStatus().equals("Pregledano.Poslato")){
+      if(customerOrder.getStatus().equals("Poslato")){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ORDER_STATUS_IS_FINISHED);
       }else{
-        customerOrder.setStatus("Pregledano.Poslato");
+        customerOrder.setStatus("Poslato");
       }
       CustomerOrder savedCustomOrder = orderRepository.save(customerOrder);
+
+      orderElasticRepository.save(new OrdersElasticDTO(savedCustomOrder));
+
 
         return savedCustomOrder;
     }
