@@ -7,6 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity

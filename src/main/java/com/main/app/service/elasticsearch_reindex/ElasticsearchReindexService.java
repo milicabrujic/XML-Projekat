@@ -4,6 +4,7 @@ import com.main.app.domain.model.attribute_value.AttributeValue;
 import com.main.app.domain.model.brand.Brand;
 import com.main.app.domain.model.category.Category;
 import com.main.app.domain.model.order.CustomerOrder;
+import com.main.app.domain.model.order_item.OrderItem;
 import com.main.app.domain.model.product.Product;
 import com.main.app.domain.model.user.User;
 import com.main.app.domain.model.variation.Variation;

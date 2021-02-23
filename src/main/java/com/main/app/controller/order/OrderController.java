@@ -46,6 +46,11 @@ public class OrderController {
         return ResponseEntity.ok().body(toDto(orderService.removeOrderItem(id, itemId)));
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<OrderDto> removeOrder(@PathVariable("id") Long id){
+        return ResponseEntity.ok().body(toDto(orderService.removeOrder(id)));
+    }
+
 
     @PostMapping(path = "/status/{id}")
     public ResponseEntity<OrderDto> changeOrderStatus(@PathVariable("id") Long id){

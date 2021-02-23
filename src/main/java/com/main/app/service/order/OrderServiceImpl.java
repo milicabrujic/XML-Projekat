@@ -15,6 +15,7 @@ import com.main.app.repository.shopping_cart.ShoppingCartRepository;
 import com.main.app.repository.shopping_cart_item.ShoppingCartItemRepository;
 import com.main.app.service.order_item.OrderItemService;
 import com.main.app.service.shopping_cart.ShoppingCartService;
+import com.main.app.util.ObjectMapperUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,13 +26,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
 import static com.main.app.converter.order.OrderConverter.*;
 import static com.main.app.static_data.Messages.*;
 import static com.main.app.util.Util.dtoOrdersToIds;
-import static com.main.app.util.Util.ordersToIds;
 
 
 @Service
@@ -156,5 +157,29 @@ public class OrderServiceImpl implements OrderService {
 
 
         return savedCustomOrder;
+    }
+
+    @Override
+    public CustomerOrder removeOrder(Long id) {
+
+        Optional<CustomerOrder> customerOrder = orderRepository.findById(id);
+
+        if(!customerOrder.isPresent()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ORDER_NOT_EXIST);
+        }
+
+        List<OrderItem> orderItems = orderItemRepository.findAllByCustomerOrderId(id);
+        for (int i=0;i<orderItems.size();i++) {
+            orderItemService.removeItemById(orderItems.get(i).getId());
+        }
+
+        CustomerOrder order = customerOrder.get();
+        order.setDeleted(true);
+        order.setDateDeleted(Calendar.getInstance().toInstant());
+
+        CustomerOrder savedOrder = orderRepository.save(order);
+        orderElasticRepository.save(new OrdersElasticDTO(order));
+
+        return savedOrder;
     }
 }
