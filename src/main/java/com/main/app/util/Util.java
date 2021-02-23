@@ -1,11 +1,13 @@
 package com.main.app.util;
 
+import com.main.app.domain.model.order.CustomerOrder;
 import com.main.app.domain.model.user.User;
 import com.main.app.elastic.dto.EntityElasticDTO;
 import com.main.app.elastic.dto.attribute.AttributeElasticDTO;
 import com.main.app.elastic.dto.attribute_value.AttributeValueElasticDTO;
 import com.main.app.elastic.dto.brand.BrandElasticDTO;
 import com.main.app.elastic.dto.category.CategoryElasticDTO;
+import com.main.app.elastic.dto.order.OrdersElasticDTO;
 import com.main.app.elastic.dto.product.ProductElasticDTO;
 import com.main.app.elastic.dto.user.UserElasticDTO;
 import com.main.app.elastic.dto.variation.VariationElasticDTO;
@@ -97,5 +99,21 @@ public class Util {
             ids.add(item.getId());
         });
         return ids;
+    }
+
+    public static List<Long> ordersToIds(Page<CustomerOrder> entities){
+        List<Long> ids = new ArrayList<>();
+        entities.forEach(item->{
+            ids.add(item.getId());
+        });
+        return  ids;
+    }
+
+    public static List<Long> dtoOrdersToIds(Page<OrdersElasticDTO> entities){
+        List<Long> ids = new ArrayList<>();
+        entities.forEach(item->{
+            ids.add(item.getId());
+        });
+        return  ids;
     }
 }

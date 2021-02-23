@@ -38,9 +38,10 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
-# C:/Users/KORISNIK/Desktop/WORK/images/
-# C:/Users/Korisnik/Desktop/Plattner/images/
-# /home/stefan/Desktop/work/plattner/images/
+#C:/Users/Korisnik2/Desktop/Work/images/
+#file:C:/Users/Korisnik2/Desktop/Work/images/
+#/home/user/Desktop/Work/images
+
 
 document:
   productcategory:
