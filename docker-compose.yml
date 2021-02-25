@@ -5,7 +5,7 @@ services:
   # App backend service
   app-server:
     # Configuration for building the docker image for the backend service
-    image: lilly021docker/ps-backend:backend-app
+    image: lilly021docker/tr-backend:backend-app
     ports:
       - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: always
@@ -18,9 +18,9 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: a66C8daDf7F2787d00cDc9B
       SPRING_PROFILES_ACTIVE: prod
-      DOCUMENT_PRODUCTCATEGORY_PATH: /opt/images/
+      DOCUMENT_PRODUCTCATEGORY_PATH:  /home/user/Desktop/Work/images/          #/opt/images/
     volumes:
-      - "/opt/images/:/opt/images/"
+      - "/home/user/Desktop/Work/images/:/home/user/Desktop/Work/images/"       #"/opt/images/:/opt/images/"
 
 # Admin Frontend Service 
   admin-client:
@@ -29,16 +29,16 @@ services:
       - "9090:80" # Map the exposed port 80 on the container to port 9090 on the host machine
     restart: always
     depends_on:
-      - app-server 
+      - app-server
 
-# Webshop Frontend Service 
-  app-client:
-    image: lilly021docker/tr-frontend:frontend-app
-    ports:
-      - "9091:3000" # Map the exposed port 3000 on the container to port 9091 on the host machine
-    restart: always
-    depends_on:
-      - app-server      
+## Webshop Frontend Service
+#  app-client:
+#    image: lilly021docker/tr-frontend:frontend-app
+#    ports:
+#      - "9091:3000" # Map the exposed port 3000 on the container to port 9091 on the host machine
+#    restart: always
+#    depends_on:
+#      - app-server
 
 # Elastic search
   elasticsearch:

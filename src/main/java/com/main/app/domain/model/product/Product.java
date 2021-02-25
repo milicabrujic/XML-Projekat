@@ -9,10 +9,7 @@ import com.main.app.domain.model.category.Category;
 import lombok.*;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
@@ -28,6 +25,9 @@ public class Product extends AbstractEntity {
 
     @NotBlank
     private String name;
+
+    @NotBlank @Column(unique = true)
+    private String slug;
 
     @JsonIgnore
     @ManyToOne
@@ -61,7 +61,6 @@ public class Product extends AbstractEntity {
     private Set<AttributeValue> attributeValues;
 
     private Long discount;
-
 
     private Long productPosition;
 

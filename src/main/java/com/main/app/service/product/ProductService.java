@@ -9,12 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * The service used for management of the Product data.
- *
- * @author Nikola
- */
 public interface ProductService {
+
+    String buildSlug(Product product,int numberOfRepeat);
 
     Entities getAll();
 

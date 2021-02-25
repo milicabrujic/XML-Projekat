@@ -12,9 +12,15 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
+    Product findBySlug(String slug);
+
+    Long countBySlug(String slug);
+
     Page<Product> findAllByIdIn(List<Long> idsList, Pageable pageable);
 
     Optional<Product> findOneByNameAndDeletedFalse(String name);
+
+    List<Product> findAllByNameAndDeletedFalse(String name);
 
     Optional<Product> findOneById(Long id);
 

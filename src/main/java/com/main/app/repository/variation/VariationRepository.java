@@ -20,4 +20,5 @@ public interface VariationRepository extends JpaRepository<Variation, Long> {
     Optional<Variation> findOneById(Long id);
 
     List<Variation> findAllByProductId(Long productId);
+
 }

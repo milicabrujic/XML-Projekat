@@ -17,6 +17,7 @@ import com.main.app.repository.product_attribute_values.ProductAttributeValuesRe
 import com.main.app.repository.product_attributes.ProductAttributesRepository;
 import com.main.app.repository.variation.VariationRepository;
 import com.main.app.util.ObjectMapperUtils;
+import com.main.app.util.Slug;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -68,6 +69,8 @@ public class ProductServiceImpl implements ProductService {
     private final VariationRepository variationRepository;
 
 
+
+
     @Override
     public Entities getAll() {
         List<Product> productList = productRepository.findAll();
@@ -108,16 +111,25 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.getOne(id);
     }
 
+
+
+    @Override
+    public String buildSlug(Product product,int numberOfRepeat) {
+        return Slug.makeSlug(product.getName()+" "+numberOfRepeat);
+    }
+
     @Override
     public Product save(Product product) {
-        Optional<Product> oneProduct = productRepository.findOneByNameAndDeletedFalse(product.getName());
-
-        if(oneProduct.isPresent()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_WITH_NAME_ALREADY_EXIST);
-        }
+//        Optional<Product> oneProduct = productRepository.findOneByNameAndDeletedFalse(product.getName());
+        int numberOfRepeat = productRepository.findAllByNameAndDeletedFalse(product.getName()).size();
 
         if(product.getName() == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_NAME_CANT_BE_NULL);
+        }
+
+        if(numberOfRepeat != 0 || numberOfRepeat >= 0){
+            numberOfRepeat += 1;
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_WITH_NAME_ALREADY_EXIST);
         }
 
         if(product.getProductPosition() != null) {
@@ -139,6 +151,9 @@ public class ProductServiceImpl implements ProductService {
                 productElasticRepository.save(new ProductElasticDTO(savedSameDiscountProductPosition));
             }
         }
+
+        String slug = buildSlug(product,numberOfRepeat);
+        product.setSlug(slug);
 
         Product savedProduct = productRepository.save(product);
         productElasticRepository.save(new ProductElasticDTO(savedProduct));
