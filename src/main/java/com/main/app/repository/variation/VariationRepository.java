@@ -1,5 +1,6 @@
 package com.main.app.repository.variation;
 
+import com.main.app.domain.model.product.Product;
 import com.main.app.domain.model.variation.Variation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,5 +21,8 @@ public interface VariationRepository extends JpaRepository<Variation, Long> {
     Optional<Variation> findOneById(Long id);
 
     List<Variation> findAllByProductId(Long productId);
+
+    Optional<Variation> findBySlug(String slug);
+
 
 }

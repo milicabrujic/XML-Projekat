@@ -17,6 +17,8 @@ public class ProductDTO {
 
     private Long id;
 
+    private String slug;
+
     private String name;
 
     private Long productCategoryId;

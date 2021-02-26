@@ -23,6 +23,7 @@ public class VariationConverter {
     public static Variation DTOtoEntity(VariationDTO variationDTO){
         return Variation
                 .builder()
+                .slug(variationDTO.getSlug())
                 .name(variationDTO.getName())
                 .product(variationDTO.getProductId() != null ? productService.getOne(variationDTO.getProductId()) : null)
                 .price(variationDTO.getPrice())
@@ -35,6 +36,7 @@ public class VariationConverter {
         return VariationDTO
                 .builder()
                 .id(variation.getId())
+                .slug(variation.getSlug())
                 .name(variation.getName())
                 .productId(variation.getProduct() != null ? variation.getProduct().getId() : null)
                 .primaryImageUrl(variation.getPrimaryImageUrl())

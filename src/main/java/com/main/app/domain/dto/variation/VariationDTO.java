@@ -19,6 +19,8 @@ public class VariationDTO {
 
     private String name;
 
+    private String slug;
+
     private Long productId;
 
     private Double price;

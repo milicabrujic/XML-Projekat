@@ -34,6 +34,9 @@ public class ProductElasticDTO extends EntityElasticDTO {
     @Field(type = FieldType.Nested)
     private List<ProductAttributeAttrValueDTO> attributeValues;
 
+    @Field(type = FieldType.Text, fielddata = true)
+    private String slug;
+
     private boolean active;
 
     private Date dateCreated;
@@ -44,6 +47,7 @@ public class ProductElasticDTO extends EntityElasticDTO {
     public ProductElasticDTO(Product product) {
         super(product.getId());
         this.name = product.getName();
+        this.slug = product.getSlug();
         this.productDescription = product.getDescription();
         this.productCategoryId = product.getProductCategory() != null ? String.valueOf(product.getProductCategory().getId()) : null;
         this.brandName = product.getBrand() != null ? product.getBrand().getName() : null;

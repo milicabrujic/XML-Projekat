@@ -1,6 +1,7 @@
 package com.main.app.repository.product;
 
 import com.main.app.domain.model.product.Product;
+import com.main.app.domain.model.variation.Variation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,9 +13,11 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    Product findBySlug(String slug);
+    Optional<Product> findOneByName(String name);
 
-    Long countBySlug(String slug);
+    Optional<Product> findBySlug(String slug);
+
+    int countByName(String name);
 
     Page<Product> findAllByIdIn(List<Long> idsList, Pageable pageable);
 

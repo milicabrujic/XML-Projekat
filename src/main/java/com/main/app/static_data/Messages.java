@@ -44,6 +44,7 @@ public class Messages {
 
 
     public static final String PRODUCT_WITH_NAME_ALREADY_EXIST = "PRODUCT_WITH_NAME_ALREADY_EXIST";
+    public static final String PRODUCT_SLUG_ALREADY_EXIST = "PRODUCT_SLUG_ALREADY_EXIST";
     public static final String PRODUCT_NAME_CANT_BE_NULL = "PRODUCT_NAME_CANT_BE_NULL";
     public static final String PRODUCT_NOT_EXIST = "PRODUCT_NOT_EXIST";
 
@@ -72,5 +73,8 @@ public class Messages {
     public static final String ORDER_ITEM_NOT_EXIST = "ORDER_ITEM_NOT_EXIST";
     public static final String ORDER_NOT_EXIST = "ORDER_NOT_EXIST";
     public static final String ORDER_STATUS_IS_FINISHED = "ORDER_STATUS_IS_FINISHED";
+
+    public static final String AMOUNT_OF_SIZE_NOT_GOOD = "AMOUNT OF PRODUCT NOT GOOD";
+    public static final String SLUG_VALUE_ALREADY_EXIST = "SLUG_VALUE_ALREADY_EXIST";
 
 }

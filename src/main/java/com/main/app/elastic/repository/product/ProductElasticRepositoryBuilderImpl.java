@@ -35,7 +35,8 @@ public class ProductElasticRepositoryBuilderImpl implements ProductElasticReposi
 
         boolQuery.must(
                 new BoolQueryBuilder()
-                        .should(QueryBuilders.wildcardQuery("name", "*" + filter + "*")));
+                        .should(QueryBuilders.wildcardQuery("name", "*" + filter + "*"))
+                        .should(QueryBuilders.wildcardQuery("slug", "*" + filter + "*")));
 
         return searchQuery.must(boolQuery);
     }

@@ -326,6 +326,8 @@ com/main/app/elastic/repository/order/OrderElasticRepository.java
  com.main.app.elastic.repository.order.OrderElasticRepository
 com/main/app/repository/brand/BrandRepository.java
  com.main.app.repository.brand.BrandRepository
+com/main/app/repository/counter_slug/CounterSlugRepository.java
+ com.main.app.repository.counter_slug.CounterSlugRepository
 com/main/app/elastic/repository/user/UserElasticRepositoryBuilderImpl.java
  com.main.app.elastic.repository.user.UserElasticRepositoryBuilderImpl
 com/main/app/config/SecurityUtils.java
@@ -350,6 +352,9 @@ com/main/app/elastic/repository/product/ProductElasticRepository.java
  com.main.app.elastic.repository.product.ProductElasticRepository
 com/main/app/domain/dto/user/EmailPassDTO.java
  com.main.app.domain.dto.user.EmailPassDTO
+com/main/app/domain/model/counter_slug/CounterSlug.java
+ com.main.app.domain.model.counter_slug.CounterSlug
+ com.main.app.domain.model.counter_slug.CounterSlug$CounterSlugBuilder
 com/main/app/converter/category/CategoryConverter.java
  com.main.app.converter.category.CategoryConverter
 com/main/app/service/email/SubmitContactEmailService.java

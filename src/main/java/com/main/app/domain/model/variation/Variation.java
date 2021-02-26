@@ -22,6 +22,9 @@ public class Variation extends AbstractEntity {
     @NotBlank
     private String name;
 
+    @NotBlank @Column(unique = true)
+    private String slug;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;

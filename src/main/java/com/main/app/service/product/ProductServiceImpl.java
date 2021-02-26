@@ -2,6 +2,7 @@ package com.main.app.service.product;
 
 import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.product.ProductAttributeAttrValueDTO;
+import com.main.app.domain.model.counter_slug.CounterSlug;
 import com.main.app.domain.model.image.Image;
 import com.main.app.domain.model.product.Product;
 import com.main.app.domain.model.product_attribute_values.ProductAttributeValues;
@@ -10,6 +11,7 @@ import com.main.app.domain.model.variation.Variation;
 import com.main.app.elastic.dto.product.ProductElasticDTO;
 import com.main.app.elastic.repository.product.ProductElasticRepository;
 import com.main.app.elastic.repository.product.ProductElasticRepositoryBuilder;
+import com.main.app.repository.counter_slug.CounterSlugRepository;
 import com.main.app.repository.image.ImageRepository;
 import com.main.app.repository.product.ProductAttributeAttrValueRepository;
 import com.main.app.repository.product.ProductRepository;
@@ -68,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final VariationRepository variationRepository;
 
-
+    private final CounterSlugRepository counterSlugRepository;
 
 
     @Override
@@ -112,25 +114,35 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+    @Override
+    public Product changeSlugForProductId(Long id, String slug) {
+        return null;
+    }
 
     @Override
-    public String buildSlug(Product product,int numberOfRepeat) {
-        return Slug.makeSlug(product.getName()+" "+numberOfRepeat);
+    public String buildSlug(String title,int numberOfRepeat) {
+        return Slug.makeSlug(title+" "+numberOfRepeat);
     }
 
     @Override
     public Product save(Product product) {
 //        Optional<Product> oneProduct = productRepository.findOneByNameAndDeletedFalse(product.getName());
-        int numberOfRepeat = productRepository.findAllByNameAndDeletedFalse(product.getName()).size();
+//        if(oneProduct.isPresent()){
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_WITH_NAME_ALREADY_EXIST);
+//        }
 
         if(product.getName() == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_NAME_CANT_BE_NULL);
         }
 
-        if(numberOfRepeat != 0 || numberOfRepeat >= 0){
-            numberOfRepeat += 1;
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_WITH_NAME_ALREADY_EXIST);
+        if(productRepository.countByName(product.getName()) == 0){
+            counterSlugRepository.save(new CounterSlug(product.getName(),1));
+        }else{
+            CounterSlug entity = counterSlugRepository.findByEntityName(product.getName());
+            entity.setCurrentCount(entity.getCurrentCount()+1);
+            counterSlugRepository.save(entity);
         }
+
 
         if(product.getProductPosition() != null) {
             Optional<Product> sameProductPosition = productRepository.findOneByProductPosition(product.getProductPosition());
@@ -141,7 +153,6 @@ public class ProductServiceImpl implements ProductService {
                 productElasticRepository.save(new ProductElasticDTO(savedSameProductPosition));
             }
         }
-
         if(product.getDiscountProductPosition() != null) {
             Optional<Product> sameDiscountProductPosition = productRepository.findOneByDiscountProductPosition(product.getDiscountProductPosition());
             if (sameDiscountProductPosition.isPresent()) {
@@ -152,8 +163,12 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
-        String slug = buildSlug(product,numberOfRepeat);
+        CounterSlug counterSlug = counterSlugRepository.findByEntityName(product.getName());
+        int numberOfRepeat = counterSlug.getCurrentCount();
+
+        String slug = buildSlug(product.getName(),numberOfRepeat);
         product.setSlug(slug);
+
 
         Product savedProduct = productRepository.save(product);
         productElasticRepository.save(new ProductElasticDTO(savedProduct));
@@ -206,6 +221,12 @@ public class ProductServiceImpl implements ProductService {
         foundProduct.setDiscountProductPosition(product.getDiscountProductPosition());
         foundProduct.setPrice(product.getPrice());
 
+        String slug = Slug.makeSlug(product.getSlug());
+        if(productRepository.findBySlug(slug).isPresent()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_SLUG_ALREADY_EXIST);
+        }
+        foundProduct.setSlug(slug);
+
         Product savedProduct = productRepository.save(foundProduct);
         productElasticRepository.save(new ProductElasticDTO(savedProduct));
 
@@ -222,11 +243,22 @@ public class ProductServiceImpl implements ProductService {
         foundProduct.setDeleted(true);
         foundProduct.setDateDeleted(Calendar.getInstance().toInstant());
 
+//        CounterSlug counterSlug = counterSlugRepository.findByEntityName(foundProduct.getName());
+//        counterSlug.setCurrentCount(counterSlug.getCurrentCount()-1);
+//        counterSlugRepository.save(counterSlug);
+
+
         Product savedProduct = productRepository.save(foundProduct);
         productElasticRepository.save(ObjectMapperUtils.map(foundProduct, ProductElasticDTO.class));
 
+//        if(productRepository.findOneByName(foundProduct.getName()).isPresent()){
+//            refreshSlugsForProductName(foundProduct.getName());
+//        }
+
         return savedProduct;
     }
+
+
 
     @Override
     public void uploadImage(Long id, MultipartFile[] images) throws IOException {
@@ -334,8 +366,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-
-
     private String createDirectory() {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         int month = Calendar.getInstance().get(Calendar.MONTH)+1;
@@ -346,5 +376,19 @@ public class ProductServiceImpl implements ProductService {
 
         return folderName;
     }
+
+//    private void refreshSlugsForProductName(String productName) {
+//        List<Product> productList = productRepository.findAllByNameAndDeletedFalse(productName);
+//        CounterSlug counterSlug = counterSlugRepository.findByEntityName(productName);
+//
+//        if(productList.size() != counterSlug.getCurrentCount()){
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, AMOUNT_OF_SIZE_NOT_GOOD);
+//        }
+//
+//        for(int i = 0; i<productList.size();i++){
+//            String slug = buildSlug(productList.get(i).getName(),i);
+//            productList.get(i).setSlug(slug);
+//        }
+//    }
 
 }

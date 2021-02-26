@@ -29,6 +29,7 @@ public class ProductConverter {
         return Product
                 .builder()
                 .name(productDTO.getName())
+                .slug(productDTO.getSlug())
                 .description(productDTO.getDescription())
                 .productCategory(productDTO.getProductCategoryId() != null ? categoryService.getOne(productDTO.getProductCategoryId()) : null)
                 .brand(productDTO.getBrandId() != null ? brandService.getOne(productDTO.getBrandId()) : null)
@@ -47,6 +48,7 @@ public class ProductConverter {
         return ProductDTO
                 .builder()
                 .id(product.getId())
+                .slug(product.getSlug())
                 .name(product.getName())
                 .description(product.getDescription())
                 .productCategoryId(product.getProductCategory() != null ? product.getProductCategory().getId() : null)

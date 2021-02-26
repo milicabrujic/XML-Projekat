@@ -11,7 +11,9 @@ import java.util.List;
 
 public interface ProductService {
 
-    String buildSlug(Product product,int numberOfRepeat);
+    Product changeSlugForProductId(Long id,String slug);
+
+    String buildSlug(String title,int numberOfRepeat);
 
     Entities getAll();
 
