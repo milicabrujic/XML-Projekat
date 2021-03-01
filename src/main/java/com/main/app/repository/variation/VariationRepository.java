@@ -24,5 +24,6 @@ public interface VariationRepository extends JpaRepository<Variation, Long> {
 
     Optional<Variation> findBySlug(String slug);
 
+    Optional<Variation> findBySku(String sku);
 
 }

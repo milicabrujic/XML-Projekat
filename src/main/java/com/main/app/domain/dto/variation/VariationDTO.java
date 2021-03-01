@@ -21,6 +21,8 @@ public class VariationDTO {
 
     private String slug;
 
+    private String sku;
+
     private Long productId;
 
     private Double price;

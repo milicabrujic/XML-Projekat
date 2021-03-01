@@ -17,6 +17,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Optional<Product> findBySlug(String slug);
 
+    Optional<Product> findBySku(String sku);
+
     int countByName(String name);
 
     Page<Product> findAllByIdIn(List<Long> idsList, Pageable pageable);

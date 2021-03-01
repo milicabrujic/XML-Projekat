@@ -14,5 +14,6 @@ CREATE TABLE `variation`(
     `primary_image_url` varchar(255) DEFAULT NULL,
     `active` boolean DEFAULT FALSE,
     `slug` varchar(255) DEFAULT NULL,
+    `sku` varchar(255) DEFAULT NULL,
     PRIMARY KEY(`id`)
 )DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

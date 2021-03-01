@@ -178,7 +178,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product edit(Product product, Long id) {
-        Optional<Product> oneProduct = productRepository.findOneByNameAndDeletedFalse(product.getName());
+//        Optional<Product> oneProduct = productRepository.findOneByNameAndDeletedFalse(product.getName());
 
         if(product.getProductPosition() != null) {
             Optional<Product> sameProductPosition = productRepository.findOneByProductPosition(product.getProductPosition());
@@ -199,9 +199,9 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
-        if(oneProduct.isPresent() && !id.equals(oneProduct.get().getId())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_WITH_NAME_ALREADY_EXIST);
-        }
+//        if(oneProduct.isPresent() && !id.equals(oneProduct.get().getId())){
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_WITH_NAME_ALREADY_EXIST);
+//        }
 
         Optional<Product> optionalProduct = productRepository.findOneById(id);
 
@@ -221,11 +221,27 @@ public class ProductServiceImpl implements ProductService {
         foundProduct.setDiscountProductPosition(product.getDiscountProductPosition());
         foundProduct.setPrice(product.getPrice());
 
+        //Ako je novi jednak starom
         String slug = Slug.makeSlug(product.getSlug());
-        if(productRepository.findBySlug(slug).isPresent()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_SLUG_ALREADY_EXIST);
+        if(!slug.equals(foundProduct.getSlug())){
+            if(productRepository.findBySlug(slug).isPresent()){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_SLUG_ALREADY_EXIST);
+            }
+            foundProduct.setSlug(slug);
+        }else{
+            foundProduct.setSlug(foundProduct.getSlug());
         }
-        foundProduct.setSlug(slug);
+
+        //Ako je novi jednak starom
+        String sku = product.getSku();
+        if(!sku.equals(foundProduct.getSku())){
+            if(productRepository.findBySku(sku).isPresent()){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_SKU_ALREADY_EXIST);
+            }
+            foundProduct.setSku(sku);
+        }else{
+            foundProduct.setSku(foundProduct.getSku());
+        }
 
         Product savedProduct = productRepository.save(foundProduct);
         productElasticRepository.save(new ProductElasticDTO(savedProduct));

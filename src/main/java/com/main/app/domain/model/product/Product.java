@@ -27,6 +27,9 @@ public class Product extends AbstractEntity {
     private String name;
 
     @NotBlank @Column(unique = true)
+    private String sku;
+
+    @NotBlank @Column(unique = true)
     private String slug;
 
     @JsonIgnore

@@ -23,6 +23,9 @@ public class Variation extends AbstractEntity {
     private String name;
 
     @NotBlank @Column(unique = true)
+    private String sku;
+
+    @NotBlank @Column(unique = true)
     private String slug;
 
     @ManyToOne

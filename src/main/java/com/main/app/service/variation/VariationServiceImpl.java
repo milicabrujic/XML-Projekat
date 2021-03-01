@@ -273,12 +273,29 @@ public class VariationServiceImpl implements VariationService{
         }
 
 
-
+        //Ako je novi jednak starom
         String slug = Slug.makeSlug(variation.getSlug());
-        if(variationRepository.findBySlug(slug).isPresent()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, SLUG_VALUE_ALREADY_EXIST);
+        if(!slug.equals(foundVariation.getSlug())){
+            if(variationRepository.findBySlug(slug).isPresent()){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, SLUG_VALUE_ALREADY_EXIST);
+            }
+            foundVariation.setSlug(slug);
+        }else{
+            foundVariation.setSlug(foundVariation.getSlug());
         }
-        foundVariation.setSlug(slug);
+
+        //Ako je novi jednak starom
+        String sku = variation.getSku();
+        if(sku!=null){
+            if(!sku.equals(foundVariation.getSku())){
+                if(variationRepository.findBySku(sku).isPresent()){
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, VARIATION_SKU_ALREADY_EXIST);
+                }
+                foundVariation.setSku(sku);
+            }else{
+                foundVariation.setSku(foundVariation.getSku());
+            }
+        }
 
 
         Variation savedVariation = variationRepository.save(foundVariation);
@@ -361,15 +378,6 @@ public class VariationServiceImpl implements VariationService{
 
         return variationAttributeValueNames;
     }
-
-
-
-
-
-
-
-
-
 
 
     private String createDirectory() {
