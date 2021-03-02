@@ -9,7 +9,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/topalovic_db?createDatabaseIfNotExist=true&serverTimezone=UTC&useSSL=false
     username: root
-    password: a66C8daDf7F2787d00cDc9B
+    password: root
     hikari:
       data-source-properties:
         useUnicode: true
@@ -52,6 +52,7 @@ server:
     context-path: /api
   error:
     include-message: always
+
 
 
 

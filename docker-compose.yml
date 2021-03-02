@@ -16,7 +16,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/db_topalovic_app?createDatabaseIfNotExist=true&serverTimezone=Europe/Belgrade&useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_general_ci
       SPRING_ELASTICSEARCH_HOST_URL: elasticsearch:9200
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: a66C8daDf7F2787d00cDc9B
+      SPRING_DATASOURCE_PASSWORD: password
       SPRING_PROFILES_ACTIVE: prod
       DOCUMENT_PRODUCTCATEGORY_PATH:  /home/user/Desktop/Work/images/          #/opt/images/
     volumes:
@@ -60,7 +60,7 @@ services:
 
   # Database Service (Mysql)
   db:
-    image: mysql:5.7.29
+    image: mysql:5.7.33
     command: mysqld --sql_mode=""
     ports:
       - "6603:3306"
@@ -68,8 +68,8 @@ services:
     environment:
       MYSQL_DATABASE: db_topalovic_app
       MYSQL_USER: root
-      MYSQL_PASSWORD: a66C8daDf7F2787d00cDc9B
-      MYSQL_ROOT_PASSWORD: a66C8daDf7F2787d00cDc9B
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
     volumes:
       - db-data:/var/lib/mysql
   

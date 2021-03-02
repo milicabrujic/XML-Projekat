@@ -231,8 +231,8 @@ com/main/app/service/shopping_cart_item/ShoppingCartItemServiceImpl.java
  com.main.app.service.shopping_cart_item.ShoppingCartItemServiceImpl
 com/main/app/service/user/CurrentUserService.java
  com.main.app.service.user.CurrentUserService
-com/main/app/service/variation/VariationServiceImpl.java
- com.main.app.service.variation.VariationServiceImpl
+com/main/app/elastic/dto/attribute_value/AttributeValueElasticDTO.java
+ com.main.app.elastic.dto.attribute_value.AttributeValueElasticDTO
 com/main/app/config/auditor_aware/AuditorAwareConfig.java
  com.main.app.config.auditor_aware.AuditorAwareConfig
 com/main/app/elastic/repository/brand/BrandElasticRepositoryBuilderImpl.java
@@ -372,5 +372,5 @@ com/main/app/repository/product/ProductAttributeAttrValueRepository.java
 com/main/app/domain/dto/user/UserDTO.java
  com.main.app.domain.dto.user.UserDTO
  com.main.app.domain.dto.user.UserDTO$UserDTOBuilder
-com/main/app/elastic/dto/attribute_value/AttributeValueElasticDTO.java
- com.main.app.elastic.dto.attribute_value.AttributeValueElasticDTO
+com/main/app/service/variation/VariationServiceImpl.java
+ com.main.app.service.variation.VariationServiceImpl
