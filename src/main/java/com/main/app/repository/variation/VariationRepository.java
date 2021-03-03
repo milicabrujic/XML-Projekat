@@ -14,6 +14,8 @@ import java.util.Optional;
 @Repository
 public interface VariationRepository extends JpaRepository<Variation, Long> {
 
+    Optional<Variation> findOneByIdAndDeletedFalse(Long id);
+
     Page<Variation> findAllByIdIn(List<Long> idsList, Pageable pageable);
 
     Optional<Variation> findOneByName(String name);

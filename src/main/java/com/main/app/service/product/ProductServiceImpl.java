@@ -113,12 +113,6 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.getOne(id);
     }
 
-
-    @Override
-    public Product changeSlugForProductId(Long id, String slug) {
-        return null;
-    }
-
     @Override
     public String buildSlug(String title,int numberOfRepeat) {
         return Slug.makeSlug(title+" "+numberOfRepeat);
@@ -126,10 +120,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product save(Product product) {
-//        Optional<Product> oneProduct = productRepository.findOneByNameAndDeletedFalse(product.getName());
-//        if(oneProduct.isPresent()){
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_WITH_NAME_ALREADY_EXIST);
-//        }
 
         if(product.getName() == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_NAME_CANT_BE_NULL);
@@ -259,17 +249,8 @@ public class ProductServiceImpl implements ProductService {
         foundProduct.setDeleted(true);
         foundProduct.setDateDeleted(Calendar.getInstance().toInstant());
 
-//        CounterSlug counterSlug = counterSlugRepository.findByEntityName(foundProduct.getName());
-//        counterSlug.setCurrentCount(counterSlug.getCurrentCount()-1);
-//        counterSlugRepository.save(counterSlug);
-
-
         Product savedProduct = productRepository.save(foundProduct);
         productElasticRepository.save(ObjectMapperUtils.map(foundProduct, ProductElasticDTO.class));
-
-//        if(productRepository.findOneByName(foundProduct.getName()).isPresent()){
-//            refreshSlugsForProductName(foundProduct.getName());
-//        }
 
         return savedProduct;
     }
@@ -392,19 +373,5 @@ public class ProductServiceImpl implements ProductService {
 
         return folderName;
     }
-
-//    private void refreshSlugsForProductName(String productName) {
-//        List<Product> productList = productRepository.findAllByNameAndDeletedFalse(productName);
-//        CounterSlug counterSlug = counterSlugRepository.findByEntityName(productName);
-//
-//        if(productList.size() != counterSlug.getCurrentCount()){
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, AMOUNT_OF_SIZE_NOT_GOOD);
-//        }
-//
-//        for(int i = 0; i<productList.size();i++){
-//            String slug = buildSlug(productList.get(i).getName(),i);
-//            productList.get(i).setSlug(slug);
-//        }
-//    }
 
 }

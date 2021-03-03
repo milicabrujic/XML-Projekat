@@ -2,22 +2,17 @@ package com.main.app.domain.model.user;
 
 import com.main.app.domain.dto.user.UserDTO;
 import com.main.app.domain.model.AbstractEntity;
+import com.main.app.domain.model.user_favourites.UserFavourites;
+import com.main.app.domain.model.variation.Variation;
 import com.main.app.enums.Role;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
-
-/**
- * The user entity representing all users of the system.
- *
- * @author Nikola
- */
 @Entity
 @NoArgsConstructor
 @Getter
@@ -70,6 +65,7 @@ public class User extends AbstractEntity {
 
     @Column(name = "registration_confirmed")
     private boolean registrationConfirmed;
+
 
     public User(@NotNull String password, @NotNull String email, @NotNull String name, @NotNull String surname) {
         this.password = password;

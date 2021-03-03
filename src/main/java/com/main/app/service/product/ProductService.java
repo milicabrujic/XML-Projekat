@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ProductService {
 
-    Product changeSlugForProductId(Long id,String slug);
+//    Product changeSlugForProductId(Long id,String slug);
 
     String buildSlug(String title,int numberOfRepeat);
 

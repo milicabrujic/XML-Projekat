@@ -9,11 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * JPA repository for management of the User entity.
- *
- * @author Nikola
- */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 

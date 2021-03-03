@@ -41,8 +41,6 @@ public class Messages {
 
 
 
-
-
     public static final String PRODUCT_WITH_NAME_ALREADY_EXIST = "PRODUCT_WITH_NAME_ALREADY_EXIST";
     public static final String PRODUCT_SLUG_ALREADY_EXIST = "PRODUCT_SLUG_ALREADY_EXIST";
     public static final String PRODUCT_SKU_ALREADY_EXIST = "PRODUCT_SKU_ALREADY_EXIST";
@@ -62,6 +60,8 @@ public class Messages {
 
 
     public static final String VARIATION_WITH_NAME_ALREADY_EXIST = "VARIATION_WITH_NAME_ALREADY_EXIST";
+    public static final String VARIATION_WITH_NAME_ALREADY_SET = "VARIATION_WITH_NAME_ALREADY_SET";
+    public static final String VARIATION_TO_UNSET_NOT_EXIST = "VARIATION_TO_UNSET_NOT_EXIST";
     public static final String VARIATION_NOT_EXIST = "VARIATION_NOT_EXIST";
     public static final String VARIATION_WITH_COMBINATION_NOT_EXIST = "VARIATION_WITH_COMBINATION_NOT_EXIST";
     public static final String VARIATION_SKU_ALREADY_EXIST = "VARIATION_SKU_ALREADY_EXIST";

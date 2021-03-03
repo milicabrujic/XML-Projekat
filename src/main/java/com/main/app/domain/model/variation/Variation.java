@@ -2,6 +2,7 @@ package com.main.app.domain.model.variation;
 
 import com.main.app.domain.model.AbstractEntity;
 import com.main.app.domain.model.product.Product;
+import com.main.app.domain.model.user.User;
 import com.main.app.domain.model.variation_attribute_value_id.VariationAttributeValue;
 import lombok.*;
 import org.hibernate.annotations.Where;
@@ -40,7 +41,5 @@ public class Variation extends AbstractEntity {
     private List<VariationAttributeValue> attributeValues;
 
     private String primaryImageUrl;
-
-
 
 }
