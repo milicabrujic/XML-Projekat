@@ -24,6 +24,7 @@ import com.main.app.repository.variation_attribute_value_id.VariationAttributeVa
 import com.main.app.service.attribute.AttributeService;
 import com.main.app.service.attribute_value.AttributeValueService;
 import com.main.app.util.ObjectMapperUtils;
+import com.main.app.util.Slug;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -166,6 +167,7 @@ public class VariationServiceImpl implements VariationService{
             variation.setName(variationName);
             variation.setPrice(product.getPrice());
             variation.setProduct(product);
+            variation.setSlug(Slug.makeSlug(variationName));
 
             Variation savedVariation = variationRepository.save(variation);
             variationElasticRepository.save(new VariationElasticDTO(savedVariation));
@@ -196,8 +198,6 @@ public class VariationServiceImpl implements VariationService{
                 variationsOfStringIds.add(Long.parseLong(parts[i]));
             }
         }
-
-
 
 
         for(int i = 0; i < savedVariationMultipliedIds.size(); i++){
@@ -271,6 +271,32 @@ public class VariationServiceImpl implements VariationService{
                 variationAttributeValueRepository.save(variationAttributeValues.get(i));
             }
         }
+
+
+        //Ako je novi jednak starom
+        String slug = Slug.makeSlug(variation.getSlug());
+        if(!slug.equals(foundVariation.getSlug())){
+            if(variationRepository.findBySlug(slug).isPresent()){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, SLUG_VALUE_ALREADY_EXIST);
+            }
+            foundVariation.setSlug(slug);
+        }else{
+            foundVariation.setSlug(foundVariation.getSlug());
+        }
+
+        //Ako je novi jednak starom
+        String sku = variation.getSku();
+        if(sku!=null){
+            if(!sku.equals(foundVariation.getSku())){
+                if(variationRepository.findBySku(sku).isPresent()){
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, VARIATION_SKU_ALREADY_EXIST);
+                }
+                foundVariation.setSku(sku);
+            }else{
+                foundVariation.setSku(foundVariation.getSku());
+            }
+        }
+
 
         Variation savedVariation = variationRepository.save(foundVariation);
         variationElasticRepository.save(new VariationElasticDTO(savedVariation));
@@ -352,15 +378,6 @@ public class VariationServiceImpl implements VariationService{
 
         return variationAttributeValueNames;
     }
-
-
-
-
-
-
-
-
-
 
 
     private String createDirectory() {

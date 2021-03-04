@@ -2,6 +2,7 @@ package com.main.app.util;
 
 import com.main.app.domain.model.order.CustomerOrder;
 import com.main.app.domain.model.user.User;
+import com.main.app.domain.model.user_favourites.UserFavourites;
 import com.main.app.elastic.dto.EntityElasticDTO;
 import com.main.app.elastic.dto.attribute.AttributeElasticDTO;
 import com.main.app.elastic.dto.attribute_value.AttributeValueElasticDTO;
@@ -110,6 +111,14 @@ public class Util {
     }
 
     public static List<Long> dtoOrdersToIds(Page<OrdersElasticDTO> entities){
+        List<Long> ids = new ArrayList<>();
+        entities.forEach(item->{
+            ids.add(item.getId());
+        });
+        return  ids;
+    }
+
+    public static List<Long> favouritesToIds(Page<UserFavourites> entities){
         List<Long> ids = new ArrayList<>();
         entities.forEach(item->{
             ids.add(item.getId());

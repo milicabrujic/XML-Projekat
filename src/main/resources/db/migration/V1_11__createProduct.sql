@@ -20,5 +20,8 @@ CREATE TABLE `product`(
     `product_position` varchar(255) DEFAULT NULL,
     `discount` varchar(255) DEFAULT NULL,
     `discount_product_position` varchar(255) DEFAULT NULL,
+    `slug` varchar(255) DEFAULT NULL,
+    `sku` varchar(255) DEFAULT NULL,
     PRIMARY KEY(`id`)
 )DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+

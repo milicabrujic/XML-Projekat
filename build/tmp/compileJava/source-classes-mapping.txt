@@ -1,15 +1,15 @@
-com/main/app/elastic/repository/order/OrderElasticRepositoryBuilderImpl.java
- com.main.app.elastic.repository.order.OrderElasticRepositoryBuilderImpl
+com/main/app/service/brand/BrandServiceImpl.java
+ com.main.app.service.brand.BrandServiceImpl
 com/main/app/static_data/Constants.java
  com.main.app.static_data.Constants
-com/main/app/service/shopping_cart_item/ShoppingCartItemService.java
- com.main.app.service.shopping_cart_item.ShoppingCartItemService
-com/main/app/converter/shopping_cart_item/ShoppingCartItemConverter.java
- com.main.app.converter.shopping_cart_item.ShoppingCartItemConverter
-com/main/app/converter/shopping_cart/ShoppingCartConverter.java
- com.main.app.converter.shopping_cart.ShoppingCartConverter
-com/main/app/elastic/dto/order/OrdersElasticDTO.java
- com.main.app.elastic.dto.order.OrdersElasticDTO
+com/main/app/domain/dto/user/PasswordDTO.java
+ com.main.app.domain.dto.user.PasswordDTO
+com/main/app/elastic/dto/product/ProductElasticDTO.java
+ com.main.app.elastic.dto.product.ProductElasticDTO
+com/main/app/elastic/repository/attribute_value/AttributeValueElasticRepository.java
+ com.main.app.elastic.repository.attribute_value.AttributeValueElasticRepository
+com/main/app/repository/order/OrderItemRepository.java
+ com.main.app.repository.order.OrderItemRepository
 com/main/app/service/email/PasswordRecoveryEmailServiceImpl.java
  com.main.app.service.email.PasswordRecoveryEmailServiceImpl
 com/main/app/controller/category/CategoryController.java
@@ -21,13 +21,13 @@ com/main/app/exception/InvalidPasswordException.java
  com.main.app.exception.InvalidPasswordException
 com/main/app/repository/image/ImageRepository.java
  com.main.app.repository.image.ImageRepository
-com/main/app/domain/model/attribute/Attribute.java
- com.main.app.domain.model.attribute.Attribute
- com.main.app.domain.model.attribute.Attribute$AttributeBuilder
+com/main/app/service/product/ProductServiceImpl.java
+ com.main.app.service.product.ProductServiceImpl
 com/main/app/repository/shopping_cart/ShoppingCartRepository.java
  com.main.app.repository.shopping_cart.ShoppingCartRepository
-com/main/app/repository/shopping_cart_item/ShoppingCartItemRepository.java
- com.main.app.repository.shopping_cart_item.ShoppingCartItemRepository
+com/main/app/domain/model/counter_slug/CounterSlug.java
+ com.main.app.domain.model.counter_slug.CounterSlug
+ com.main.app.domain.model.counter_slug.CounterSlug$CounterSlugBuilder
 com/main/app/service/email/SubmitContactEmailServiceImpl.java
  com.main.app.service.email.SubmitContactEmailServiceImpl
 com/main/app/domain/dto/user/EmailPassDTO.java
@@ -52,12 +52,12 @@ com/main/app/domain/model/AbstractEntity.java
 com/main/app/domain/dto/image/ImageDTO.java
  com.main.app.domain.dto.image.ImageDTO
  com.main.app.domain.dto.image.ImageDTO$ImageDTOBuilder
-com/main/app/elastic/dto/attribute_value/AttributeValueElasticDTO.java
- com.main.app.elastic.dto.attribute_value.AttributeValueElasticDTO
 com/main/app/service/email/PasswordRecoveryEmailService.java
  com.main.app.service.email.PasswordRecoveryEmailService
-com/main/app/config/OAuth2SecurityConfig.java
- com.main.app.config.OAuth2SecurityConfig
+com/main/app/config/ElasticsearchConfig.java
+ com.main.app.config.ElasticsearchConfig
+com/main/app/elastic/repository/order/OrderElasticRepository.java
+ com.main.app.elastic.repository.order.OrderElasticRepository
 com/main/app/domain/dto/shopping_cart_item/ShoppingCartItemDto.java
  com.main.app.domain.dto.shopping_cart_item.ShoppingCartItemDto
  com.main.app.domain.dto.shopping_cart_item.ShoppingCartItemDto$ShoppingCartItemDtoBuilder
@@ -66,24 +66,26 @@ com/main/app/domain/model/variation/Variation.java
  com.main.app.domain.model.variation.Variation$VariationBuilder
 com/main/app/domain/dto/user/LanguageDTO.java
  com.main.app.domain.dto.user.LanguageDTO
-com/main/app/service/user/UserService.java
- com.main.app.service.user.UserService
+com/main/app/elastic/dto/category/CategoryElasticDTO.java
+ com.main.app.elastic.dto.category.CategoryElasticDTO
+com/main/app/util/Slug.java
+ com.main.app.util.Slug
 com/main/app/controller/image/ImageController.java
  com.main.app.controller.image.ImageController
 com/main/app/elastic/dto/brand/BrandElasticDTO.java
  com.main.app.elastic.dto.brand.BrandElasticDTO
 com/main/app/elastic/dto/attribute/AttributeElasticDTO.java
  com.main.app.elastic.dto.attribute.AttributeElasticDTO
-com/main/app/domain/dto/user/PasswordDTO.java
- com.main.app.domain.dto.user.PasswordDTO
+com/main/app/repository/counter_slug/CounterSlugRepository.java
+ com.main.app.repository.counter_slug.CounterSlugRepository
 com/main/app/converter/product/ProductConverter.java
  com.main.app.converter.product.ProductConverter
 com/main/app/elastic/repository/user/UserElasticRepository.java
  com.main.app.elastic.repository.user.UserElasticRepository
 com/main/app/elastic/repository/variation/VariationElasticRepositoryBuilderImpl.java
  com.main.app.elastic.repository.variation.VariationElasticRepositoryBuilderImpl
-com/main/app/elastic/dto/product/ProductElasticDTO.java
- com.main.app.elastic.dto.product.ProductElasticDTO
+com/main/app/service/attribute_value/AttributeValueServiceImpl.java
+ com.main.app.service.attribute_value.AttributeValueServiceImpl
 com/main/app/elastic/repository/variation/VariationElasticRepository.java
  com.main.app.elastic.repository.variation.VariationElasticRepository
 com/main/app/service/image/ImageServiceImpl.java
@@ -97,11 +99,13 @@ com/main/app/domain/model/variation_attribute_value_id/VariationAttributeValue.j
 com/main/app/domain/dto/product_attributes/ProductAttributesDTO.java
  com.main.app.domain.dto.product_attributes.ProductAttributesDTO
  com.main.app.domain.dto.product_attributes.ProductAttributesDTO$ProductAttributesDTOBuilder
-com/main/app/service/shopping_cart/ShoppingCartService.java
- com.main.app.service.shopping_cart.ShoppingCartService
+com/main/app/elastic/repository/category/CategoryElasticRepositoryBuilderImpl.java
+ com.main.app.elastic.repository.category.CategoryElasticRepositoryBuilderImpl
 com/main/app/domain/model/brand/Brand.java
  com.main.app.domain.model.brand.Brand
  com.main.app.domain.model.brand.Brand$BrandBuilder
+com/main/app/domain/dto/Entities.java
+ com.main.app.domain.dto.Entities
 com/main/app/domain/dto/category/CategoryDTO.java
  com.main.app.domain.dto.category.CategoryDTO
  com.main.app.domain.dto.category.CategoryDTO$CategoryDTOBuilder
@@ -113,15 +117,15 @@ com/main/app/converter/attribute/AttributeConverter.java
  com.main.app.converter.attribute.AttributeConverter
 com/main/app/domain/dto/user/EmailDTO.java
  com.main.app.domain.dto.user.EmailDTO
-com/main/app/repository/order/OrderItemRepository.java
- com.main.app.repository.order.OrderItemRepository
+com/main/app/elastic/dto/attribute_value/AttributeValueElasticDTO.java
+ com.main.app.elastic.dto.attribute_value.AttributeValueElasticDTO
 com/main/app/converter/variation/VariationConverter.java
  com.main.app.converter.variation.VariationConverter
 com/main/app/domain/model/product_attribute_values/ProductAttributeValues.java
  com.main.app.domain.model.product_attribute_values.ProductAttributeValues
  com.main.app.domain.model.product_attribute_values.ProductAttributeValues$ProductAttributeValuesBuilder
-com/main/app/converter/user/UserConverter.java
- com.main.app.converter.user.UserConverter
+com/main/app/config/ResourceServerConfig.java
+ com.main.app.config.ResourceServerConfig
 com/main/app/repository/variation_attribute_value_id/VariationAttributeValueRepository.java
  com.main.app.repository.variation_attribute_value_id.VariationAttributeValueRepository
 com/main/app/static_data/Messages.java
@@ -132,9 +136,8 @@ com/main/app/repository/product/ProductRepository.java
  com.main.app.repository.product.ProductRepository
 com/main/app/util/ObjectMapperUtils.java
  com.main.app.util.ObjectMapperUtils
-com/main/app/domain/model/user/User.java
- com.main.app.domain.model.user.User
- com.main.app.domain.model.user.User$UserBuilder
+com/main/app/config/CORSFilterConfig.java
+ com.main.app.config.CORSFilterConfig
 com/main/app/service/variation/VariationService.java
  com.main.app.service.variation.VariationService
 com/main/app/controller/brand/BrandController.java
@@ -154,8 +157,8 @@ com/main/app/domain/model/category/Category.java
  com.main.app.domain.model.category.Category$CategoryBuilder
 com/main/app/repository/variation/VariationRepository.java
  com.main.app.repository.variation.VariationRepository
-com/main/app/controller/user/UserController.java
- com.main.app.controller.user.UserController
+com/main/app/elastic/repository/product/ProductElasticRepository.java
+ com.main.app.elastic.repository.product.ProductElasticRepository
 com/main/app/util/UserUtil.java
  com.main.app.util.UserUtil
 com/main/app/converter/attribute_value/AttributeValueConverter.java
@@ -168,10 +171,15 @@ com/main/app/exception/TokenExpiredException.java
  com.main.app.exception.TokenExpiredException
 com/main/app/repository/product_attribute_values/ProductAttributeValuesRepository.java
  com.main.app.repository.product_attribute_values.ProductAttributeValuesRepository
-com/main/app/service/attribute_value/AttributeValueServiceImpl.java
- com.main.app.service.attribute_value.AttributeValueServiceImpl
-com/main/app/repository/product/ProductAttributeAttrValueRepository.java
- com.main.app.repository.product.ProductAttributeAttrValueRepository
+com/main/app/domain/dto/user_favourites/UserFavouritesDTO.java
+ com.main.app.domain.dto.user_favourites.UserFavouritesDTO
+ com.main.app.domain.dto.user_favourites.UserFavouritesDTO$UserFavouritesDTOBuilder
+com/main/app/repository/brand/BrandRepository.java
+ com.main.app.repository.brand.BrandRepository
+com/main/app/elastic/repository/order/OrderElasticRepositoryBuilder.java
+ com.main.app.elastic.repository.order.OrderElasticRepositoryBuilder
+com/main/app/elastic/repository/user/UserElasticRepositoryBuilderImpl.java
+ com.main.app.elastic.repository.user.UserElasticRepositoryBuilderImpl
 com/main/app/domain/dto/variation/VariationDTO.java
  com.main.app.domain.dto.variation.VariationDTO
  com.main.app.domain.dto.variation.VariationDTO$VariationDTOBuilder
@@ -189,14 +197,16 @@ com/main/app/converter/brand/BrandConverter.java
  com.main.app.converter.brand.BrandConverter
 com/main/app/elastic/repository/product/ProductElasticRepositoryBuilderImpl.java
  com.main.app.elastic.repository.product.ProductElasticRepositoryBuilderImpl
+com/main/app/repository/user_favourites/UserFavouritesRepository.java
+ com.main.app.repository.user_favourites.UserFavouritesRepository
 com/main/app/elastic/repository/variation/VariationElasticRepositoryBuilder.java
  com.main.app.elastic.repository.variation.VariationElasticRepositoryBuilder
-com/main/app/elastic/repository/product/ProductElasticRepository.java
- com.main.app.elastic.repository.product.ProductElasticRepository
+com/main/app/service/attribute/AttributeServiceImpl.java
+ com.main.app.service.attribute.AttributeServiceImpl
 com/main/app/config/auditor_aware/AuditorAwareImpl.java
  com.main.app.config.auditor_aware.AuditorAwareImpl
-com/main/app/converter/category/CategoryConverter.java
- com.main.app.converter.category.CategoryConverter
+com/main/app/controller/attribute_value/AttributeValueController.java
+ com.main.app.controller.attribute_value.AttributeValueController
 com/main/app/service/email/EmailClient.java
  com.main.app.service.email.EmailClient
 com/main/app/repository/category/CategoryRepository.java
@@ -207,6 +217,8 @@ com/main/app/domain/model/image/Image.java
 com/main/app/domain/dto/user/UserDTO.java
  com.main.app.domain.dto.user.UserDTO
  com.main.app.domain.dto.user.UserDTO$UserDTOBuilder
+com/main/app/repository/product/ProductAttributeAttrValueRepository.java
+ com.main.app.repository.product.ProductAttributeAttrValueRepository
 com/main/app/elastic/repository/user/UserElasticRepositoryBuilder.java
  com.main.app.elastic.repository.user.UserElasticRepositoryBuilder
 com/main/app/domain/dto/attribute/AttributeDTO.java
@@ -222,52 +234,55 @@ com/main/app/domain/model/product_attributes/ProductAttributes.java
 com/main/app/domain/dto/brand/BrandDTO.java
  com.main.app.domain.dto.brand.BrandDTO
  com.main.app.domain.dto.brand.BrandDTO$BrandDTOBuilder
-com/main/app/service/shopping_cart_item/ShoppingCartItemServiceImpl.java
- com.main.app.service.shopping_cart_item.ShoppingCartItemServiceImpl
-com/main/app/service/user/CurrentUserService.java
- com.main.app.service.user.CurrentUserService
-com/main/app/elastic/repository/order/OrderElasticRepositoryBuilder.java
- com.main.app.elastic.repository.order.OrderElasticRepositoryBuilder
+com/main/app/service/email/SubmitContactEmailService.java
+ com.main.app.service.email.SubmitContactEmailService
+com/main/app/converter/category/CategoryConverter.java
+ com.main.app.converter.category.CategoryConverter
+com/main/app/service/variation/VariationServiceImpl.java
+ com.main.app.service.variation.VariationServiceImpl
 com/main/app/config/auditor_aware/AuditorAwareConfig.java
  com.main.app.config.auditor_aware.AuditorAwareConfig
-com/main/app/elastic/repository/order/OrderElasticRepository.java
- com.main.app.elastic.repository.order.OrderElasticRepository
+com/main/app/elastic/repository/brand/BrandElasticRepositoryBuilderImpl.java
+ com.main.app.elastic.repository.brand.BrandElasticRepositoryBuilderImpl
 com/main/app/domain/model/attribute_value/AttributeValue.java
  com.main.app.domain.model.attribute_value.AttributeValue
  com.main.app.domain.model.attribute_value.AttributeValue$AttributeValueBuilder
 com/main/app/domain/dto/user/ContactDTO.java
  com.main.app.domain.dto.user.ContactDTO
-com/main/app/repository/user/UserRepository.java
- com.main.app.repository.user.UserRepository
+com/main/app/elastic/repository/category/CategoryElasticRepository.java
+ com.main.app.elastic.repository.category.CategoryElasticRepository
 com/main/app/elastic/repository/category/CategoryElasticRepositoryBuilder.java
  com.main.app.elastic.repository.category.CategoryElasticRepositoryBuilder
-com/main/app/service/user/CurrentUserServiceImpl.java
- com.main.app.service.user.CurrentUserServiceImpl
+com/main/app/elastic/repository/order/OrderElasticRepositoryBuilderImpl.java
+ com.main.app.elastic.repository.order.OrderElasticRepositoryBuilderImpl
+com/main/app/domain/model/attribute/Attribute.java
+ com.main.app.domain.model.attribute.Attribute
+ com.main.app.domain.model.attribute.Attribute$AttributeBuilder
 com/main/app/domain/dto/order_item/OrderItemDto.java
  com.main.app.domain.dto.order_item.OrderItemDto
  com.main.app.domain.dto.order_item.OrderItemDto$OrderItemDtoBuilder
 com/main/app/config/MigrationConfig.java
  com.main.app.config.MigrationConfig
-com/main/app/controller/shopping_cart/ShoppingCartController.java
- com.main.app.controller.shopping_cart.ShoppingCartController
+com/main/app/config/SecurityUtils.java
+ com.main.app.config.SecurityUtils
 com/main/app/controller/product/ProductController.java
  com.main.app.controller.product.ProductController
 com/main/app/elastic/repository/brand/BrandElasticRepositoryBuilder.java
  com.main.app.elastic.repository.brand.BrandElasticRepositoryBuilder
 com/main/app/controller/variation/VariationController.java
  com.main.app.controller.variation.VariationController
-com/main/app/config/ElasticsearchConfig.java
- com.main.app.config.ElasticsearchConfig
-com/main/app/elastic/dto/user/UserElasticDTO.java
- com.main.app.elastic.dto.user.UserElasticDTO
+com/main/app/elastic/repository/attribute_value/AttributeValueElasticRepositoryBuilderImpl.java
+ com.main.app.elastic.repository.attribute_value.AttributeValueElasticRepositoryBuilderImpl
+com/main/app/repository/attribute/AttributeRepository.java
+ com.main.app.repository.attribute.AttributeRepository
 com/main/app/service/category/CategoryService.java
  com.main.app.service.category.CategoryService
 com/main/app/AppApplication.java
  com.main.app.AppApplication
-com/main/app/config/CustomUserDetailsService.java
- com.main.app.config.CustomUserDetailsService
-com/main/app/service/email/SubmitContactEmailService.java
- com.main.app.service.email.SubmitContactEmailService
+com/main/app/service/product/ProductService.java
+ com.main.app.service.product.ProductService
+com/main/app/converter/image/ImageConverter.java
+ com.main.app.converter.image.ImageConverter
 com/main/app/domain/dto/order/OrderDto.java
  com.main.app.domain.dto.order.OrderDto
  com.main.app.domain.dto.order.OrderDto$OrderDtoBuilder
@@ -275,9 +290,8 @@ com/main/app/domain/dto/user/PasswordUpdateDTO.java
  com.main.app.domain.dto.user.PasswordUpdateDTO
 com/main/app/config/AuthorizationServerConfig.java
  com.main.app.config.AuthorizationServerConfig
-com/main/app/domain/model/shopping_cart_item/ShoppingCartItem.java
- com.main.app.domain.model.shopping_cart_item.ShoppingCartItem
- com.main.app.domain.model.shopping_cart_item.ShoppingCartItem$ShoppingCartItemBuilder
+com/main/app/util/MD5HashUtil.java
+ com.main.app.util.MD5HashUtil
 com/main/app/service/brand/BrandService.java
  com.main.app.service.brand.BrandService
 com/main/app/repository/attribute_value/AttributeValueRepository.java
@@ -288,82 +302,91 @@ com/main/app/domain/dto/variation/VariationAttributeAttributeValueProductDTO.jav
  com.main.app.domain.dto.variation.VariationAttributeAttributeValueProductDTO
 com/main/app/config/CustomWebMvcAutoConfig.java
  com.main.app.config.CustomWebMvcAutoConfig
-com/main/app/service/email/RegistrationEmailService.java
- com.main.app.service.email.RegistrationEmailService
-com/main/app/config/ResourceServerConfig.java
- com.main.app.config.ResourceServerConfig
 com/main/app/elastic/repository/brand/BrandElasticRepository.java
  com.main.app.elastic.repository.brand.BrandElasticRepository
-com/main/app/elastic/repository/category/CategoryElasticRepository.java
- com.main.app.elastic.repository.category.CategoryElasticRepository
-com/main/app/elastic/repository/category/CategoryElasticRepositoryBuilderImpl.java
- com.main.app.elastic.repository.category.CategoryElasticRepositoryBuilderImpl
-com/main/app/domain/dto/Entities.java
- com.main.app.domain.dto.Entities
-com/main/app/controller/attribute_value/AttributeValueController.java
- com.main.app.controller.attribute_value.AttributeValueController
-com/main/app/util/MD5HashUtil.java
- com.main.app.util.MD5HashUtil
-com/main/app/elastic/repository/attribute_value/AttributeValueElasticRepository.java
- com.main.app.elastic.repository.attribute_value.AttributeValueElasticRepository
-com/main/app/converter/image/ImageConverter.java
- com.main.app.converter.image.ImageConverter
-com/main/app/service/product/ProductService.java
- com.main.app.service.product.ProductService
-com/main/app/config/CORSFilterConfig.java
- com.main.app.config.CORSFilterConfig
-com/main/app/repository/attribute/AttributeRepository.java
- com.main.app.repository.attribute.AttributeRepository
-com/main/app/repository/brand/BrandRepository.java
- com.main.app.repository.brand.BrandRepository
-com/main/app/elastic/repository/user/UserElasticRepositoryBuilderImpl.java
- com.main.app.elastic.repository.user.UserElasticRepositoryBuilderImpl
-com/main/app/config/SecurityUtils.java
- com.main.app.config.SecurityUtils
+com/main/app/service/email/RegistrationEmailService.java
+ com.main.app.service.email.RegistrationEmailService
+com/main/app/service/user_favourites/UserFavouritesService.java
+ com.main.app.service.user_favourites.UserFavouritesService
+com/main/app/service/user/UserServiceImpl.java
+ com.main.app.service.user.UserServiceImpl
+com/main/app/elastic/dto/order/OrdersElasticDTO.java
+ com.main.app.elastic.dto.order.OrdersElasticDTO
+com/main/app/converter/order/OrderItemConverter.java
+ com.main.app.converter.order.OrderItemConverter
+com/main/app/converter/user/UserConverter.java
+ com.main.app.converter.user.UserConverter
+com/main/app/service/shopping_cart_item/ShoppingCartItemService.java
+ com.main.app.service.shopping_cart_item.ShoppingCartItemService
+com/main/app/converter/shopping_cart_item/ShoppingCartItemConverter.java
+ com.main.app.converter.shopping_cart_item.ShoppingCartItemConverter
+com/main/app/converter/shopping_cart/ShoppingCartConverter.java
+ com.main.app.converter.shopping_cart.ShoppingCartConverter
+com/main/app/domain/model/user/User.java
+ com.main.app.domain.model.user.User
+ com.main.app.domain.model.user.User$UserBuilder
+com/main/app/service/shopping_cart_item/ShoppingCartItemServiceImpl.java
+ com.main.app.service.shopping_cart_item.ShoppingCartItemServiceImpl
+com/main/app/service/user/CurrentUserService.java
+ com.main.app.service.user.CurrentUserService
+com/main/app/domain/model/user_favourites/UserFavourites.java
+ com.main.app.domain.model.user_favourites.UserFavourites
+ com.main.app.domain.model.user_favourites.UserFavourites$UserFavouritesBuilder
+com/main/app/repository/shopping_cart_item/ShoppingCartItemRepository.java
+ com.main.app.repository.shopping_cart_item.ShoppingCartItemRepository
+com/main/app/service/order/OrderServiceImpl.java
+ com.main.app.service.order.OrderServiceImpl
+com/main/app/controller/user/UserController.java
+ com.main.app.controller.user.UserController
+com/main/app/repository/user/UserRepository.java
+ com.main.app.repository.user.UserRepository
+com/main/app/service/user/CurrentUserServiceImpl.java
+ com.main.app.service.user.CurrentUserServiceImpl
+com/main/app/service/order_item/OrderItemService.java
+ com.main.app.service.order_item.OrderItemService
+com/main/app/config/OAuth2SecurityConfig.java
+ com.main.app.config.OAuth2SecurityConfig
+com/main/app/service/elasticsearch_reindex/ElasticsearchReindexService.java
+ com.main.app.service.elasticsearch_reindex.ElasticsearchReindexService
+com/main/app/service/user/UserService.java
+ com.main.app.service.user.UserService
+com/main/app/controller/shopping_cart/ShoppingCartController.java
+ com.main.app.controller.shopping_cart.ShoppingCartController
 com/main/app/service/shopping_cart/ShoppingCartServiceImpl.java
  com.main.app.service.shopping_cart.ShoppingCartServiceImpl
 com/main/app/domain/model/shopping_cart/ShoppingCart.java
  com.main.app.domain.model.shopping_cart.ShoppingCart
  com.main.app.domain.model.shopping_cart.ShoppingCart$ShoppingCartBuilder
-com/main/app/elastic/dto/category/CategoryElasticDTO.java
- com.main.app.elastic.dto.category.CategoryElasticDTO
-com/main/app/service/brand/BrandServiceImpl.java
- com.main.app.service.brand.BrandServiceImpl
-com/main/app/service/user/UserServiceImpl.java
- com.main.app.service.user.UserServiceImpl
-com/main/app/elastic/repository/attribute_value/AttributeValueElasticRepositoryBuilderImpl.java
- com.main.app.elastic.repository.attribute_value.AttributeValueElasticRepositoryBuilderImpl
-com/main/app/elastic/repository/brand/BrandElasticRepositoryBuilderImpl.java
- com.main.app.elastic.repository.brand.BrandElasticRepositoryBuilderImpl
-com/main/app/service/attribute/AttributeServiceImpl.java
- com.main.app.service.attribute.AttributeServiceImpl
-com/main/app/service/variation/VariationServiceImpl.java
- com.main.app.service.variation.VariationServiceImpl
-com/main/app/service/product/ProductServiceImpl.java
- com.main.app.service.product.ProductServiceImpl
-com/main/app/converter/order/OrderConverter.java
- com.main.app.converter.order.OrderConverter
-com/main/app/util/Util.java
- com.main.app.util.Util
 com/main/app/domain/model/order/CustomerOrder.java
  com.main.app.domain.model.order.CustomerOrder
  com.main.app.domain.model.order.CustomerOrder$CustomerOrderBuilder
-com/main/app/service/order/OrderServiceImpl.java
- com.main.app.service.order.OrderServiceImpl
+com/main/app/controller/order/OrderController.java
+ com.main.app.controller.order.OrderController
+com/main/app/service/order/OrderService.java
+ com.main.app.service.order.OrderService
+com/main/app/util/Util.java
+ com.main.app.util.Util
+com/main/app/converter/order/OrderConverter.java
+ com.main.app.converter.order.OrderConverter
 com/main/app/service/order_item/OrderItemServiceImpl.java
  com.main.app.service.order_item.OrderItemServiceImpl
+com/main/app/elastic/dto/user/UserElasticDTO.java
+ com.main.app.elastic.dto.user.UserElasticDTO
+com/main/app/config/CustomUserDetailsService.java
+ com.main.app.config.CustomUserDetailsService
 com/main/app/domain/model/order_item/OrderItem.java
  com.main.app.domain.model.order_item.OrderItem
  com.main.app.domain.model.order_item.OrderItem$OrderItemBuilder
-com/main/app/service/order/OrderService.java
- com.main.app.service.order.OrderService
-com/main/app/service/order_item/OrderItemService.java
- com.main.app.service.order_item.OrderItemService
-com/main/app/converter/order/OrderItemConverter.java
- com.main.app.converter.order.OrderItemConverter
-com/main/app/controller/order/OrderController.java
- com.main.app.controller.order.OrderController
-com/main/app/service/elasticsearch_reindex/ElasticsearchReindexService.java
- com.main.app.service.elasticsearch_reindex.ElasticsearchReindexService
 com/main/app/controller/elasticsearch_reindex/ElasticsearchReindexController.java
  com.main.app.controller.elasticsearch_reindex.ElasticsearchReindexController
+com/main/app/service/shopping_cart/ShoppingCartService.java
+ com.main.app.service.shopping_cart.ShoppingCartService
+com/main/app/domain/model/shopping_cart_item/ShoppingCartItem.java
+ com.main.app.domain.model.shopping_cart_item.ShoppingCartItem
+ com.main.app.domain.model.shopping_cart_item.ShoppingCartItem$ShoppingCartItemBuilder
+com/main/app/controller/user_favourites/UserFavouritesControler.java
+ com.main.app.controller.user_favourites.UserFavouritesControler
+com/main/app/service/user_favourites/UserFavouritesImpl.java
+ com.main.app.service.user_favourites.UserFavouritesImpl
+com/main/app/converter/user_favourites/UserFavouritesConverter.java
+ com.main.app.converter.user_favourites.UserFavouritesConverter

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+import javax.validation.constraints.NotBlank;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,10 @@ import java.util.List;
 public class ProductDTO {
 
     private Long id;
+
+    private String sku;
+
+    private String slug;
 
     private String name;
 

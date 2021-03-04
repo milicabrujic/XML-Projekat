@@ -9,7 +9,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/topalovic_db?createDatabaseIfNotExist=true&serverTimezone=UTC&useSSL=false
     username: root
-    password: a66C8daDf7F2787d00cDc9B
+    password: root
     hikari:
       data-source-properties:
         useUnicode: true
@@ -38,20 +38,21 @@ spring:
     clustername: elasticsearch
     host: elasticsearch
     port: 9200
-  deeplink: http://207.154.199.194:9090
+  deeplink: http://localhost:9090 #http://domen:port  #example -> http://207.154.199.194:9090
   main:
     allow-bean-definition-overriding: true
 
 document:
   productcategory:
-    path: /opt/images/
-    filepath: file:/opt/images/
+    path: /home/user/Desktop/Work/images/             #/opt/images/
+    filepath: file:/home/user/Desktop/Work/images/    #/opt/images/
 
 server:
   servlet:
     context-path: /api
   error:
     include-message: always
+
 
 
 

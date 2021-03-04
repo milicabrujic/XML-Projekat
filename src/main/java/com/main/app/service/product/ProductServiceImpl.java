@@ -2,6 +2,7 @@ package com.main.app.service.product;
 
 import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.product.ProductAttributeAttrValueDTO;
+import com.main.app.domain.model.counter_slug.CounterSlug;
 import com.main.app.domain.model.image.Image;
 import com.main.app.domain.model.product.Product;
 import com.main.app.domain.model.product_attribute_values.ProductAttributeValues;
@@ -10,6 +11,7 @@ import com.main.app.domain.model.variation.Variation;
 import com.main.app.elastic.dto.product.ProductElasticDTO;
 import com.main.app.elastic.repository.product.ProductElasticRepository;
 import com.main.app.elastic.repository.product.ProductElasticRepositoryBuilder;
+import com.main.app.repository.counter_slug.CounterSlugRepository;
 import com.main.app.repository.image.ImageRepository;
 import com.main.app.repository.product.ProductAttributeAttrValueRepository;
 import com.main.app.repository.product.ProductRepository;
@@ -17,6 +19,7 @@ import com.main.app.repository.product_attribute_values.ProductAttributeValuesRe
 import com.main.app.repository.product_attributes.ProductAttributesRepository;
 import com.main.app.repository.variation.VariationRepository;
 import com.main.app.util.ObjectMapperUtils;
+import com.main.app.util.Slug;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -67,6 +70,8 @@ public class ProductServiceImpl implements ProductService {
 
     private final VariationRepository variationRepository;
 
+    private final CounterSlugRepository counterSlugRepository;
+
 
     @Override
     public Entities getAll() {
@@ -109,16 +114,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product save(Product product) {
-        Optional<Product> oneProduct = productRepository.findOneByNameAndDeletedFalse(product.getName());
+    public String buildSlug(String title,int numberOfRepeat) {
+        return Slug.makeSlug(title+" "+numberOfRepeat);
+    }
 
-        if(oneProduct.isPresent()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_WITH_NAME_ALREADY_EXIST);
-        }
+    @Override
+    public Product save(Product product) {
 
         if(product.getName() == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_NAME_CANT_BE_NULL);
         }
+
+        if(productRepository.countByName(product.getName()) == 0){
+            counterSlugRepository.save(new CounterSlug(product.getName(),1));
+        }else{
+            CounterSlug entity = counterSlugRepository.findByEntityName(product.getName());
+            entity.setCurrentCount(entity.getCurrentCount()+1);
+            counterSlugRepository.save(entity);
+        }
+
 
         if(product.getProductPosition() != null) {
             Optional<Product> sameProductPosition = productRepository.findOneByProductPosition(product.getProductPosition());
@@ -129,7 +143,6 @@ public class ProductServiceImpl implements ProductService {
                 productElasticRepository.save(new ProductElasticDTO(savedSameProductPosition));
             }
         }
-
         if(product.getDiscountProductPosition() != null) {
             Optional<Product> sameDiscountProductPosition = productRepository.findOneByDiscountProductPosition(product.getDiscountProductPosition());
             if (sameDiscountProductPosition.isPresent()) {
@@ -140,6 +153,13 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
+        CounterSlug counterSlug = counterSlugRepository.findByEntityName(product.getName());
+        int numberOfRepeat = counterSlug.getCurrentCount();
+
+        String slug = buildSlug(product.getName(),numberOfRepeat);
+        product.setSlug(slug);
+
+
         Product savedProduct = productRepository.save(product);
         productElasticRepository.save(new ProductElasticDTO(savedProduct));
 
@@ -148,7 +168,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product edit(Product product, Long id) {
-        Optional<Product> oneProduct = productRepository.findOneByNameAndDeletedFalse(product.getName());
+//        Optional<Product> oneProduct = productRepository.findOneByNameAndDeletedFalse(product.getName());
 
         if(product.getProductPosition() != null) {
             Optional<Product> sameProductPosition = productRepository.findOneByProductPosition(product.getProductPosition());
@@ -169,9 +189,9 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
-        if(oneProduct.isPresent() && !id.equals(oneProduct.get().getId())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_WITH_NAME_ALREADY_EXIST);
-        }
+//        if(oneProduct.isPresent() && !id.equals(oneProduct.get().getId())){
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_WITH_NAME_ALREADY_EXIST);
+//        }
 
         Optional<Product> optionalProduct = productRepository.findOneById(id);
 
@@ -190,6 +210,28 @@ public class ProductServiceImpl implements ProductService {
         foundProduct.setProductPosition(product.getProductPosition());
         foundProduct.setDiscountProductPosition(product.getDiscountProductPosition());
         foundProduct.setPrice(product.getPrice());
+
+        //Ako je novi jednak starom
+        String slug = Slug.makeSlug(product.getSlug());
+        if(!slug.equals(foundProduct.getSlug())){
+            if(productRepository.findBySlug(slug).isPresent()){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_SLUG_ALREADY_EXIST);
+            }
+            foundProduct.setSlug(slug);
+        }else{
+            foundProduct.setSlug(foundProduct.getSlug());
+        }
+
+        //Ako je novi jednak starom
+        String sku = product.getSku();
+        if(!sku.equals(foundProduct.getSku())){
+            if(productRepository.findBySku(sku).isPresent()){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_SKU_ALREADY_EXIST);
+            }
+            foundProduct.setSku(sku);
+        }else{
+            foundProduct.setSku(foundProduct.getSku());
+        }
 
         Product savedProduct = productRepository.save(foundProduct);
         productElasticRepository.save(new ProductElasticDTO(savedProduct));
@@ -212,6 +254,8 @@ public class ProductServiceImpl implements ProductService {
 
         return savedProduct;
     }
+
+
 
     @Override
     public void uploadImage(Long id, MultipartFile[] images) throws IOException {
@@ -317,8 +361,6 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductAttributeAttrValueDTO> getAllAttributeValuesForProductId(Long productId) {
         return productAttributeAttrValueRepository.findAllAttributeValuesForProductId(productId);
     }
-
-
 
 
     private String createDirectory() {

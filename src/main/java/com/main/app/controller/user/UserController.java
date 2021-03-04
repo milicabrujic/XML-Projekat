@@ -20,13 +20,6 @@ import static com.main.app.converter.user.UserConverter.userDTOtoUserEntity;
 import static com.main.app.converter.user.UserConverter.userEntityToUserDTO;
 
 
-/**
- * REST controller exposing API for users.
- * 
- * URL : /api/user
- *
- * @author Nikola
- */
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
