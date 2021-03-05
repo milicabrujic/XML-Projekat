@@ -65,6 +65,8 @@ public class ProductConverter {
                 .productPosition(product.getProductPosition())
                 .discount(product.getDiscount())
                 .discountProductPosition(product.getDiscountProductPosition())
+                .brandName(product.getBrand().getName())
+                .categoryName(product.getProductCategory().getName())
                 .build();
     }
 

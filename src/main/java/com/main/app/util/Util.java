@@ -1,5 +1,6 @@
 package com.main.app.util;
 
+import com.main.app.domain.model.comment.Comment;
 import com.main.app.domain.model.order.CustomerOrder;
 import com.main.app.domain.model.user.User;
 import com.main.app.domain.model.user_favourites.UserFavourites;
@@ -125,4 +126,13 @@ public class Util {
         });
         return  ids;
     }
+
+    public static List<Long> commentToIds(Page<Comment> entities){
+        List<Long> ids = new ArrayList<>();
+        entities.forEach(item->{
+            ids.add(item.getId());
+        });
+        return  ids;
+    }
+
 }
