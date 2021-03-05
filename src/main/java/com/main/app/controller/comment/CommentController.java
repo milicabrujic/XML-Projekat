@@ -40,13 +40,13 @@ public class CommentController {
 
 
     @PostMapping(path = "/{comment_id}/verify/{verify}")
-//  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CommentDTO> verifyComment(@PathVariable Long comment_id, @PathVariable Boolean verify){
         return new ResponseEntity<>(entityToDto(commentService.verifyComment(comment_id,verify)),HttpStatus.OK);
     }
 
     @GetMapping(path = "/variation/{id}")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Entities> getAllCommentsForVariationId(@PathVariable Long id, Pageable pageable){
         return new ResponseEntity<>(commentService.getAllVariationUnVerifiedComments(id,pageable),HttpStatus.OK);
     }
