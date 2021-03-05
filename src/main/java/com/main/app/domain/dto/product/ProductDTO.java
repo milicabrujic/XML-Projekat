@@ -53,5 +53,8 @@ public class ProductDTO {
 
     private Long discountProductPosition;
 
+    private String brandName;
+
+    private String categoryName;
 
 }

@@ -14,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -23,7 +22,6 @@ import java.util.List;
 
 import static com.main.app.converter.user_favourites.UserFavouritesConverter.listToDTOList;
 import static com.main.app.static_data.Messages.*;
-import static com.main.app.util.Util.adminUsersToIds;
 import static com.main.app.util.Util.favouritesToIds;
 
 @Service

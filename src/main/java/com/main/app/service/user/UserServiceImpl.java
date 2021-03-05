@@ -41,12 +41,6 @@ import static com.main.app.util.UserUtil.*;
 import static com.main.app.util.Util.adminUsersToIds;
 import static com.main.app.util.Util.usersToIds;
 
-
-/**
- * The implementation of the service used for management of the User data.
- *
- * @author Nikola
- */
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserServiceImpl implements UserService {
@@ -244,7 +238,6 @@ public class UserServiceImpl implements UserService {
 
         return entities;
     }
-
 
     @Override
     public Entities getAllBySearchParam(String searchParam, Pageable pageable) {

@@ -78,4 +78,9 @@ public class Messages {
     public static final String AMOUNT_OF_SIZE_NOT_GOOD = "AMOUNT OF PRODUCT NOT GOOD";
     public static final String SLUG_VALUE_ALREADY_EXIST = "SLUG_VALUE_ALREADY_EXIST";
 
+    public static final String COMMENT_DESCRIPTION_ALREADY_EXISTS = "COMMENT_DESCRIPTION_ALREADY_EXISTS";
+    public static final String COMMENT_NOT_EXIST = "COMMENT_NOT_EXIST";
+    public static final String COMMENT_TO_REMOVE_NOT_EXIST = "COMMENT_TO_REMOVE_NOT_EXIST";
+    public static final String COMMENT_NOT_VERIFIED = "COMMENT_NOT_VERIFIED";
+
 }
