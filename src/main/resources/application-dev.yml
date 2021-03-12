@@ -7,7 +7,7 @@ spring:
         hibernate:
           dialect: MySQL5InnoDBDialect
   datasource:
-    url: jdbc:mysql://localhost:3306/topalovic_db?createDatabaseIfNotExist=true&serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://localhost:3306/topalovic_db?createDatabaseIfNotExist=true&serverTimezone=Europe/Belgrade&useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_general_ci
     username: root
     password: root
   jackson:
