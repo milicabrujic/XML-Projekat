@@ -33,15 +33,30 @@ public class AttributeController {
 
     @GetMapping(path="/search")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Entities<Attribute>> getAllBySearchParam(Pageable pageable, @RequestParam(name = "searchParam") String searchParam){
-        return new ResponseEntity<>(attributeService.getAllBySearchParam(searchParam, pageable), HttpStatus.OK);
+    public ResponseEntity<Entities<Attribute>> getAllBySearchParam(Pageable pageable, @RequestParam(required=false , name="participatesInVariation") boolean participatesInVariation,  @RequestParam(required=false , name="enteredManually") boolean enteredManually , @RequestParam(name = "searchParam") String searchParam){
+        return new ResponseEntity<>(attributeService.getAllBySearchParam(searchParam, participatesInVariation, enteredManually ,pageable), HttpStatus.OK);
     }
+
+    @GetMapping(path="/participation")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Entities<Attribute>> getAllParticipationFalse(Pageable pageable, @RequestParam(name = "searchParam") String searchParam){
+        return new ResponseEntity<>(attributeService.getAllByFalseParticipation(searchParam,pageable), HttpStatus.OK);
+    }
+
+
 
     @GetMapping(path = "/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<AttributeDTO> getById(@PathVariable Long id) {
         return new ResponseEntity<>(entityToDTO(attributeService.getOne(id)), HttpStatus.OK);
     }
+
+    @GetMapping(path = "/name")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<AttributeDTO> getByName(@RequestParam String name) {
+        return new ResponseEntity<>(entityToDTO(attributeService.getOneByName(name)), HttpStatus.OK);
+    }
+
 
     @PostMapping(path = "/")
     @PreAuthorize("hasRole('ROLE_ADMIN')")

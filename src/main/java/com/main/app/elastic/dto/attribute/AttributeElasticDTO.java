@@ -22,10 +22,16 @@ public class AttributeElasticDTO extends EntityElasticDTO {
 
     private Date dateCreated;
 
+    private boolean participatesInVariation;
+
+    private boolean enteredManually;
+
     public AttributeElasticDTO(Attribute attribute) {
         super(attribute.getId());
         this.name = attribute.getName();
         this.dateCreated = Date.from(attribute.getDateCreated());
+        this.participatesInVariation = attribute.isParticipatesInVariation();
+        this.enteredManually = attribute.isEnteredManually();
     }
 
 }

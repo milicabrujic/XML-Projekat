@@ -28,7 +28,7 @@ public class CategoryController {
 
 
     @GetMapping(path="/all")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Entities<Category>> getAll(){
         return new ResponseEntity<>(categoryService.getAll(), HttpStatus.OK);
     }

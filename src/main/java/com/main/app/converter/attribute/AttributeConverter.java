@@ -12,6 +12,8 @@ public class AttributeConverter {
         return Attribute
                 .builder()
                 .name(attributeDTO.getName())
+                .participatesInVariation(attributeDTO.isParticipatesInVariation())
+                .enteredManually(attributeDTO.isEnteredManually())
                 .build();
     }
 
@@ -20,6 +22,8 @@ public class AttributeConverter {
                 .builder()
                 .id(attribute.getId())
                 .name(attribute.getName())
+                .participatesInVariation(attribute.isParticipatesInVariation())
+                .enteredManually(attribute.isEnteredManually())
                 .dateCreated(attribute.getDateCreated())
                 .build();
     }

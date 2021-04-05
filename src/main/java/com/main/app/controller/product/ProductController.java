@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.HashMap;
 
 import static com.main.app.converter.product.ProductConverter.DTOtoEntity;
 import static com.main.app.converter.product.ProductConverter.entityToDTO;
@@ -46,7 +47,6 @@ public class ProductController {
     public ResponseEntity<ProductDTO> getById(@PathVariable Long id) {
         return new ResponseEntity<>(entityToDTO(productService.getOne(id)), HttpStatus.OK);
     }
-
     @PostMapping(path = "/")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ProductDTO> add(@RequestBody @Valid ProductDTO productDTO) {

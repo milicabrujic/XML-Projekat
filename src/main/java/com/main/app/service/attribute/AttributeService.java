@@ -9,7 +9,9 @@ public interface AttributeService {
 
     Entities getAll();
 
-    Entities getAllBySearchParam(String searchParam, Pageable pageable);
+    Entities getAllByFalseParticipation(String searchParam,Pageable pageable);
+
+    Entities getAllBySearchParam(String searchParam, boolean participatesInVariation, boolean enteredManually, Pageable pageable);
 
     Attribute getOne(Long id);
 
@@ -19,4 +21,5 @@ public interface AttributeService {
 
     Attribute delete(Long id);
 
+    Attribute getOneByName(String name);
 }

@@ -24,4 +24,6 @@ public interface AttributeValueService {
 
     List<AttributeValue> getAllByAttributeId(Long id);
 
+    List<AttributeValue> getAllByAttributeNameWithPageable(String name, Pageable pageable);
+
 }

@@ -52,7 +52,7 @@ public class ElasticsearchConfig {
     public ElasticsearchOperations elasticsearchTemplate() throws IOException {
 
         String[] indexesForAnalyzer = new String[] {
-                "user", "category", "attribute", "attribute_value", "brand", "product", "variation", "order"
+                "user", "category", "attribute", "attribute_value", "attribute_category" , "attribute_category_unique" , "brand", "product", "variation", "order"
         };
 
         for (String indexName : indexesForAnalyzer) {

@@ -19,4 +19,8 @@ public class Attribute extends AbstractEntity {
     @NotBlank
     private String name;
 
+    private boolean participatesInVariation;
+
+    private boolean enteredManually;
+
 }

@@ -1,5 +1,7 @@
 package com.main.app.service.elasticsearch_reindex;
+import com.main.app.domain.dto.attribute_category.AttributeCategoryUniqueDTO;
 import com.main.app.domain.model.attribute.Attribute;
+import com.main.app.domain.model.attribute_category.AttributeCategory;
 import com.main.app.domain.model.attribute_value.AttributeValue;
 import com.main.app.domain.model.brand.Brand;
 import com.main.app.domain.model.category.Category;
@@ -9,6 +11,8 @@ import com.main.app.domain.model.product.Product;
 import com.main.app.domain.model.user.User;
 import com.main.app.domain.model.variation.Variation;
 import com.main.app.elastic.dto.attribute.AttributeElasticDTO;
+import com.main.app.elastic.dto.attribute_category.AttributeCategoryElasticDTO;
+import com.main.app.elastic.dto.attribute_category.AttributeCategoryUniqueElasticDTO;
 import com.main.app.elastic.dto.attribute_value.AttributeValueElasticDTO;
 import com.main.app.elastic.dto.brand.BrandElasticDTO;
 import com.main.app.elastic.dto.category.CategoryElasticDTO;
@@ -17,6 +21,9 @@ import com.main.app.elastic.dto.product.ProductElasticDTO;
 import com.main.app.elastic.dto.user.UserElasticDTO;
 import com.main.app.elastic.dto.variation.VariationElasticDTO;
 import com.main.app.elastic.repository.attribute.AttributeElasticRepository;
+import com.main.app.elastic.repository.attribute_category.AttributeCategoryElasticRepository;
+import com.main.app.elastic.repository.attribute_category_unique.AttributeCategoryUniqueElasticRepository;
+import com.main.app.elastic.repository.attribute_category_unique.AttributeCategoryUniqueElasticRepositoryBuilder;
 import com.main.app.elastic.repository.attribute_value.AttributeValueElasticRepository;
 import com.main.app.elastic.repository.brand.BrandElasticRepository;
 import com.main.app.elastic.repository.category.CategoryElasticRepository;
@@ -25,6 +32,7 @@ import com.main.app.elastic.repository.product.ProductElasticRepository;
 import com.main.app.elastic.repository.user.UserElasticRepository;
 import com.main.app.elastic.repository.variation.VariationElasticRepository;
 import com.main.app.repository.attribute.AttributeRepository;
+import com.main.app.repository.attribute_category.AttributeCategoryRepository;
 import com.main.app.repository.attribute_value.AttributeValueRepository;
 import com.main.app.repository.brand.BrandRepository;
 import com.main.app.repository.category.CategoryRepository;
@@ -39,6 +47,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -63,6 +72,10 @@ public class ElasticsearchReindexService {
 
     private final AttributeValueElasticRepository attributeValueElasticRepository;
 
+    private final AttributeCategoryRepository attributeCategoryRepository;
+
+    private final AttributeCategoryElasticRepository attributeCategoryElasticRepository;
+
     private final BrandRepository brandRepository;
 
     private final BrandElasticRepository brandElasticRepository;
@@ -81,6 +94,10 @@ public class ElasticsearchReindexService {
 
     private final OrderElasticRepository orderElasticRepository;
 
+    private final AttributeCategoryUniqueElasticRepository attributeCategoryUniqueElasticRepository;
+
+    private final AttributeCategoryUniqueElasticRepositoryBuilder attributeCategoryUniqueElasticRepositoryBuilder;
+
 
     public void reindexAll(){
         reindexUser();
@@ -91,6 +108,7 @@ public class ElasticsearchReindexService {
         reindexProduct();
         reindexVariation();
         reindexOrders();
+        reindexAttributeCategory();
         logger.info("[RE-INDEX]Successfully re-indexed ALL");
     }
 
@@ -158,5 +176,35 @@ public class ElasticsearchReindexService {
             orderElasticRepository.save(new OrdersElasticDTO(order));
         });
         logger.info("[RE-INDEX]Successfully re-indexed ORDERS");
+    }
+
+    public void reindexAttributeCategory() {
+        List<AttributeCategory> attributeCategories = attributeCategoryRepository.findAll();
+        attributeCategories.forEach(attributeCategory -> {
+            attributeCategoryElasticRepository.save(new AttributeCategoryElasticDTO(attributeCategory));
+        });
+//        logger.info("[RE-INDEX]Successfully re-indexed ATTRIBUTE CATEGORY");
+
+
+        ArrayList<AttributeCategoryUniqueDTO> uniqueNames = new ArrayList<>();
+        for (AttributeCategory category: attributeCategories) {
+            int brojac=0;
+            for (AttributeCategoryUniqueDTO unique: uniqueNames) {
+                if(unique.getName().equals(category.getName())){
+                    brojac++;
+                }
+            }
+            if(brojac == 0){
+                uniqueNames.add(new AttributeCategoryUniqueDTO(category.getId(),category.getName(),category.getDateCreated()));
+
+            }
+
+        }
+
+        uniqueNames.forEach(unique -> {
+            attributeCategoryUniqueElasticRepository.save(new AttributeCategoryUniqueElasticDTO(unique));
+
+        });
+        logger.info("[RE-INDEX]Successfully re-indexed ATTRIBUTE CATEGORY");
     }
 }

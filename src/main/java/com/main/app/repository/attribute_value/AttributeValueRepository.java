@@ -20,4 +20,5 @@ public interface AttributeValueRepository extends JpaRepository<AttributeValue, 
 
     List<AttributeValue> findAllByAttributeId(Long attributeId);
 
+    Page<AttributeValue> findAllByName(String name,Pageable pageable);
 }

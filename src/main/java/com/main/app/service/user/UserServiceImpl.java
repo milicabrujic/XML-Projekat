@@ -307,21 +307,21 @@ public class UserServiceImpl implements UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, USER_PASSWORD_REPEAT_CANT_BE_NULL);
         }
 
-        if(registerRequestDTO.getAddress() == null){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, USER_ADDRESS_CANT_BE_NULL);
-        }
-
-        if(registerRequestDTO.getCity() == null){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, USER_CITY_CANT_BE_NULL);
-        }
-
-        if(registerRequestDTO.getPostalCode() == null){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, USER_POSTAL_CODE_CANT_BE_NULL);
-        }
-
-        if(registerRequestDTO.getPhoneNumber() == null){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, USER_PHONE_NUMBER_CANT_BE_NULL);
-        }
+//        if(registerRequestDTO.getAddress() == null){
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, USER_ADDRESS_CANT_BE_NULL);
+//        }
+//
+//        if(registerRequestDTO.getCity() == null){
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, USER_CITY_CANT_BE_NULL);
+//        }
+//
+//        if(registerRequestDTO.getPostalCode() == null){
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, USER_POSTAL_CODE_CANT_BE_NULL);
+//        }
+//
+//        if(registerRequestDTO.getPhoneNumber() == null){
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, USER_PHONE_NUMBER_CANT_BE_NULL);
+//        }
 
         if(registerRequestDTO.getPassword().equals(registerRequestDTO.getPasswordRepeat())) {
             User user = new User();
@@ -329,10 +329,10 @@ public class UserServiceImpl implements UserService {
             user.setSurname(registerRequestDTO.getSurname());
             user.setEmail(registerRequestDTO.getEmail());
             user.setPassword(encryptUserPassword(registerRequestDTO.getPassword()));
-            user.setAddress(registerRequestDTO.getAddress());
-            user.setCity(registerRequestDTO.getCity());
-            user.setPostalCode(registerRequestDTO.getPostalCode());
-            user.setPhoneNumber(registerRequestDTO.getPhoneNumber());
+            user.setAddress("");
+            user.setCity("");
+            user.setPostalCode("");
+            user.setPhoneNumber("");
             user.setDateCreated(Calendar.getInstance().toInstant());
             user.setDateUpdated(Calendar.getInstance().toInstant());
             user.setRegistrationConfirmed(true);
@@ -341,8 +341,6 @@ public class UserServiceImpl implements UserService {
 //            if(registerRequestDTO.isNewsLetter()){
 //                newsletterRepository.save(new Newsletter(registerRequestDTO.getEmail()));
 //            }
-
-
 
             return userRepository.save(user);
         }

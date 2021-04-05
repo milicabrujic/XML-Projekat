@@ -48,8 +48,15 @@ public class AttributeValueController {
         return new ResponseEntity<>(listToDTOList(attributeValueService.getAllByAttributeIdWithPageable(attributeId, searchParam, pageable)), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/attr/{name}")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<AttributeValueDTO>> getByAttributeName(@PathVariable String name, Pageable pageable) {
+        return new ResponseEntity<>(listToDTOList(attributeValueService.getAllByAttributeNameWithPageable(name,pageable)), HttpStatus.OK);
+    }
+
+
     @PostMapping(path = "/")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<AttributeValueDTO> add(@RequestBody @Valid AttributeValueDTO attributeValueDTO) {
         return new ResponseEntity<>(entityToDTO(attributeValueService.save(DTOtoEntity(attributeValueDTO))), HttpStatus.OK);
     }

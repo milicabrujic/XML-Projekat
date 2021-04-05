@@ -48,6 +48,12 @@ public class ElasticsearchReindexController {
     }
 
 
+    @GetMapping(path="/attributeCategory")
+    public ResponseEntity<Void> reindexAttributeCategory(){
+        elasticsearchReindexService.reindexAttributeCategory();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping(path="/brand")
     public ResponseEntity<Void> reindexBrand(){
         elasticsearchReindexService.reindexBrand();

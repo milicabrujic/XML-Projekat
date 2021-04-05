@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import static com.main.app.converter.attribute_value.AttributeValueConverter.listToDTOList;
 import static com.main.app.static_data.Messages.*;
+import static com.main.app.util.Util.attrValuesToIds;
 import static com.main.app.util.Util.attributeValuesToIds;
 
 /**
@@ -83,6 +84,19 @@ public class AttributeValueServiceImpl implements AttributeValueService {
 
         return attributeValueList;
     }
+
+    @Override
+    public List<AttributeValue> getAllByAttributeNameWithPageable(String name, Pageable pageable) {
+        Page<AttributeValue> pagedAttributeValues = attributeValueRepository.findAllByName(name,pageable);
+
+        List<Long> ids = attrValuesToIds(pagedAttributeValues);
+
+        Pageable mySqlPaging = PageRequest.of(0, pageable.getPageSize(), pageable.getSort());
+        List<AttributeValue> attributeValueList = attributeValueRepository.findAllByIdIn(ids, mySqlPaging).getContent();
+
+        return attributeValueList;
+    }
+
 
 
     @Override

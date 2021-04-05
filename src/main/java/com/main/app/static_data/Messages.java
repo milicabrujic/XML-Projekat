@@ -83,4 +83,9 @@ public class Messages {
     public static final String COMMENT_TO_REMOVE_NOT_EXIST = "COMMENT_TO_REMOVE_NOT_EXIST";
     public static final String COMMENT_NOT_VERIFIED = "COMMENT_NOT_VERIFIED";
 
+    public static final String ATTRIBUTE_CATEGORY_NAME_NOT_EXIST = "ATTRIBUTE_CATEGORY_NAME_NOT_EXIST";
+    public static final String ATTRIBUTE_IDS_CANT_BE_NULL = "ATTRIBUTE_IDS_CANT_BE_NULL";
+    public static final String ATTRIBUTE_CATEGORY_NAME_ALREADY_EXIST = "ATTRIBUTE_CATEGORY_NAME_ALREADY_EXIST";
+
+
 }

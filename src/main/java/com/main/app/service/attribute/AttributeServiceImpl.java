@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import org.w3c.dom.Attr;
 
 import java.util.Calendar;
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.Optional;
 
 import static com.main.app.converter.attribute.AttributeConverter.listToDTOList;
 import static com.main.app.static_data.Messages.*;
+import static com.main.app.util.Util.attrToIds;
 import static com.main.app.util.Util.attributesToIds;
 
 @Service
@@ -59,8 +61,24 @@ public class AttributeServiceImpl implements AttributeService {
     }
 
     @Override
-    public Entities getAllBySearchParam(String searchParam, Pageable pageable) {
-        Page<AttributeElasticDTO> pagedAttributes = attributeElasticRepository.search(attributeElasticRepositoryBuilder.generateQuery(searchParam), pageable);
+    public Entities getAllByFalseParticipation(String searchParam,Pageable pageable){
+        Page<Attribute> pagedAttributes = attributeRepository.findAllByParticipatesInVariationFalse(pageable);
+
+        List<Long> ids = attrToIds(pagedAttributes);
+
+        Pageable mySqlPaging = PageRequest.of(0, pageable.getPageSize(), pageable.getSort());
+        List<Attribute> attributes = attributeRepository.findAllByIdIn(ids, mySqlPaging).getContent();
+
+        Entities entities = new Entities();
+        entities.setEntities(listToDTOList(attributes));
+        entities.setTotal(pagedAttributes.getTotalElements());
+
+        return entities;
+    }
+
+    @Override
+    public Entities getAllBySearchParam(String searchParam, boolean participatesInVariation , boolean enteredManually, Pageable pageable) {
+        Page<AttributeElasticDTO> pagedAttributes = attributeElasticRepository.search(attributeElasticRepositoryBuilder.generateQuery(searchParam,participatesInVariation,enteredManually), pageable);
 
         List<Long> ids = attributesToIds(pagedAttributes);
 
@@ -118,6 +136,18 @@ public class AttributeServiceImpl implements AttributeService {
             foundAttribute.setName(attribute.getName());
         }
 
+        if(attribute.isParticipatesInVariation() == true){
+            foundAttribute.setParticipatesInVariation(true);
+        }else{
+            foundAttribute.setParticipatesInVariation(false) ;
+        }
+
+        if(attribute.isEnteredManually() == true){
+            foundAttribute.setEnteredManually(true);
+        }else{
+            foundAttribute.setEnteredManually(false) ;
+        }
+
         Attribute savedAttribute = attributeRepository.save(foundAttribute);
         attributeElasticRepository.save(new AttributeElasticDTO(savedAttribute));
 
@@ -148,6 +178,18 @@ public class AttributeServiceImpl implements AttributeService {
         attributeElasticRepository.save(ObjectMapperUtils.map(foundAttribute, AttributeElasticDTO.class));
 
         return savedAttribute;
+    }
+
+    @Override
+    public Attribute getOneByName(String name) {
+        if(name == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ATTRIBUTE_NOT_EXIST);
+        }
+        if(!attributeRepository.findOneByName(name).isPresent()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ATTRIBUTE_NOT_EXIST);
+        }
+
+        return attributeRepository.findOneByName(name).get();
     }
 
 }
