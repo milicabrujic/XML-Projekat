@@ -156,7 +156,7 @@ public class ElasticsearchReindexService {
         List<Product> productList = productRepository.findAll();
         productList.forEach(product -> {
             ProductElasticDTO productElasticDTO = new ProductElasticDTO(product);
-            productElasticDTO.setAttributeValues(productService.getAllAttributeValuesForProductId(product.getId()));
+            productElasticDTO.setAttributeValues(productService.getAllAttributeValsForProductId(product.getId()));
             productElasticRepository.save(productElasticDTO);
         });
         logger.info("[RE-INDEX]Successfully re-indexed PRODUCT");

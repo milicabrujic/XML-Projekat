@@ -44,7 +44,6 @@ public class AttributeController {
     }
 
 
-
     @GetMapping(path = "/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<AttributeDTO> getById(@PathVariable Long id) {

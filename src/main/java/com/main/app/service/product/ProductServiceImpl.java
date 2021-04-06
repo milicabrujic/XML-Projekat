@@ -2,19 +2,30 @@ package com.main.app.service.product;
 
 import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.product.ProductAttributeAttrValueDTO;
+import com.main.app.domain.dto.product.ProductAttributeValueDTO;
+import com.main.app.domain.dto.product.ProductDTO;
+import com.main.app.domain.dto.product_attribute_category.ProductAttributeCategoryDTO;
+import com.main.app.domain.model.attribute.Attribute;
+import com.main.app.domain.model.attribute_category.AttributeCategory;
+import com.main.app.domain.model.attribute_value.AttributeValue;
 import com.main.app.domain.model.counter_slug.CounterSlug;
 import com.main.app.domain.model.image.Image;
 import com.main.app.domain.model.product.Product;
+import com.main.app.domain.model.product_attribute_category.ProductAttributeCategory;
 import com.main.app.domain.model.product_attribute_values.ProductAttributeValues;
 import com.main.app.domain.model.product_attributes.ProductAttributes;
 import com.main.app.domain.model.variation.Variation;
 import com.main.app.elastic.dto.product.ProductElasticDTO;
 import com.main.app.elastic.repository.product.ProductElasticRepository;
 import com.main.app.elastic.repository.product.ProductElasticRepositoryBuilder;
+import com.main.app.repository.attribute.AttributeRepository;
+import com.main.app.repository.attribute_category.AttributeCategoryRepository;
+import com.main.app.repository.attribute_value.AttributeValueRepository;
 import com.main.app.repository.counter_slug.CounterSlugRepository;
 import com.main.app.repository.image.ImageRepository;
 import com.main.app.repository.product.ProductAttributeAttrValueRepository;
 import com.main.app.repository.product.ProductRepository;
+import com.main.app.repository.product_attribute_category.ProductAttributeCategoryRepository;
 import com.main.app.repository.product_attribute_values.ProductAttributeValuesRepository;
 import com.main.app.repository.product_attributes.ProductAttributesRepository;
 import com.main.app.repository.variation.VariationRepository;
@@ -37,6 +48,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -72,6 +84,13 @@ public class ProductServiceImpl implements ProductService {
 
     private final CounterSlugRepository counterSlugRepository;
 
+    private final AttributeCategoryRepository attributeCategoryRepository;
+
+    private final AttributeRepository attributeRepository;
+
+    private final AttributeValueRepository attributeValueRepository;
+
+    private final ProductAttributeCategoryRepository productAttributeCategoryRepository;
 
     @Override
     public Entities getAll() {
@@ -119,7 +138,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product save(Product product) {
+    public Product save(ProductDTO productDTO, Product product) {
 
         if(product.getName() == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_NAME_CANT_BE_NULL);
@@ -132,7 +151,6 @@ public class ProductServiceImpl implements ProductService {
             entity.setCurrentCount(entity.getCurrentCount()+1);
             counterSlugRepository.save(entity);
         }
-
 
         if(product.getProductPosition() != null) {
             Optional<Product> sameProductPosition = productRepository.findOneByProductPosition(product.getProductPosition());
@@ -159,10 +177,47 @@ public class ProductServiceImpl implements ProductService {
         String slug = buildSlug(product.getName(),numberOfRepeat);
         product.setSlug(slug);
 
-
         Product savedProduct = productRepository.save(product);
         productElasticRepository.save(new ProductElasticDTO(savedProduct));
 
+
+        for (String attrKey: productDTO.getAttrCategoryContent().keySet()){
+
+            Attribute tempAttr = attributeRepository.findOneByName(attrKey).get();
+
+            AttributeCategory attributeCategory = attributeCategoryRepository.findById(tempAttr.getId()).get();
+            AttributeValue value = new AttributeValue();
+
+            if(isNumeric(productDTO.getAttrCategoryContent().get(attrKey))){
+
+                Long valueKey = Long.valueOf(productDTO.getAttrCategoryContent().get(attrKey));
+                value = attributeValueRepository.findOneById(valueKey).get();
+
+            }else{
+                String valueString = String.valueOf(productDTO.getAttrCategoryContent().get(attrKey));
+                Attribute attr = attributeRepository.findOneByName(attrKey).get();
+                value = new AttributeValue(valueString,attr);
+                attributeValueRepository.save(value);
+            }
+            ProductAttributeCategory productAttributeCategory= new ProductAttributeCategory();
+            productAttributeCategory.setName(attributeCategory.getName());
+            productAttributeCategory.setProduct(product);
+            productAttributeCategory.setAttributeCategory(attributeCategory);
+            productAttributeCategory.setAttributeValue(value);
+            ProductAttributeCategory savedProductAttributeCategory = productAttributeCategoryRepository.save(productAttributeCategory);
+        }
+
+        for (Long attrKey: productDTO.getSunshineUseIds().keySet()){
+            for (Long attrValueKey : productDTO.getSunshineUseIds().get(attrKey)) {
+                ProductAttributeValues productAttributeValues = new ProductAttributeValues();
+                AttributeValue attrValue = attributeValueRepository.findById(attrValueKey).get();
+
+                productAttributeValues.setProduct(savedProduct);
+                productAttributeValues.setAttributeValue(attrValue);
+
+                productAttributeValuesRepository.save(productAttributeValues);
+            }
+        }
         return savedProduct;
     }
 
@@ -251,6 +306,21 @@ public class ProductServiceImpl implements ProductService {
 
         Product savedProduct = productRepository.save(foundProduct);
         productElasticRepository.save(ObjectMapperUtils.map(foundProduct, ProductElasticDTO.class));
+
+        List<ProductAttributeCategory> productAttributeCategories = productAttributeCategoryRepository.findAllByProductId(savedProduct.getId());
+        List<ProductAttributeValues> productAttributeValues = productAttributeValuesRepository.findAllByProductId(savedProduct.getId());
+
+        for (ProductAttributeCategory productAttributeCategory:productAttributeCategories) {
+            productAttributeCategory.setDeleted(true);
+            productAttributeCategory.setDateDeleted(Calendar.getInstance().toInstant());
+            productAttributeCategoryRepository.save(productAttributeCategory);
+        }
+
+        for(ProductAttributeValues productAttributeValues1 : productAttributeValues){
+            productAttributeValues1.setDeleted(true);
+            productAttributeValues1.setDateDeleted(Calendar.getInstance().toInstant());
+            productAttributeValuesRepository.save(productAttributeValues1);
+        }
 
         return savedProduct;
     }
@@ -358,8 +428,37 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<ProductAttributeAttrValueDTO> getAllAttributeValuesForProductId(Long productId) {
+    public List<ProductAttributeValueDTO> getAllAttributeValuesForProductId(Long productId) {
+        List<ProductAttributeAttrValueDTO> productAttributeAttrValueDTOS = productAttributeAttrValueRepository.findAllAttributeValuesForProductId(productId);
+        List<ProductAttributeValueDTO> productAttributeValues = new ArrayList<ProductAttributeValueDTO>();
+
+        for (ProductAttributeAttrValueDTO productAttributeAttrValueDTO : productAttributeAttrValueDTOS) {
+
+            Attribute attr = attributeRepository.findById(productAttributeAttrValueDTO.getAttributeId()).get();
+
+            ProductAttributeValueDTO productAttributeValueDTO = new ProductAttributeValueDTO();
+            productAttributeValueDTO.setId(productAttributeAttrValueDTO.getId());
+            productAttributeValueDTO.setProductId(productAttributeAttrValueDTO.getProductId());
+            productAttributeValueDTO.setAttributeId(productAttributeAttrValueDTO.getAttributeId());
+            productAttributeValueDTO.setAttributeValueId(productAttributeAttrValueDTO.getAttributeValueId());
+            productAttributeValueDTO.setAttributeValueName(productAttributeAttrValueDTO.getAttributeValueName());
+            productAttributeValueDTO.setAttributeName(attr.getName());
+
+            productAttributeValues.add(productAttributeValueDTO);
+        }
+
+        return productAttributeValues;
+    }
+
+
+    @Override
+    public List<ProductAttributeAttrValueDTO> getAllAttributeValsForProductId(Long productId) {
         return productAttributeAttrValueRepository.findAllAttributeValuesForProductId(productId);
+    }
+
+    @Override
+    public List<ProductAttributeCategory> getAllAttributeCategoryForProduct(Long id) {
+        return productAttributeCategoryRepository.findAllByProductId(id);
     }
 
 
@@ -373,5 +472,19 @@ public class ProductServiceImpl implements ProductService {
 
         return folderName;
     }
+
+    public static boolean isNumeric(String str) {
+        if (str == null) {
+            return false;
+        }
+        int sz = str.length();
+        for (int i = 0; i < sz; i++) {
+            if (Character.isDigit(str.charAt(i)) == false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
 }

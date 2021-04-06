@@ -22,4 +22,4 @@ INSERT INTO `attribute` (`name`,`participates_in_variation`,`entered_manually`) 
 INSERT INTO `attribute` (`name`,`participates_in_variation`,`entered_manually`) VALUES ('Osunčanost terena','0','0');
 INSERT INTO `attribute` (`name`,`participates_in_variation`,`entered_manually`) VALUES ('Upotreba','0','0');
 INSERT INTO `attribute` (`name`,`participates_in_variation`,`entered_manually`) VALUES ('Vreme isporuke','0','1');
-
+INSERT INTO `attribute` (`name`,`participates_in_variation`,`entered_manually`) VALUES ('P15','1','0');

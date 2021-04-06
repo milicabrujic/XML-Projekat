@@ -132,7 +132,8 @@ INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Pergole',23);
 INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Cvetne ograde',23);
 INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Rezani cvet',23);
 
-
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('20/25cm',25);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('25/35cm',25);
 
 -- INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Cvetnodekorativna',10);
 -- INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Lisnodekorativna',10);

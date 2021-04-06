@@ -1,7 +1,10 @@
 package com.main.app.controller.product;
 
 import com.main.app.domain.dto.Entities;
+import com.main.app.domain.dto.product.ProductAttributeAttrValueDTO;
+import com.main.app.domain.dto.product.ProductAttributeValueDTO;
 import com.main.app.domain.dto.product.ProductDTO;
+import com.main.app.domain.dto.product_attribute_category.ProductAttributeCategoryDTO;
 import com.main.app.domain.model.product.Product;
 import com.main.app.service.product.ProductService;
 import com.main.app.service.variation.VariationService;
@@ -13,13 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+import static com.main.app.converter.product_attribute_category.ProductAttributeCategoryConverter.*;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.HashMap;
-
-import static com.main.app.converter.product.ProductConverter.DTOtoEntity;
-import static com.main.app.converter.product.ProductConverter.entityToDTO;
+import java.util.List;
+import static com.main.app.converter.product.ProductConverter.*;
 
 @RestController
 @RequestMapping("/product")
@@ -48,9 +50,9 @@ public class ProductController {
         return new ResponseEntity<>(entityToDTO(productService.getOne(id)), HttpStatus.OK);
     }
     @PostMapping(path = "/")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ProductDTO> add(@RequestBody @Valid ProductDTO productDTO) {
-        Product product = productService.save(DTOtoEntity(productDTO));
+        Product product = productService.save(productDTO,DTOtoEntity(productDTO));
         variationService.save(productDTO, product.getId());
         return new ResponseEntity<>(entityToDTO(product), HttpStatus.OK);
     }
@@ -80,6 +82,20 @@ public class ProductController {
     }
 
 
+    @GetMapping(path = "/safe/{id}")
+    public ResponseEntity<ProductDTO> getOneById(@PathVariable Long id) {
+        return new ResponseEntity<>(entityToSafeDTO(productService.getOne(id)), HttpStatus.OK);
+    }
 
+    @GetMapping(path = "/attributevalues/{pid}")
+    public ResponseEntity<List<ProductAttributeValueDTO>> getAllAttributeValuesForProductIdAndAttributeId(
+            @PathVariable Long pid) {
+        return new ResponseEntity<>(productService.getAllAttributeValuesForProductId(pid), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/attributesCategory/{id}")
+    public ResponseEntity<List<ProductAttributeCategoryDTO>> getAllAttrCategForProductId(@PathVariable Long id){
+        return new ResponseEntity<>(listToDTOList(productService.getAllAttributeCategoryForProduct(id)),HttpStatus.OK);
+    }
 
 }

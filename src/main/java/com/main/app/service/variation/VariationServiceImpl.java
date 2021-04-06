@@ -119,9 +119,9 @@ public class VariationServiceImpl implements VariationService{
         if(productDTO.getProductCategoryId() == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_PRODUCT_CATEGORY_CANT_BE_NULL);
         }
-        if(productDTO.getBrandId() == null){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_BRAND_CANT_BE_NULL);
-        }
+//        if(productDTO.getBrandId() == null){
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_BRAND_CANT_BE_NULL);
+//        }
         if(productDTO.getAttributeValueIds().keySet().size() == 0){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_ATTRIBUTE_VALUES_CANT_BE_NULL);
         }
@@ -160,7 +160,7 @@ public class VariationServiceImpl implements VariationService{
         for(String attributeValueName : combinations(combined, 0)){
             String variationName = productDTO.getName() + "-" +
                     product.getProductCategory().getName() + "-" +
-                    product.getBrand().getName() + "-" +
+//                    product.getBrand().getName() + "-" +
                     attributeValueName;
 
             Variation variation = new Variation();
@@ -173,9 +173,6 @@ public class VariationServiceImpl implements VariationService{
             variationElasticRepository.save(new VariationElasticDTO(savedVariation));
             savedVariationsIds.add(savedVariation.getId());
         }
-
-
-
 
         List<Long> savedVariationMultipliedIds = new ArrayList<>();
         for(Long savedVariationId : savedVariationsIds){

@@ -7,12 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * JPA repository for management of the ProductAttributeAttrValueDTO entity.
- * Used for joining 2 tables to get ideal object for Product preview
- *
- * @author Nikola
- */
 @Repository
 public interface ProductAttributeAttrValueRepository extends JpaRepository<ProductAttributeAttrValueDTO, Long> {
 

@@ -24,5 +24,4 @@ public interface AttributeCategoryRepository extends JpaRepository<AttributeCate
 
     Optional<AttributeCategory> findOneById(Long id);
 
-
 }

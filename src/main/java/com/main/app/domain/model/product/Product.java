@@ -69,7 +69,7 @@ public class Product extends AbstractEntity {
 
     private Long discountProductPosition;
 
-
+    private String vremeIsporuke;
 
 
 }

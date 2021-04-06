@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
+import java.lang.reflect.Array;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,6 +44,12 @@ public class ProductDTO {
     private boolean newAdded;
 
     private boolean onSale;
+
+    private String vremeIsporuke;
+
+    private HashMap<Long, List<Long>> sunshineUseIds;
+
+    private HashMap<String, String> attrCategoryContent;
 
     private HashMap<Long, List<Long>> attributeValueIds;
 

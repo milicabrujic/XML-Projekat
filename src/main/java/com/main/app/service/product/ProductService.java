@@ -2,7 +2,11 @@ package com.main.app.service.product;
 
 import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.product.ProductAttributeAttrValueDTO;
+import com.main.app.domain.dto.product.ProductAttributeValueDTO;
+import com.main.app.domain.dto.product.ProductDTO;
+import com.main.app.domain.dto.product_attribute_category.ProductAttributeCategoryDTO;
 import com.main.app.domain.model.product.Product;
+import com.main.app.domain.model.product_attribute_category.ProductAttributeCategory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +25,7 @@ public interface ProductService {
 
     Product getOne(Long id);
 
-    Product save(Product product);
+    Product save(ProductDTO productDTO, Product product);
 
     Product edit(Product product, Long id);
 
@@ -33,5 +37,9 @@ public interface ProductService {
 
     void checkIfHasForeignKey(Long id, String entity);
 
-    List<ProductAttributeAttrValueDTO> getAllAttributeValuesForProductId(Long productId);
+    List<ProductAttributeValueDTO> getAllAttributeValuesForProductId(Long productId);
+
+    List<ProductAttributeAttrValueDTO> getAllAttributeValsForProductId(Long productId);
+
+    List<ProductAttributeCategory> getAllAttributeCategoryForProduct(Long id);
 }

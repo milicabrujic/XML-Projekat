@@ -21,8 +21,8 @@ public class ProductConverter {
     private ProductConverter(
             BrandService brandService,
             CategoryService productCategoryService) {
-        ProductConverter.brandService = brandService;
-        ProductConverter.categoryService = productCategoryService;
+            ProductConverter.brandService = brandService;
+            ProductConverter.categoryService = productCategoryService;
     }
 
     public static Product DTOtoEntity(ProductDTO productDTO){
@@ -42,6 +42,7 @@ public class ProductConverter {
                 .productPosition(productDTO.getProductPosition())
                 .discount(productDTO.getDiscount())
                 .discountProductPosition(productDTO.getDiscountProductPosition())
+                .vremeIsporuke(productDTO.getVremeIsporuke())
                 .build();
     }
 
@@ -65,8 +66,9 @@ public class ProductConverter {
                 .productPosition(product.getProductPosition())
                 .discount(product.getDiscount())
                 .discountProductPosition(product.getDiscountProductPosition())
-                .brandName(product.getBrand().getName())
+                .brandName(product.getBrand() != null ? product.getBrand().getName()  : null )
                 .categoryName(product.getProductCategory().getName())
+                .vremeIsporuke(product.getVremeIsporuke())
                 .build();
     }
 
@@ -86,6 +88,9 @@ public class ProductConverter {
                 .dateCreated(product.getDateCreated())
                 .discount(product.getDiscount())
                 .discountProductPosition(product.getDiscountProductPosition())
+                .vremeIsporuke(product.getVremeIsporuke())
+                .sku(product.getSku())
+                .slug(product.getSlug())
                 .build();
     }
 
