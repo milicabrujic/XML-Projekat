@@ -138,7 +138,7 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ATTRIBUTE_NOT_EXIST);
             }
             Attribute attribute = attributeService.getOne(attributeId);
-            AttributeCategory attributeCategory = new AttributeCategory(attributeCategoryDTO.getName(),attribute.getName(),attribute.getId());
+            AttributeCategory attributeCategory = new AttributeCategory(attributeCategoryDTO.getName(),attribute.getName(),attribute);
 
             AttributeCategory saved = attributeCategoryRepository.save(attributeCategory);
             attributeCategoryElasticRepository.save(new AttributeCategoryElasticDTO(saved));
@@ -205,7 +205,7 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
         AttributeCategory deleted = new AttributeCategory();
 
         for (AttributeCategory item: listAttrCat) {
-            if(item.getAttribute_id() == id){
+            if(item.getAttribute().getId() == id){
                 item.setDeleted(true);
                 item.setDateDeleted(Calendar.getInstance().toInstant());
                 deleted = item;

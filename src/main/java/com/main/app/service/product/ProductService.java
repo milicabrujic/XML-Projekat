@@ -7,6 +7,7 @@ import com.main.app.domain.dto.product.ProductDTO;
 import com.main.app.domain.dto.product_attribute_category.ProductAttributeCategoryDTO;
 import com.main.app.domain.model.product.Product;
 import com.main.app.domain.model.product_attribute_category.ProductAttributeCategory;
+import com.main.app.domain.model.product_attributes.ProductAttributes;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,4 +43,11 @@ public interface ProductService {
     List<ProductAttributeAttrValueDTO> getAllAttributeValsForProductId(Long productId);
 
     List<ProductAttributeCategory> getAllAttributeCategoryForProduct(Long id);
+
+    List<ProductAttributes> findForProductId(Long product_id);
+
+    List<ProductDTO> getAllSuggestedProducts(Long id);
+
 }
+
+

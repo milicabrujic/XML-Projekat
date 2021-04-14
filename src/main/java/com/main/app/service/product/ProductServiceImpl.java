@@ -4,7 +4,6 @@ import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.product.ProductAttributeAttrValueDTO;
 import com.main.app.domain.dto.product.ProductAttributeValueDTO;
 import com.main.app.domain.dto.product.ProductDTO;
-import com.main.app.domain.dto.product_attribute_category.ProductAttributeCategoryDTO;
 import com.main.app.domain.model.attribute.Attribute;
 import com.main.app.domain.model.attribute_category.AttributeCategory;
 import com.main.app.domain.model.attribute_value.AttributeValue;
@@ -15,7 +14,9 @@ import com.main.app.domain.model.product_attribute_category.ProductAttributeCate
 import com.main.app.domain.model.product_attribute_values.ProductAttributeValues;
 import com.main.app.domain.model.product_attributes.ProductAttributes;
 import com.main.app.domain.model.variation.Variation;
+import com.main.app.elastic.dto.attribute.AttributeElasticDTO;
 import com.main.app.elastic.dto.product.ProductElasticDTO;
+import com.main.app.elastic.repository.attribute.AttributeElasticRepository;
 import com.main.app.elastic.repository.product.ProductElasticRepository;
 import com.main.app.elastic.repository.product.ProductElasticRepositoryBuilder;
 import com.main.app.repository.attribute.AttributeRepository;
@@ -87,6 +88,7 @@ public class ProductServiceImpl implements ProductService {
     private final AttributeCategoryRepository attributeCategoryRepository;
 
     private final AttributeRepository attributeRepository;
+
 
     private final AttributeValueRepository attributeValueRepository;
 
@@ -184,8 +186,7 @@ public class ProductServiceImpl implements ProductService {
         for (String attrKey: productDTO.getAttrCategoryContent().keySet()){
 
             Attribute tempAttr = attributeRepository.findOneByName(attrKey).get();
-
-            AttributeCategory attributeCategory = attributeCategoryRepository.findById(tempAttr.getId()).get();
+            AttributeCategory attributeCategory = attributeCategoryRepository.findOneByAttributeId(tempAttr.getId()).get();
             AttributeValue value = new AttributeValue();
 
             if(isNumeric(productDTO.getAttrCategoryContent().get(attrKey))){
@@ -199,6 +200,19 @@ public class ProductServiceImpl implements ProductService {
                 value = new AttributeValue(valueString,attr);
                 attributeValueRepository.save(value);
             }
+
+            for (Long  prominentId : productDTO.getProminentAttrIds()) {
+                if(prominentId == tempAttr.getId()){
+                    ProductAttributes productAttributes = new ProductAttributes();
+                    productAttributes.setAttribute(tempAttr);
+                    productAttributes.setProduct(product);
+                    productAttributes.setAttributeValue(value);
+                    productAttributes.setProminent(true);
+                    productAttributesRepository.save(productAttributes);
+                }
+            }
+
+
             ProductAttributeCategory productAttributeCategory= new ProductAttributeCategory();
             productAttributeCategory.setName(attributeCategory.getName());
             productAttributeCategory.setProduct(product);
@@ -257,6 +271,12 @@ public class ProductServiceImpl implements ProductService {
         if(product.getName() != null){
             foundProduct.setName(product.getName());
         }
+        if(product.getAvailable() != null){
+            foundProduct.setAvailable(product.getAvailable());
+        }
+        if(product.getVremeIsporuke() != null){
+            foundProduct.setVremeIsporuke(product.getVremeIsporuke());
+        }
 
         foundProduct.setProductCategory(product.getProductCategory());
         foundProduct.setDescription(product.getDescription());
@@ -265,6 +285,23 @@ public class ProductServiceImpl implements ProductService {
         foundProduct.setProductPosition(product.getProductPosition());
         foundProduct.setDiscountProductPosition(product.getDiscountProductPosition());
         foundProduct.setPrice(product.getPrice());
+
+        if(product.getSuggestedProductIdSlot1() != null){
+            foundProduct.setSuggestedProductIdSlot1(product.getSuggestedProductIdSlot1());
+        }
+
+        if(product.getSuggestedProductIdSlot2() != null){
+            foundProduct.setSuggestedProductIdSlot2(product.getSuggestedProductIdSlot2());
+        }
+
+        if(product.getSuggestedProductIdSlot3() != null){
+            foundProduct.setSuggestedProductIdSlot3(product.getSuggestedProductIdSlot3());
+        }
+
+        if(product.getSuggestedProductIdSlot4() != null){
+            foundProduct.setSuggestedProductIdSlot4(product.getSuggestedProductIdSlot4());
+        }
+
 
         //Ako je novi jednak starom
         String slug = Slug.makeSlug(product.getSlug());
@@ -461,6 +498,40 @@ public class ProductServiceImpl implements ProductService {
         return productAttributeCategoryRepository.findAllByProductId(id);
     }
 
+    @Override
+    public List<ProductAttributes> findForProductId(Long product_id) {
+        return productAttributesRepository.findAllByProductIdAndDeletedFalse(product_id);
+    }
+
+    @Override
+    public List<ProductDTO> getAllSuggestedProducts(Long id) {
+        Product product = productRepository.getOne(id);
+        List<Product> products = new ArrayList<>();
+
+        if(product.getSuggestedProductIdSlot1() != null){
+            Product suggestedProductSlot1 = productRepository.getOne(product.getSuggestedProductIdSlot1());
+            products.add(suggestedProductSlot1);
+        }
+
+        if(product.getSuggestedProductIdSlot2() != null){
+            Product suggestedProductSlot2 = productRepository.getOne(product.getSuggestedProductIdSlot2());
+            products.add(suggestedProductSlot2);
+        }
+
+        if(product.getSuggestedProductIdSlot3() != null){
+            Product suggestedProductSlot3 = productRepository.getOne(product.getSuggestedProductIdSlot3());
+            products.add(suggestedProductSlot3);
+        }
+
+        if (product.getSuggestedProductIdSlot4() != null) {
+            Product suggestedProductSlot4 = productRepository.getOne(product.getSuggestedProductIdSlot4());
+            products.add(suggestedProductSlot4);
+        }
+
+        return listToDTOList(products);
+    }
+
+
 
     private String createDirectory() {
         int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -482,6 +553,10 @@ public class ProductServiceImpl implements ProductService {
             if (Character.isDigit(str.charAt(i)) == false) {
                 return false;
             }
+        }
+        Long number = Long.valueOf(str);
+        if(number >  1000){
+            return false;
         }
         return true;
     }

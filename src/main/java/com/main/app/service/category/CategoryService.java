@@ -2,6 +2,7 @@ package com.main.app.service.category;
 
 
 import com.main.app.domain.dto.Entities;
+import com.main.app.domain.dto.category.CategoryDTO;
 import com.main.app.domain.model.category.Category;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,5 +27,7 @@ public interface CategoryService {
     void uploadImage(Long id, MultipartFile[] images) throws IOException;
 
 
+    List<CategoryDTO> getAllWhereNameIsParentCategory(String name);
 
+    Category findByCategoryName(String name);
 }

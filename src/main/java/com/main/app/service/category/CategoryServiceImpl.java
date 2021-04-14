@@ -1,6 +1,7 @@
 package com.main.app.service.category;
 
 import com.main.app.domain.dto.Entities;
+import com.main.app.domain.dto.category.CategoryDTO;
 import com.main.app.domain.model.category.Category;
 import com.main.app.elastic.dto.category.CategoryElasticDTO;
 import com.main.app.elastic.repository.category.CategoryElasticRepository;
@@ -30,6 +31,7 @@ import java.util.Optional;
 import java.util.*;
 
 import static com.main.app.converter.category.CategoryConverter.listToDTOList;
+import static com.main.app.converter.category.CategoryConverter.listToFilterDTOList;
 import static com.main.app.static_data.Messages.*;
 import static com.main.app.util.MD5HashUtil.md5;
 import static com.main.app.util.Util.categoriesToIds;
@@ -119,6 +121,18 @@ public class CategoryServiceImpl implements CategoryService {
         if(category.getName() != null){
             foundProductCategory.setName(category.getName());
         }
+        if(category.getTitle() != null){
+            foundProductCategory.setTitle(category.getTitle());
+        }
+        if(category.getSubtitle() != null){
+            foundProductCategory.setSubtitle(category.getSubtitle());
+        }
+        if(category.getContentText() != null){
+            foundProductCategory.setContentText(category.getContentText());
+        }
+        if(category.getDescription() != null){
+            foundProductCategory.setDescription(category.getDescription());
+        }
 
         foundProductCategory.setParentCategory(category.getParentCategory());
 
@@ -168,6 +182,42 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
     }
+
+    @Override
+    public List<CategoryDTO> getAllWhereNameIsParentCategory(String name) {
+        List<Category> parentCategories = categoryRepository.findAllByParentCategoryName(name);
+
+//        List<Long> categoryListIds = new ArrayList<>();                                                               //        Algoritam za dobijanje svih mogucih podkategorija parenta
+//        for(Category productCategory : parentCategories){
+//            categoryListIds.add(productCategory.getId());
+//        }
+//
+//        for(Long categoryId : categoryListIds){
+//            List<Category> categoryChildList = categoryRepository.findAllByParentCategoryId(categoryId);
+//
+//            if(categoryChildList.size() != 0){
+//                for(Category cat : categoryChildList) {
+//                    parentCategories.add(cat);
+//                }
+//            }
+//        }
+//
+//        Category categ = categoryRepository.findOneByName(name).get();
+//
+//        if(categ.getParentCategory() != null){
+//            parentCategories.add(categoryRepository.getOne(categ.getParentCategory().getId()));
+//        }
+//
+//        parentCategories.add(categoryRepository.findOneByName(name).get());
+
+        return listToFilterDTOList(parentCategories);
+    }
+
+    @Override
+    public Category findByCategoryName(String name) {
+        return categoryRepository.findOneByName(name).get();
+    }
+
 
     private String createDirectory() {
         int year = Calendar.getInstance().get(Calendar.YEAR);

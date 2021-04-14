@@ -2,6 +2,7 @@ package com.main.app.domain.model.product_attributes;
 
 import com.main.app.domain.model.AbstractEntity;
 import com.main.app.domain.model.attribute.Attribute;
+import com.main.app.domain.model.attribute_value.AttributeValue;
 import com.main.app.domain.model.product.Product;
 import lombok.*;
 import org.hibernate.annotations.Where;
@@ -28,4 +29,8 @@ public class ProductAttributes extends AbstractEntity {
     @ManyToOne
     private Attribute attribute;
 
+    @ManyToOne
+    private AttributeValue attributeValue;
+
+    private boolean prominent;
 }

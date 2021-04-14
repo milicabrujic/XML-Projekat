@@ -23,6 +23,11 @@ CREATE TABLE `product`(
     `slug` varchar(255) DEFAULT NULL,
     `sku` varchar(255) DEFAULT NULL,
     `vreme_isporuke` varchar(255) DEFAULT NULL,
+    `available` varchar(255) DEFAULT NULL,
+    `suggested_product_id_slot1` bigint(20) DEFAULT NULL,
+    `suggested_product_id_slot2` bigint(20) DEFAULT NULL,
+    `suggested_product_id_slot3` bigint(20) DEFAULT NULL,
+    `suggested_product_id_slot4` bigint(20) DEFAULT NULL,
     PRIMARY KEY(`id`)
 )DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

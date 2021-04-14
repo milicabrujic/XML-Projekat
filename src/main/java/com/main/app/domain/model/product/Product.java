@@ -71,5 +71,14 @@ public class Product extends AbstractEntity {
 
     private String vremeIsporuke;
 
+    private Integer available;
+
+    private Long suggestedProductIdSlot1;
+
+    private Long suggestedProductIdSlot2;
+
+    private Long suggestedProductIdSlot3;
+
+    private Long suggestedProductIdSlot4;
 
 }

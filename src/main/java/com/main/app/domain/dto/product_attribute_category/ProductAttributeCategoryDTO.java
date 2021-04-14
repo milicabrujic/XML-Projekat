@@ -24,4 +24,5 @@ public class ProductAttributeCategoryDTO {
 
     private String attributeValueName;
 
+
 }

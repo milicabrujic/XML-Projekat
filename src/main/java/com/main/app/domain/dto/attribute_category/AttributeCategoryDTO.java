@@ -30,4 +30,5 @@ public class AttributeCategoryDTO {
 
     private List<Long> attributeIds;
 
+    private boolean enteredManually;
 }

@@ -26,6 +26,19 @@ public class Category extends AbstractEntity {
     @NotBlank
     private String name;
 
+    @NotBlank
+    private String title;
+
+    @NotBlank
+    private String subtitle;
+
+    @NotBlank
+    private String contentText;
+
+    @NotBlank
+    private String description;
+
+
     @ManyToOne
     @JoinColumn(name="parent_category_id")
     private Category parentCategory;

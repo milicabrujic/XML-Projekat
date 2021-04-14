@@ -27,9 +27,8 @@ public class AttributeCategoryConverter {
         return AttributeCategory
                 .builder()
                 .name(attributeCategoryDTO.getName())
-                .attribute_id(attributeCategoryDTO.getAttributeId())
+                .attribute(attributeService.getOne(attributeCategoryDTO.getAttributeId()))
                 .attribute_name(attributeCategoryDTO.getAttributeName())
-//                .attribute(attributeCategoryDTO.getAttributeId() != null ? attributeService.getOne(attributeCategoryDTO.getAttributeId()) : null)
                 .build();
     }
 
@@ -38,11 +37,10 @@ public class AttributeCategoryConverter {
                 .builder()
                 .id(attributeCategory.getId())
                 .name(attributeCategory.getName())
-                .attributeId(attributeCategory.getAttribute_id() != null ? attributeCategory.getAttribute_id() : null)
+                .attributeId(attributeCategory.getAttribute().getId() != null ? attributeCategory.getAttribute().getId() : null)
                 .attributeName(attributeCategory.getAttribute_name() != null ? attributeCategory.getAttribute_name() : null)
-//                .attributeId(attributeCategory.getAttribute() != null ? attributeCategory.getAttribute().getId() : null)
-//                .attributeName(attributeCategory.getAttribute() != null ? attributeCategory.getAttribute().getName() : null)
                 .dateCreated(attributeCategory.getDateCreated())
+                .enteredManually(attributeCategory.getAttribute().isEnteredManually())
                 .build();
     }
 

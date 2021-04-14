@@ -22,11 +22,9 @@ public class AttributeCategory  extends AbstractEntity {
     @NotBlank
     private String name;
 
-//    @ManyToOne
-//    private Attribute attribute;
-
     private String attribute_name;
 
-    private Long attribute_id;
+    @ManyToOne
+    private Attribute attribute;
 
 }

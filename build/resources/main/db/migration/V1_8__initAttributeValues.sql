@@ -18,8 +18,6 @@ INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('1 - 4 m',2);
 INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Sporo',3);
 INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Srednje brzo',3);
 INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Brzo',3);
-
-
 INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Slabo otporna',4);
 INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Blago otporna',4);
 INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Srednje otporna',4);
@@ -95,7 +93,7 @@ INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Bez mirisa',13);
 INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Lako mirisna',13);
 INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Mirisna',13);
 INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Jako mirisna',13);
-INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Opijajuce mirisna', 13);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Opijajuće mirisna', 13);
 
 INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Da',14);
 INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Ne',14);
@@ -135,6 +133,38 @@ INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Rezani cvet',23)
 INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('20/25cm',25);
 INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('25/35cm',25);
 
--- INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Cvetnodekorativna',10);
--- INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Lisnodekorativna',10);
--- INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Plod',10);
+
+
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Maj-Jun',27);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('April-Maj',27);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Maj-Septembar',27);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Jul-Septembar',27);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Jun-Jul',27);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Oktobar-Decembar',27);
+
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('1994',21);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Acapella',17);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Акапелла',19);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Akapela',18);
+
+
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Rododendron',26);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Tuja',26);
+
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Cvetnodekorativna',24);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Lisnodekorativna',24);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Plod',24);
+
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Zimzelena magnolija',26);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Fotinija',26);
+
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Kuglasta',28);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Padajuća',28);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Minijaturna',28);
+
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Preko 200 cm',1);
+
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Univerzalna',29);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Na Sunce',29);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Podsejavanje',29);
+

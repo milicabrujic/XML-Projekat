@@ -4,10 +4,10 @@ INSERT INTO `attribute_category` (`name`, `attribute_id`, `attribute_name`) VALU
 INSERT INTO `attribute_category` (`name`, `attribute_id`, `attribute_name`) VALUES ('Karakteristike',4,'Otpornost na bolesti');
 INSERT INTO `attribute_category` (`name`, `attribute_id`, `attribute_name`) VALUES ('Karakteristike',8,'Tip lista');
 INSERT INTO `attribute_category` (`name`, `attribute_id`, `attribute_name`) VALUES ('Karakteristike',9,'Tip ruže');
-INSERT INTO `attribute_category` (`name`, `attribute_id`, `attribute_name`) VALUES ('Karakteristike',18,'Domaći naziv');
+INSERT INTO `attribute_category` (`name`, `attribute_id`, `attribute_name`) VALUES ('Karakteristike',26,'Domaći naziv-Karakteristike');
 
 INSERT INTO `attribute_category` (`name`, `attribute_id`, `attribute_name`) VALUES ('Dekorativnost',5,'Boja cveta');
-INSERT INTO `attribute_category` (`name`, `attribute_id`, `attribute_name`) VALUES ('Dekorativnost',7,'Vreme cvetanja');
+INSERT INTO `attribute_category` (`name`, `attribute_id`, `attribute_name`) VALUES ('Dekorativnost',27,'Vreme cvetanja-Dekor');
 INSERT INTO `attribute_category` (`name`, `attribute_id`, `attribute_name`) VALUES ('Dekorativnost',14,'Miris');
 INSERT INTO `attribute_category` (`name`, `attribute_id`, `attribute_name`) VALUES ('Dekorativnost',10,'Boja lista');
 INSERT INTO `attribute_category` (`name`, `attribute_id`, `attribute_name`) VALUES ('Dekorativnost',11,'Boja Ploda');

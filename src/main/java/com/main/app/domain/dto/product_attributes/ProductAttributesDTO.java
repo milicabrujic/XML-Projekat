@@ -17,5 +17,12 @@ public class ProductAttributesDTO {
 
     private String attributeName;
 
+    private Long attributeValueId;
+
+    private String attributeValueName;
+
     private Long productId;
+
+    private boolean prominent;
+
 }

@@ -10,5 +10,7 @@ CREATE TABLE `product_attributes`(
     `date_updated` datetime DEFAULT NULL,
     `product_id` bigint(20) DEFAULT NULL,
     `attribute_id` bigint(20) DEFAULT NULL,
+    `attribute_value_id` bigint(20) DEFAULT NULL,
+    `prominent` boolean DEFAULT FALSE,
     PRIMARY KEY(`id`)
 )DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

@@ -23,4 +23,5 @@ public class Attribute extends AbstractEntity {
 
     private boolean enteredManually;
 
+
 }

@@ -43,6 +43,11 @@ public class ProductConverter {
                 .discount(productDTO.getDiscount())
                 .discountProductPosition(productDTO.getDiscountProductPosition())
                 .vremeIsporuke(productDTO.getVremeIsporuke())
+                .available(productDTO.getAvailable())
+                .suggestedProductIdSlot1(productDTO.getSuggestedProductIdSlot1())
+                .suggestedProductIdSlot2(productDTO.getSuggestedProductIdSlot2())
+                .suggestedProductIdSlot3(productDTO.getSuggestedProductIdSlot3())
+                .suggestedProductIdSlot4(productDTO.getSuggestedProductIdSlot4())
                 .build();
     }
 
@@ -69,6 +74,11 @@ public class ProductConverter {
                 .brandName(product.getBrand() != null ? product.getBrand().getName()  : null )
                 .categoryName(product.getProductCategory().getName())
                 .vremeIsporuke(product.getVremeIsporuke())
+                .available(product.getAvailable())
+                .suggestedProductIdSlot1(product.getSuggestedProductIdSlot1())
+                .suggestedProductIdSlot2(product.getSuggestedProductIdSlot2())
+                .suggestedProductIdSlot3(product.getSuggestedProductIdSlot3())
+                .suggestedProductIdSlot4(product.getSuggestedProductIdSlot4())
                 .build();
     }
 
@@ -91,6 +101,11 @@ public class ProductConverter {
                 .vremeIsporuke(product.getVremeIsporuke())
                 .sku(product.getSku())
                 .slug(product.getSlug())
+                .available(product.getAvailable())
+                .suggestedProductIdSlot1(product.getSuggestedProductIdSlot1())
+                .suggestedProductIdSlot2(product.getSuggestedProductIdSlot2())
+                .suggestedProductIdSlot3(product.getSuggestedProductIdSlot3())
+                .suggestedProductIdSlot4(product.getSuggestedProductIdSlot4())
                 .build();
     }
 

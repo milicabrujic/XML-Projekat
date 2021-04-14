@@ -9,8 +9,8 @@ CREATE TABLE `attribute_category`(
     `last_modified_by` varchar(255) DEFAULT NULL,
     `date_updated` datetime DEFAULT NULL,
     `name` varchar(255) NOT NULL,
-    `attribute_id` bigint(20) NOT NULL,
     `attribute_name` varchar(255) NOT NULL,
+    `attribute_id` bigint(20) NOT NULL,
     PRIMARY KEY(`id`),
     FOREIGN KEY(`attribute_id`) REFERENCES `attribute`(id)
 )DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 import static com.main.app.converter.category.CategoryConverter.DTOtoEntity;
 import static com.main.app.converter.category.CategoryConverter.entityToDTO;
@@ -46,6 +47,11 @@ public class CategoryController {
         return new ResponseEntity<>(entityToDTO(categoryService.getOne(id)), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/name/{name}")
+//    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<CategoryDTO> getByName(@PathVariable String name) {
+        return new ResponseEntity<>(entityToDTO(categoryService.findByCategoryName(name)), HttpStatus.OK);
+    }
 
     @PostMapping(path = "/")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -71,5 +77,9 @@ public class CategoryController {
         return new ResponseEntity<>(entityToDTO(categoryService.delete(id)), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/parent/{name}")
+    public ResponseEntity<List<CategoryDTO>> getAllWhereNameIsParentCategory(@PathVariable String name) {
+        return new ResponseEntity<>(categoryService.getAllWhereNameIsParentCategory(name), HttpStatus.OK);
+    }
 
 }

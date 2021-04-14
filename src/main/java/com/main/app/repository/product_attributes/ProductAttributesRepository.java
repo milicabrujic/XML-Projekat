@@ -9,8 +9,6 @@ import java.util.List;
 @Repository
 public interface ProductAttributesRepository extends JpaRepository<ProductAttributes, Long> {
 
-    ProductAttributes save(ProductAttributes productAttributes);
-
     List<ProductAttributes> findAllByAttributeIdAndDeletedFalse(Long attributeId);
 
     List<ProductAttributes> findAllByProductIdAndDeletedFalse(Long productId);

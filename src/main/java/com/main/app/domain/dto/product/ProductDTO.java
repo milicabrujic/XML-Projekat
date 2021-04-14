@@ -5,11 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.validation.constraints.NotBlank;
-import java.lang.reflect.Array;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -53,6 +49,8 @@ public class ProductDTO {
 
     private HashMap<Long, List<Long>> attributeValueIds;
 
+    private List<Long> prominentAttrIds;
+
     private Instant dateCreated;
 
     private Long discount;
@@ -64,5 +62,15 @@ public class ProductDTO {
     private String brandName;
 
     private String categoryName;
+
+    private Integer available;
+
+    private Long suggestedProductIdSlot1;
+
+    private Long suggestedProductIdSlot2;
+
+    private Long suggestedProductIdSlot3;
+
+    private Long suggestedProductIdSlot4;
 
 }

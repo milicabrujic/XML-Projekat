@@ -87,7 +87,7 @@ public class AttributeValueServiceImpl implements AttributeValueService {
 
     @Override
     public List<AttributeValue> getAllByAttributeNameWithPageable(String name, Pageable pageable) {
-        Page<AttributeValue> pagedAttributeValues = attributeValueRepository.findAllByName(name,pageable);
+        Page<AttributeValue> pagedAttributeValues = attributeValueRepository.findAllByAttributeName(name,pageable);
 
         List<Long> ids = attrValuesToIds(pagedAttributeValues);
 

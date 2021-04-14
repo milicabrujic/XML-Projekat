@@ -1,11 +1,14 @@
 package com.main.app.controller.product;
 
+import com.main.app.converter.product_attributes.ProductAttributeConverter;
 import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.product.ProductAttributeAttrValueDTO;
 import com.main.app.domain.dto.product.ProductAttributeValueDTO;
 import com.main.app.domain.dto.product.ProductDTO;
 import com.main.app.domain.dto.product_attribute_category.ProductAttributeCategoryDTO;
+import com.main.app.domain.dto.product_attributes.ProductAttributesDTO;
 import com.main.app.domain.model.product.Product;
+import com.main.app.domain.model.product_attributes.ProductAttributes;
 import com.main.app.service.product.ProductService;
 import com.main.app.service.variation.VariationService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import static com.main.app.converter.product.ProductConverter.*;
+import static com.main.app.converter.product_attributes.ProductAttributeConverter.*;
 
 @RestController
 @RequestMapping("/product")
@@ -96,6 +100,16 @@ public class ProductController {
     @GetMapping(path = "/attributesCategory/{id}")
     public ResponseEntity<List<ProductAttributeCategoryDTO>> getAllAttrCategForProductId(@PathVariable Long id){
         return new ResponseEntity<>(listToDTOList(productService.getAllAttributeCategoryForProduct(id)),HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/prominent/{id}")
+    public ResponseEntity<List<ProductAttributesDTO>> findAllByProductId(@PathVariable Long id){
+        return new ResponseEntity<>(ProductAttributeConverter.listToDTOList(productService.findForProductId(id)),HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/suggested/{id}")
+    public ResponseEntity<List<ProductDTO>> getSuggestedProducts(@PathVariable Long id) {
+        return new ResponseEntity<>(productService.getAllSuggestedProducts(id), HttpStatus.OK);
     }
 
 }
