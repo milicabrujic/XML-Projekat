@@ -92,6 +92,17 @@ public class VariationServiceImpl implements VariationService{
     }
 
     @Override
+    public Entities findAllForProductId(Long product_id) {
+        List<Variation> variationList = variationRepository.findAllByProductId(product_id);
+
+        Entities entities = new Entities();
+        entities.setEntities(listToDTOList(variationList));
+        entities.setTotal(variationList.size());
+
+        return entities;
+    }
+
+    @Override
     public Entities getAllBySearchParam(String searchParam, String productId, Pageable pageable) {
         Page<VariationElasticDTO> pagedVariations = variationElasticRepository.search(variationElasticRepositoryBuilder.generateQuery(searchParam, productId), pageable);
 
@@ -251,7 +262,7 @@ public class VariationServiceImpl implements VariationService{
         String[] parts = variation.getName().split("-");
         ArrayList<String> attributeValueParts = new ArrayList<String>();
 
-        for(int i=3;i<parts.length;i++){
+        for(int i=2;i<parts.length;i++){
             attributeValueParts.add(parts[i]);
         }
 
@@ -375,6 +386,7 @@ public class VariationServiceImpl implements VariationService{
 
         return variationAttributeValueNames;
     }
+
 
 
     private String createDirectory() {

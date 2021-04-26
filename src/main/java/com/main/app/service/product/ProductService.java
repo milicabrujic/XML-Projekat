@@ -48,6 +48,7 @@ public interface ProductService {
 
     List<ProductDTO> getAllSuggestedProducts(Long id);
 
+    Product getOneBySlug(String productSlug);
 }
 
 

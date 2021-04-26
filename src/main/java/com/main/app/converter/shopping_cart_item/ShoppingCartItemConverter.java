@@ -5,7 +5,7 @@ import com.main.app.domain.model.shopping_cart_item.ShoppingCartItem;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+import static com.main.app.converter.product.ProductConverter.entityToDTO;
 import static com.main.app.converter.variation.VariationConverter.entityToDTO;
 
 public class ShoppingCartItemConverter {
@@ -14,8 +14,9 @@ public class ShoppingCartItemConverter {
         return ShoppingCartItemDto.builder()
                 .id(shoppingCartItem.getId())
                 .quantity(shoppingCartItem.getQuantity())
-                .variationDTO(entityToDTO(shoppingCartItem.getVariation()))
-                .productName(shoppingCartItem.getVariation().getProduct().getName())
+                .variationDTO(shoppingCartItem.getVariation() != null ? entityToDTO(shoppingCartItem.getVariation()) : null)
+                .productDTO(shoppingCartItem.getProduct() != null ? entityToDTO(shoppingCartItem.getProduct()) : null)
+                .productName(shoppingCartItem.getVariation() != null ? shoppingCartItem.getVariation().getProduct().getName() : (shoppingCartItem.getProduct() != null ? shoppingCartItem.getProduct().getName() : null))
                 .build();
     }
 

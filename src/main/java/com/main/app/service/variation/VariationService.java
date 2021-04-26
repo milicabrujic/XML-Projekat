@@ -34,6 +34,6 @@ public interface VariationService {
     List<String> getAllAttributeValueNamesById(Long id);
 
 
-
+    Entities findAllForProductId(Long product_id);
 
 }

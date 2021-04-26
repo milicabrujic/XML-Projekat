@@ -9,6 +9,7 @@ import com.main.app.elastic.repository.attribute.AttributeElasticRepositoryBuild
 import com.main.app.elastic.repository.attribute_value.AttributeValueElasticRepository;
 import com.main.app.elastic.repository.attribute_value.AttributeValueElasticRepositoryBuilder;
 import com.main.app.repository.attribute.AttributeRepository;
+import com.main.app.repository.attribute_category.AttributeCategoryRepository;
 import com.main.app.repository.attribute_value.AttributeValueRepository;
 import com.main.app.service.attribute_value.AttributeValueService;
 import com.main.app.service.product.ProductService;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.w3c.dom.Attr;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +49,8 @@ public class AttributeServiceImpl implements AttributeService {
     private final AttributeValueService attributeValueService;
 
     private final ProductService productService;
+
+    private final AttributeCategoryRepository attributeCategoryRepository;
 
 
     @Override
@@ -190,6 +194,30 @@ public class AttributeServiceImpl implements AttributeService {
         }
 
         return attributeRepository.findOneByName(name).get();
+    }
+
+    @Override
+    public Entities getAllNonCategoryAttributes(String searchParam,Pageable pageable) {
+        Page<Attribute> pagedAttributes = attributeRepository.findAllByParticipatesInVariationFalse(pageable);
+
+        List<Long> ids = attrToIds(pagedAttributes);
+
+        Pageable mySqlPaging = PageRequest.of(0, pageable.getPageSize(), pageable.getSort());
+        List<Attribute> attributes = attributeRepository.findAllByIdIn(ids, mySqlPaging).getContent();
+
+        List<Attribute> attrs = new ArrayList<>();
+
+        for (Attribute attr: attributes) {
+            if(!attributeCategoryRepository.findOneByAttributeId(attr.getId()).isPresent()){
+                attrs.add(attr);
+            }
+        }
+
+        Entities entities = new Entities();
+        entities.setEntities(listToDTOList(attrs));
+        entities.setTotal(attrs.size());
+
+        return entities;
     }
 
 }

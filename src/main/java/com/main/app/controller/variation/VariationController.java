@@ -42,7 +42,7 @@ public class VariationController {
     }
 
     @GetMapping(path = "/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<VariationDTO> getById(@PathVariable Long id) {
         return new ResponseEntity<>(entityToDTO(variationService.getOne(id)), HttpStatus.OK);
     }
@@ -87,5 +87,10 @@ public class VariationController {
         return new ResponseEntity<>(variationService.getAllAttributeValueNamesById(id), HttpStatus.OK);
     }
 
+
+    @GetMapping(path = "/product/{id}")
+    public  ResponseEntity<Entities<VariationDTO>> geByProductId(@PathVariable Long id){
+        return new ResponseEntity<>(variationService.findAllForProductId(id),HttpStatus.OK);
+    }
 
 }

@@ -22,4 +22,6 @@ public interface AttributeService {
     Attribute delete(Long id);
 
     Attribute getOneByName(String name);
+
+    Entities getAllNonCategoryAttributes(String searchParam,Pageable pageable);
 }

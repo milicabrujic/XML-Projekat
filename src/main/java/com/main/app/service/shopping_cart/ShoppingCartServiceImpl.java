@@ -53,7 +53,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public ShoppingCart addItemToShoppingCart(Long id, ShoppingCartItemDto shoppingCartItemDto) {
         ShoppingCart shoppingCart = findShoppingCartById(id);
-        ShoppingCartItem existingShoppingCartItem = shoppingCartItemService.findByVariationAndShoppingCart(shoppingCartItemDto.getVariationId(), id);
+
+//        ShoppingCartItem existingShoppingCartItem = shoppingCartItemService.findByVariationAndShoppingCart(shoppingCartItemDto.getVariationId(), id);
+
+        ShoppingCartItem existingShoppingCartItem = shoppingCartItemService.findByProductAndShoppingCart(shoppingCartItemDto.getProductId(), id);
+
         if(existingShoppingCartItem != null) {
             existingShoppingCartItem.setQuantity(existingShoppingCartItem.getQuantity() + shoppingCartItemDto.getQuantity());
         } else {
@@ -75,7 +79,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
 
-
     @Override
     public ShoppingCart changeShoppingCartItemQuantity(Long id, Long itemId, ShoppingCartItemDto shoppingCartItemDto) {
         ShoppingCart shoppingCart = findShoppingCartById(id);
@@ -90,29 +93,26 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
 
 
-
-
-
-
     @Override
     public ShoppingCart connectShoppingCartToUser(Long id) {
-        long idd = 2;
-        User user = userRepository.findById(idd).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, USER_NOT_EXIST));
-        Optional<ShoppingCart> userShoppingCart = shoppingCartRepository.findById(id);
+//        long idd = 2;
+//        User user = userRepository.findById(idd).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, USER_NOT_EXIST));
+//        Optional<ShoppingCart> userShoppingCart = shoppingCartRepository.findById(id);
 
-        //User user = currentUserService.getCurrentUser().orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, USER_NOT_EXIST));
-        //Optional<ShoppingCart> userShoppingCart = shoppingCartRepository.findByUserId(user.getId());
+        User user = currentUserService.getCurrentUser().orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, USER_NOT_EXIST));
+//        Optional<ShoppingCart> userShoppingCart = shoppingCartRepository.findByUserId(user.getId());
 
 
         //userShoppingCart.ifPresent(this::removeShoppingCart);
-        if (!userShoppingCart.isPresent()) {
-            removeShoppingCart(userShoppingCart.get());
-        }
+//        if (!userShoppingCart.isPresent()) {
+//            removeShoppingCart(userShoppingCart.get());
+//        }
 
         ShoppingCart shoppingCart = findShoppingCartById(id);
         shoppingCart.setUser(user);
         return shoppingCartRepository.save(shoppingCart);
     }
+
 
     private void removeShoppingCart(ShoppingCart shoppingCart){
         for (ShoppingCartItem item: shoppingCart.getItems()) {
@@ -123,11 +123,23 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         shoppingCartRepository.save(shoppingCart);
     }
 
-    @Override
-    public ShoppingCart findShoppingCartByUser(Long id) {
-        //User user = currentUserService.getCurrentUser().orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, USER_NOT_EXIST));
-        User user = userRepository.findById(id).orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, USER_NOT_EXIST));
-        return shoppingCartRepository.findByUserId(user.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, SHOPPING_CART_NOT_EXIST));
 
+    @Override
+    public void removeAndClearShoppingCart(Long id) {
+        ShoppingCart shoppingCart = shoppingCartRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, SHOPPING_CART_NOT_EXIST));
+        for(ShoppingCartItem shoppingCartItem: shoppingCart.getItems()) {
+            shoppingCartItem.setDeleted(true);
+            shoppingCartItemRepository.save(shoppingCartItem);
+        }
+        shoppingCart.setDeleted(true);
+        shoppingCartRepository.save(shoppingCart);
     }
+
+
+    @Override
+    public ShoppingCart findShoppingCartByUser() {
+        User user = currentUserService.getCurrentUser().orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, USER_NOT_EXIST));
+        return shoppingCartRepository.findAllByUserIdOrderByDateCreatedDesc(user.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, SHOPPING_CART_NOT_EXIST)).get(0);
+    }
+
 }

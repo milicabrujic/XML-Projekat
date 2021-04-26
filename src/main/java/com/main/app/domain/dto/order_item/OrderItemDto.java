@@ -22,6 +22,10 @@ public class OrderItemDto {
 
     private Long variation_id;
 
+    private Long productId;
+
+    private String sku;
+
     private int quantity;
 
     private String imageUrl;

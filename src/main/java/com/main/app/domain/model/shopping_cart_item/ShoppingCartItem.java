@@ -1,6 +1,7 @@
 package com.main.app.domain.model.shopping_cart_item;
 
 import com.main.app.domain.model.AbstractEntity;
+import com.main.app.domain.model.product.Product;
 import com.main.app.domain.model.shopping_cart.ShoppingCart;
 import com.main.app.domain.model.variation.Variation;
 import lombok.*;
@@ -25,5 +26,8 @@ public class ShoppingCartItem extends AbstractEntity {
 
     @ManyToOne
     private Variation variation;
+
+    @ManyToOne
+    private Product product;
 
 }

@@ -2,7 +2,7 @@ INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `ac
 INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`,`slug`,`sku`) VALUES ('Rododendron-Rododendroni-25/35cm', 'images/2-2021/3ecbfcd18eb4caa32ea9ba10bdd41631.png', 950,  1, true,'rododendron-rododendroni-2535-cm','100113');
 
 INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`,`slug`,`sku`) VALUES ('Akapela (Acapella®)-Čajevke-20/25cm', null, 190,  2, true,'akapela-acapella-cajevke-2025cm','100115');
-INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`,`slug`,`sku`) VALUES ('Rododendron-Rododendroni-25/35cm', null, 190,  2, true,'akapela-acapella-cajevke-2535cm','100117');
+INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`,`slug`,`sku`) VALUES ('Akapela (Acapella®)-Čajevke-25/35cm', null, 190,  2, true,'akapela-acapella-cajevke-2535cm','100117');
 
 INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`,`slug`,`sku`) VALUES ('Thuja-occ-AmberGlow-Kuglaste-20/25cm', null, 660,  3, true,'thuja-occ-amber-glow--kuglaste-2025cm','100118');
 INSERT INTO `variation` (`name`, `primary_image_url`, `price`, `product_id`, `active`,`slug`,`sku`) VALUES ('Thuja-occ-AmberGlow-Kuglaste-25/35cm', null, 660,  3, true,'thuja-occ-amber-glow--kuglaste-2535cm','100119');

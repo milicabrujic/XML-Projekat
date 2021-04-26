@@ -6,6 +6,7 @@ import com.main.app.domain.dto.attribute_category.AttributeCategoryDTO;
 import com.main.app.domain.dto.attribute_category.AttributeCategoryUniqueDTO;
 import com.main.app.domain.model.attribute.Attribute;
 import com.main.app.domain.model.attribute_category.AttributeCategory;
+import com.main.app.domain.model.product_attribute_category.ProductAttributeCategory;
 import com.main.app.elastic.dto.attribute_category.AttributeCategoryElasticDTO;
 import com.main.app.elastic.dto.attribute_category.AttributeCategoryUniqueElasticDTO;
 import com.main.app.elastic.repository.attribute_category.AttributeCategoryElasticRepository;
@@ -13,6 +14,7 @@ import com.main.app.elastic.repository.attribute_category.AttributeCategoryElast
 import com.main.app.elastic.repository.attribute_category_unique.AttributeCategoryUniqueElasticRepository;
 import com.main.app.elastic.repository.attribute_category_unique.AttributeCategoryUniqueElasticRepositoryBuilder;
 import com.main.app.repository.attribute_category.AttributeCategoryRepository;
+import com.main.app.repository.product_attribute_category.ProductAttributeCategoryRepository;
 import com.main.app.service.attribute.AttributeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,8 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
     private final AttributeService attributeService;
 
     private final AttributeCategoryRepository attributeCategoryRepository;
+
+    private final ProductAttributeCategoryRepository productAttributeCategoryRepository;
 
     private final AttributeCategoryElasticRepository attributeCategoryElasticRepository;
 
@@ -185,6 +189,12 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 
     @Override
     public List<AttributeCategory> delete(String name){
+
+        List<ProductAttributeCategory> list = productAttributeCategoryRepository.findByName(name);
+        if(list.size() > 0){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCTS_EXISTS_WITH_THIS_CATEGORY_ATTRIBUTES);
+        }
+
         List<AttributeCategory> listAttrCat = attributeCategoryRepository.findAllByName(name);
 
         for (AttributeCategory item: listAttrCat) {
@@ -200,8 +210,14 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
     @Override
     public AttributeCategory deleteAttribute(String name, Long id) {
 
-        List<AttributeCategory> listAttrCat = attributeCategoryRepository.findAllByName(name);
+        AttributeCategory attrCat = attributeCategoryRepository.findOneByAttributeId(id).get();
+        List<ProductAttributeCategory> list = productAttributeCategoryRepository.findByAttributeCategoryId(attrCat.getId());
+        if(list.size() > 0){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCTS_EXISTS_WITH_THIS_ATTRIBUTES);
+        }
 
+
+        List<AttributeCategory> listAttrCat = attributeCategoryRepository.findAllByName(name);
         AttributeCategory deleted = new AttributeCategory();
 
         for (AttributeCategory item: listAttrCat) {
@@ -231,7 +247,6 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 
         return entities;
     }
-
 
     @Override
     public AttributeCategory getOne(Long id) {

@@ -19,7 +19,16 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public OrderItem create(ShoppingCartItem shoppingCartItem) {
         OrderItem orderItem = new OrderItem();
-        orderItem.setVariation(shoppingCartItem.getVariation());
+        if(shoppingCartItem.getVariation() !=  null){
+            orderItem.setVariation(shoppingCartItem.getVariation());
+        }else{
+            orderItem.setVariation(null);
+        }
+        if(shoppingCartItem.getProduct() != null){
+            orderItem.setProduct(shoppingCartItem.getProduct());
+        }else{
+            orderItem.setProduct(null);
+        }
         orderItem.setQuantity(shoppingCartItem.getQuantity());
         return orderItemRepository.save(orderItem);
     }

@@ -53,6 +53,13 @@ public class ProductController {
     public ResponseEntity<ProductDTO> getById(@PathVariable Long id) {
         return new ResponseEntity<>(entityToDTO(productService.getOne(id)), HttpStatus.OK);
     }
+
+    @GetMapping(path = "/slug/{productSlug}")
+    public ResponseEntity<ProductDTO> getBySlug(@PathVariable String productSlug) {
+        return new ResponseEntity<>(entityToDTO(productService.getOneBySlug(productSlug)), HttpStatus.OK);
+    }
+
+
     @PostMapping(path = "/")
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ProductDTO> add(@RequestBody @Valid ProductDTO productDTO) {

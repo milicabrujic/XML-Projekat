@@ -12,11 +12,13 @@ public class OrderItemConverter {
         return OrderItemDto.builder()
                 .id(item.getId())
                 .quantity(item.getQuantity())
-                .variation_id(item.getVariation().getId())
+                .variation_id(item.getVariation() != null ? item.getVariation().getId() : null)
+                .productId(item.getProduct() != null ? item.getProduct().getId() : null)
                 .order_id(item.getCustomerOrder().getId())
-                .name(item.getVariation().getName())
-                .price(item.getVariation().getPrice().toString())
-                .imageUrl(item.getVariation().getPrimaryImageUrl())
+                .name(item.getVariation() != null? item.getVariation().getName() : (item.getProduct()!=null ? item.getProduct().getName() : null ) )
+                .price(item.getVariation() != null? item.getVariation().getPrice().toString() : (item.getProduct() != null ? item.getProduct().getPrice().toString()  : null))
+                .imageUrl(item.getVariation() != null? item.getVariation().getPrimaryImageUrl() : (item.getProduct() != null ? item.getProduct().getPrimaryImageUrl() : null))
+                .sku(item.getVariation() != null? item.getVariation().getSku() : (item.getProduct() != null? item.getProduct().getSku() : null))
                 .build();
     }
 

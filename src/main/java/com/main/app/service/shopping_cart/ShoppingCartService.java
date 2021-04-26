@@ -9,23 +9,20 @@ public interface ShoppingCartService {
 
     public ShoppingCart findShoppingCartById(Long id);
 
-    public ShoppingCart createShoppingCart();
-
-
-
-    public ShoppingCart addItemToShoppingCart(Long id, ShoppingCartItemDto shoppingCartItemDto);
-
     public ShoppingCart removeShoppingCartItem(Long id, Long itemId);
-
-
 
     public ShoppingCart changeShoppingCartItemQuantity(Long id, Long itemId, ShoppingCartItemDto shoppingCartItemDto);
 
+    public ShoppingCart createShoppingCart();
+
+    public ShoppingCart addItemToShoppingCart(Long id, ShoppingCartItemDto shoppingCartItemDto);
+
     public Long getShoppingCartSize(Long id);
 
+    public ShoppingCart findShoppingCartByUser();
 
     public ShoppingCart connectShoppingCartToUser(Long id);
 
-    public ShoppingCart findShoppingCartByUser(Long id);
+    public void removeAndClearShoppingCart(Long id);
 
 }

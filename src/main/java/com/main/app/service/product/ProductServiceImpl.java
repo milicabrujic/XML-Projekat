@@ -135,6 +135,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Product getOneBySlug(String productSlug) {
+        return productRepository.findBySlug(productSlug).get();
+    }
+
+    @Override
     public String buildSlug(String title,int numberOfRepeat) {
         return Slug.makeSlug(title+" "+numberOfRepeat);
     }
@@ -451,11 +456,25 @@ public class ProductServiceImpl implements ProductService {
                 }
             }
         }else if(entity.equals("attribute")){
+            List<AttributeValue> list = attributeValueRepository.findAllByAttributeId(id);
+            for (AttributeValue attr: list) {
+                List<ProductAttributeCategory> array = productAttributeCategoryRepository.findByAttributeValueId(attr.getId());
+                if(array.size() > 0){
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ATTRIBUTE_IN_PRODUCT_EXISTS);
+                }
+            }
             List<ProductAttributes> productAttributesList = productAttributesRepository.findAllByAttributeIdAndDeletedFalse(id);
             if(productAttributesList.size() != 0){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ATTRIBUTE_IN_PRODUCT_EXISTS);
             }
+
         }else if(entity.equals("attribute_value")){
+
+            List<ProductAttributeCategory> array = productAttributeCategoryRepository.findByAttributeValueId(id);
+            if(array.size() > 0){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ATTRIBUTE_VALUE_IN_PRODUCT_EXISTS);
+            }
+
             List<ProductAttributeValues> productAttributeValues = productAttributeValuesRepository.findAllByAttributeValueIdAndDeletedFalse(id);
             if(productAttributeValues.size() != 0){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ATTRIBUTE_VALUE_IN_PRODUCT_EXISTS);

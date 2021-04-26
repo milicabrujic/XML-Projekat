@@ -44,7 +44,7 @@ public class OrderConverter {
                 .totalPrice(order.getTotalPrice())
                 .status(order.getStatus())
                 .items(toDtoListItems(order.getOrderItems()))
-                .user_id(order.getUser().getId())
+                .user_id(order.getUser() != null ? order.getUser().getId() : null)
                 .build();
     }
 

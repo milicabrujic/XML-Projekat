@@ -28,8 +28,6 @@ public class CustomerOrder extends AbstractEntity {
 
     private String status;
 
-
-
     private String paymentProcessType;
 
     private String deliveryType;

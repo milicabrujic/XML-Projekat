@@ -2,6 +2,7 @@ package com.main.app.domain.model.order_item;
 
 import com.main.app.domain.model.AbstractEntity;
 import com.main.app.domain.model.order.CustomerOrder;
+import com.main.app.domain.model.product.Product;
 import com.main.app.domain.model.variation.Variation;
 import lombok.*;
 import org.hibernate.annotations.Where;
@@ -26,5 +27,8 @@ public class OrderItem extends AbstractEntity {
 
     @ManyToOne
     private Variation variation;
+
+    @ManyToOne
+    private Product product;
 
 }

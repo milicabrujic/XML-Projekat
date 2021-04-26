@@ -56,6 +56,10 @@ public class AttributeController {
         return new ResponseEntity<>(entityToDTO(attributeService.getOneByName(name)), HttpStatus.OK);
     }
 
+    @GetMapping(path = "non-category")
+    public ResponseEntity<Entities<Attribute>> getAllNonCategory(Pageable pageable, @RequestParam(name = "searchParam") String searchParam){
+        return new ResponseEntity<>(attributeService.getAllNonCategoryAttributes(searchParam,pageable), HttpStatus.OK);
+    }
 
     @PostMapping(path = "/")
     @PreAuthorize("hasRole('ROLE_ADMIN')")

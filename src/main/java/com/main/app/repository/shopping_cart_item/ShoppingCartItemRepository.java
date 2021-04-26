@@ -13,8 +13,8 @@ public interface ShoppingCartItemRepository extends JpaRepository<ShoppingCartIt
 
     ShoppingCartItem findByVariationIdAndShoppingCartId(Long variationId, Long shoppingCartId);
 
+    ShoppingCartItem findByProductIdAndShoppingCartId(Long productId, Long shoppingCartId);
+
     Long countByShoppingCartId(Long shoppingCartId);
-
-
 
 }

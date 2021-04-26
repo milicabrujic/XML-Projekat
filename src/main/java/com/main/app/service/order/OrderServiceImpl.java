@@ -4,6 +4,7 @@ import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.order.OrderDto;
 import com.main.app.domain.model.order.CustomerOrder;
 import com.main.app.domain.model.order_item.OrderItem;
+import com.main.app.domain.model.product.Product;
 import com.main.app.domain.model.shopping_cart.ShoppingCart;
 import com.main.app.domain.model.shopping_cart_item.ShoppingCartItem;
 import com.main.app.elastic.dto.order.OrdersElasticDTO;
@@ -11,6 +12,7 @@ import com.main.app.elastic.repository.order.OrderElasticRepository;
 import com.main.app.elastic.repository.order.OrderElasticRepositoryBuilder;
 import com.main.app.repository.order.OrderItemRepository;
 import com.main.app.repository.order.OrderRepository;
+import com.main.app.repository.product.ProductRepository;
 import com.main.app.repository.shopping_cart.ShoppingCartRepository;
 import com.main.app.repository.shopping_cart_item.ShoppingCartItemRepository;
 import com.main.app.service.order_item.OrderItemService;
@@ -55,6 +57,8 @@ public class OrderServiceImpl implements OrderService {
 
     private final ShoppingCartItemRepository shoppingCartItemRepository;
 
+    private final ProductRepository productRepository;
+
     @Override
     public CustomerOrder createOrder(OrderDto orderDto) {
         ShoppingCart shoppingCart = shoppingCartService.findShoppingCartById(orderDto.getShoppingCartId());
@@ -78,7 +82,20 @@ public class OrderServiceImpl implements OrderService {
 
         int total = 0;
         for (OrderItem item: order.getOrderItems()) {
-            total += item.getQuantity() * item.getVariation().getPrice();
+
+            Product product = productRepository.findById(item.getProduct().getId()).get();
+            Integer quantity = Integer.valueOf(product.getAvailable()) - Integer.valueOf(item.getQuantity());
+            product.setAvailable(quantity);
+            productRepository.save(product);
+
+            if(item.getVariation() != null){
+                total += item.getQuantity() * item.getVariation().getPrice();
+            }
+            else{
+                 if(item.getProduct() != null){
+                     total += item.getQuantity() * item.getProduct().getPrice();
+                 }
+            }
         }
 
         order.setTotalPrice(total);
@@ -124,13 +141,28 @@ public class OrderServiceImpl implements OrderService {
 
         CustomerOrder customerOrder = orderRepository.findById(id).get();
         OrderItem orderItem = orderItemRepository.findById(itemId).get();
+
+        Product product = productRepository.findById(orderItem.getProduct().getId()).get();
+        int quantity = Integer.valueOf(product.getAvailable()) + Integer.valueOf(orderItem.getQuantity());
+        product.setAvailable(quantity);
+        productRepository.save(product);
+
+
         customerOrder.getOrderItems().remove(orderItem);
         orderItemService.removeItemById(itemId);
 
         int total = 0;
         for (OrderItem item: customerOrder.getOrderItems()) {
-            total += item.getQuantity() * item.getVariation().getPrice();
+
+            if(item.getVariation() != null){
+                total += item.getQuantity() * item.getVariation().getPrice();
+            }else{
+                if(item.getProduct() != null){
+                    total += item.getQuantity() * item.getProduct().getPrice();
+                }
+           }
         }
+        
 
         customerOrder.setTotalPrice(total);
 

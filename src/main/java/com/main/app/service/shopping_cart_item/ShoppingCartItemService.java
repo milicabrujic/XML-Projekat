@@ -17,4 +17,6 @@ public interface ShoppingCartItemService {
 
     ShoppingCartItem findByVariationAndShoppingCart(Long variationId, Long shoppingCartId);
 
+    ShoppingCartItem findByProductAndShoppingCart(Long productId, Long shoppingCartId);
+
 }

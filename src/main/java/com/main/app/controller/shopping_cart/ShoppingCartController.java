@@ -6,6 +6,7 @@ import com.main.app.domain.model.shopping_cart.ShoppingCart;
 import com.main.app.service.shopping_cart.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +40,11 @@ public class ShoppingCartController {
         return ResponseEntity.ok().body(toDto(shoppingCartService.removeShoppingCartItem(id, itemId)));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity removeShoppingCart(@PathVariable("id") Long id) {
+        shoppingCartService.removeAndClearShoppingCart(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 
 
     @PutMapping("/{id}/items/{itemId}")
@@ -52,14 +58,13 @@ public class ShoppingCartController {
     }
 
 
-
     @PostMapping("/{id}/connect")
     public ResponseEntity<ShoppingCartDto> connectShoppingCartToCurrentUser(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(toDto(shoppingCartService.connectShoppingCartToUser(id)));
     }
 
-    @GetMapping("/{id}/user")
-    public ResponseEntity<ShoppingCartDto> getUserShoppingCart(@PathVariable("id") Long id) {
-        return ResponseEntity.ok().body(toDto(shoppingCartService.findShoppingCartByUser(id)));
+    @GetMapping
+    public ResponseEntity<ShoppingCartDto> getUserShoppingCart() {
+        return ResponseEntity.ok().body(toDto(shoppingCartService.findShoppingCartByUser()));
     }
 }
