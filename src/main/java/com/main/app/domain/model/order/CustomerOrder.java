@@ -48,6 +48,7 @@ public class CustomerOrder extends AbstractEntity {
 
     private String note;
 
+    private String shop;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customerOrder")
     private List<OrderItem> orderItems = new ArrayList<>();

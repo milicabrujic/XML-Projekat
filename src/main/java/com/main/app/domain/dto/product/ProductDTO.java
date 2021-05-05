@@ -41,6 +41,8 @@ public class ProductDTO {
 
     private boolean onSale;
 
+    private boolean selfTransport;
+
     private String vremeIsporuke;
 
     private HashMap<Long, List<Long>> sunshineUseIds;
@@ -64,6 +66,8 @@ public class ProductDTO {
     private String categoryName;
 
     private Integer available;
+
+    private Long variationCount;
 
     private Long suggestedProductIdSlot1;
 

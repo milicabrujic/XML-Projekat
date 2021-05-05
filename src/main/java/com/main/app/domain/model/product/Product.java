@@ -53,6 +53,8 @@ public class Product extends AbstractEntity {
 
     private boolean onSale;
 
+    private boolean selfTransport;
+
     @JsonIgnore
     @ManyToMany
     @Transient

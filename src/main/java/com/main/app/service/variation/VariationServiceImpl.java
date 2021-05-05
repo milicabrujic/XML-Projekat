@@ -8,7 +8,6 @@ import com.main.app.domain.model.attribute_value.AttributeValue;
 import com.main.app.domain.model.image.Image;
 import com.main.app.domain.model.product.Product;
 import com.main.app.domain.model.product_attribute_values.ProductAttributeValues;
-import com.main.app.domain.model.product_attributes.ProductAttributes;
 import com.main.app.domain.model.variation.Variation;
 import com.main.app.domain.model.variation_attribute_value_id.VariationAttributeValue;
 import com.main.app.elastic.dto.variation.VariationElasticDTO;
@@ -18,7 +17,7 @@ import com.main.app.repository.attribute.AttributeRepository;
 import com.main.app.repository.attribute_value.AttributeValueRepository;
 import com.main.app.repository.image.ImageRepository;
 import com.main.app.repository.product_attribute_values.ProductAttributeValuesRepository;
-import com.main.app.repository.product_attributes.ProductAttributesRepository;
+import com.main.app.repository.product_prominent_attributes.ProductAttributesRepository;
 import com.main.app.repository.variation.VariationRepository;
 import com.main.app.repository.variation_attribute_value_id.VariationAttributeValueRepository;
 import com.main.app.service.attribute.AttributeService;
@@ -80,6 +79,8 @@ public class VariationServiceImpl implements VariationService{
 
     private final EntityManager em;
 
+    private final AttributeRepository attributeRepository;
+
     @Override
     public Entities getAll() {
         List<Variation> variationList = variationRepository.findAll();
@@ -101,6 +102,7 @@ public class VariationServiceImpl implements VariationService{
 
         return entities;
     }
+
 
     @Override
     public Entities getAllBySearchParam(String searchParam, String productId, Pageable pageable) {
@@ -155,7 +157,7 @@ public class VariationServiceImpl implements VariationService{
 
             for (Long attrValueKey : productDTO.getAttributeValueIds().get(attrKey)) {
                 AttributeValue attributeValue = attributeValueService.getOne(attrValueKey);
-                attributeValueNames.add(attributeValue.getName());
+                attributeValueNames.add(attributeValue.getAttribute().getName()+"•"+attributeValue.getName());
                 attributeValueIds.add(String.valueOf(attributeValue.getId()));
                 productAttributeValueIds.add(attributeValue.getId());
             }
@@ -169,9 +171,11 @@ public class VariationServiceImpl implements VariationService{
 
         List<Long> savedVariationsIds = new ArrayList<>();
         for(String attributeValueName : combinations(combined, 0)){
-            String variationName = productDTO.getName() + "-" +
-                    product.getProductCategory().getName() + "-" +
+//            AttributeValue attrVal = attributeValueRepository.findOneByName(attributeValueName).get();
+            String variationName = productDTO.getName() + "•" +
+//                    product.getProductCategory().getName() + "-" +
 //                    product.getBrand().getName() + "-" +
+//                    attrVal.getAttribute().getName() + "•" +
                     attributeValueName;
 
             Variation variation = new Variation();
@@ -201,7 +205,7 @@ public class VariationServiceImpl implements VariationService{
 
         List<Long> variationsOfStringIds = new ArrayList<>();
         for(String oneStringVariation : combinations(combinedIds, 0)){
-            String[] parts = oneStringVariation.split("-");
+            String[] parts = oneStringVariation.split("•");
             for(int i = 0; i < parts.length; i++){
                 variationsOfStringIds.add(Long.parseLong(parts[i]));
             }
@@ -257,20 +261,28 @@ public class VariationServiceImpl implements VariationService{
 
         foundVariation.setPrice(variation.getPrice());
 
+        foundVariation.setAvailable(variation.getAvailable());
 
 
-        String[] parts = variation.getName().split("-");
+        String[] parts = variation.getName().split("•");
         ArrayList<String> attributeValueParts = new ArrayList<String>();
+        ArrayList<String> attributeParts = new ArrayList<String>();
 
-        for(int i=2;i<parts.length;i++){
+        for(int i=2;i<parts.length;i+=2){
             attributeValueParts.add(parts[i]);
         }
 
-        ArrayList<AttributeValue> attributeValueList = new ArrayList<>();
-        for(String name: attributeValueParts){
-            if(!attributeValueRepository.findOneByName(name).isPresent()){   throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ATTRIBUTE_VALUE_NOT_EXIST);}
-            attributeValueList.add(attributeValueRepository.findOneByName(name).get());
+        for(int i=1;i<parts.length;i+=2){
+            attributeParts.add(parts[i]);
         }
+
+        ArrayList<AttributeValue> attributeValueList = new ArrayList<>();
+
+        for(int i=0;i<attributeParts.size();i++){
+            if(attributeValueRepository.findAllByName(attributeValueParts.get(i)).size() == 0){   throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ATTRIBUTE_VALUE_NOT_EXIST);}
+            attributeValueList.add(attributeValueRepository.findByAttributeNameAndName(attributeParts.get(i),attributeValueParts.get(i)));
+        }
+
 
         List<VariationAttributeValue> variationAttributeValues = variationAttributeValueRepository.findAllByVariationIdAndDeletedFalse(id);
         for (int i=0;i<variationAttributeValues.size();i++) {
@@ -388,6 +400,69 @@ public class VariationServiceImpl implements VariationService{
     }
 
 
+    @Override
+    public Variation getVariationByAttributeValueIdCombination(List<String> attributeValueIds, String productId) {
+        List<VariationAttributeAttributeValueProductDTO> variations = findVariationsWithAttributeValueIds(attributeValueIds, productId);
+
+        List<String> possibleVariations = new ArrayList<>();
+
+        for(VariationAttributeAttributeValueProductDTO va : variations){
+            possibleVariations.add(String.valueOf(va.getVariationId()));
+        }
+
+        String variationId = getMostCommonValueInArray(possibleVariations);
+
+        if(variationId.equals("")){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, VARIATION_WITH_COMBINATION_NOT_EXIST);
+        }
+
+        return variationRepository.getOne(Long.parseLong(variationId));
+
+    }
+
+
+    private List<VariationAttributeAttributeValueProductDTO> findVariationsWithAttributeValueIds(List<String> attributeValueIds, String productId){
+
+        String standardSQLQueryPart = "SELECT \n" +
+                "    vav.id AS id, va.product_id, vav.attribute_value_id, vav.attribute_id as attribute_id, vav.variation_id as variation_id\n" +
+                "FROM\n" +
+                "    variation_attribute_values AS vav\n" +
+                "JOIN variation AS va ON vav.variation_id = va.id\n";
+
+        String dynamicSQLQueryPart = "WHERE ";
+
+        for(int i = 0; i < attributeValueIds.size(); i++){
+            if(attributeValueIds.get(i).equals(attributeValueIds.get(attributeValueIds.size() - 1))){
+                dynamicSQLQueryPart = dynamicSQLQueryPart.concat(
+                        "(va.product_id = " + productId + " AND attribute_value_id = " + attributeValueIds.get(i) + ")"
+                );
+            }else {
+                dynamicSQLQueryPart = dynamicSQLQueryPart.concat(
+                        "(va.product_id = " + productId + " AND attribute_value_id = " + attributeValueIds.get(i) + ") OR "
+                );
+            }
+        }
+
+        return em.createNativeQuery(
+                standardSQLQueryPart + dynamicSQLQueryPart, VariationAttributeAttributeValueProductDTO.class
+        ).getResultList();
+    }
+
+    private String getMostCommonValueInArray(List<String> listOfIds){
+        try {
+            return listOfIds.stream()
+                    .collect(Collectors.groupingBy(w -> w, Collectors.counting()))
+                    .entrySet()
+                    .stream()
+                    .max(Comparator.comparing(Map.Entry::getValue))
+                    .get()
+                    .getKey();
+        } catch (Exception e) {
+            return "";
+        }
+
+    }
+
 
     private String createDirectory() {
         int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -415,13 +490,10 @@ public class VariationServiceImpl implements VariationService{
         // concat each array from tmp with each element from arrays[i]
         for (String v: arrays.get(i)) {
             for (String t: tmp) {
-                result.add(v + '-' + t);
+                result.add(v + '•' + t);
             }
         }
 
         return result;
     }
-
-
-
 }

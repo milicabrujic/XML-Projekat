@@ -4,6 +4,7 @@ import com.main.app.domain.dto.product.ProductDTO;
 import com.main.app.domain.model.product.Product;
 import com.main.app.service.brand.BrandService;
 import com.main.app.service.category.CategoryService;
+import com.main.app.service.variation.VariationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,12 +16,16 @@ public class ProductConverter {
 
     private static BrandService brandService;
 
+    private static VariationService variationService;
+
     private static CategoryService categoryService;
 
     @Autowired
     private ProductConverter(
             BrandService brandService,
+            VariationService variationService,
             CategoryService productCategoryService) {
+            ProductConverter.variationService = variationService;
             ProductConverter.brandService = brandService;
             ProductConverter.categoryService = productCategoryService;
     }
@@ -44,6 +49,7 @@ public class ProductConverter {
                 .discountProductPosition(productDTO.getDiscountProductPosition())
                 .vremeIsporuke(productDTO.getVremeIsporuke())
                 .available(productDTO.getAvailable())
+                .selfTransport(productDTO.isSelfTransport())
                 .suggestedProductIdSlot1(productDTO.getSuggestedProductIdSlot1())
                 .suggestedProductIdSlot2(productDTO.getSuggestedProductIdSlot2())
                 .suggestedProductIdSlot3(productDTO.getSuggestedProductIdSlot3())
@@ -75,6 +81,8 @@ public class ProductConverter {
                 .categoryName(product.getProductCategory().getName())
                 .vremeIsporuke(product.getVremeIsporuke())
                 .available(product.getAvailable())
+                .selfTransport(product.isSelfTransport())
+                .variationCount(variationService.findAllForProductId(product.getId())  != null ? variationService.findAllForProductId(product.getId()).getTotal() : null)
                 .suggestedProductIdSlot1(product.getSuggestedProductIdSlot1())
                 .suggestedProductIdSlot2(product.getSuggestedProductIdSlot2())
                 .suggestedProductIdSlot3(product.getSuggestedProductIdSlot3())
@@ -102,6 +110,7 @@ public class ProductConverter {
                 .sku(product.getSku())
                 .slug(product.getSlug())
                 .available(product.getAvailable())
+                .selfTransport(product.isSelfTransport())
                 .suggestedProductIdSlot1(product.getSuggestedProductIdSlot1())
                 .suggestedProductIdSlot2(product.getSuggestedProductIdSlot2())
                 .suggestedProductIdSlot3(product.getSuggestedProductIdSlot3())

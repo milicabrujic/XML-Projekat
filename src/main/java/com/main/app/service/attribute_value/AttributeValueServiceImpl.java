@@ -107,11 +107,11 @@ public class AttributeValueServiceImpl implements AttributeValueService {
 
     @Override
     public AttributeValue save(AttributeValue attributeValue) {
-        Optional<AttributeValue> oneAttributeValue = attributeValueRepository.findOneByName(attributeValue.getName());
-
-        if(oneAttributeValue.isPresent()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ATTRIBUTE_VALUE_WITH_NAME_ALREADY_EXIST);
-        }
+//        Optional<AttributeValue> oneAttributeValue = attributeValueRepository.findOneByName(attributeValue.getName());
+//
+//        if(oneAttributeValue.isPresent()){
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ATTRIBUTE_VALUE_WITH_NAME_ALREADY_EXIST);
+//        }
 
         if(attributeValue.getName() == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ATTRIBUTE_VALUE_NAME_CANT_BE_NULL);
@@ -129,11 +129,11 @@ public class AttributeValueServiceImpl implements AttributeValueService {
 
     @Override
     public AttributeValue edit(AttributeValue attributeValue, Long id) {
-        Optional<AttributeValue> oneAttributeValue = attributeValueRepository.findOneByName(attributeValue.getName());
-
-        if(oneAttributeValue.isPresent() && !id.equals(oneAttributeValue.get().getId())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ATTRIBUTE_VALUE_WITH_NAME_ALREADY_EXIST);
-        }
+//        Optional<AttributeValue> oneAttributeValue = attributeValueRepository.findOneByName(attributeValue.getName());
+//
+//        if(oneAttributeValue.isPresent() && !id.equals(oneAttributeValue.get().getId())){
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ATTRIBUTE_VALUE_WITH_NAME_ALREADY_EXIST);
+//        }
 
         Optional<AttributeValue> optionalAttributeValue = attributeValueRepository.findOneById(id);
 

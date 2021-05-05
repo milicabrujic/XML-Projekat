@@ -16,6 +16,7 @@ CREATE TABLE `product`(
     `active` boolean DEFAULT TRUE,
     `new_added` boolean DEFAULT FALSE,
     `on_sale` boolean DEFAULT FALSE,
+    `self_transport` boolean DEFAULT FALSE,
     `primary_image_url` varchar(255) DEFAULT NULL,
     `product_position` varchar(255) DEFAULT NULL,
     `discount` varchar(255) DEFAULT NULL,

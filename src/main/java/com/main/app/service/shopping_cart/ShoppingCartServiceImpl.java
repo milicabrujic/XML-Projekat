@@ -53,10 +53,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public ShoppingCart addItemToShoppingCart(Long id, ShoppingCartItemDto shoppingCartItemDto) {
         ShoppingCart shoppingCart = findShoppingCartById(id);
+        ShoppingCartItem existingShoppingCartItem = new ShoppingCartItem();
+        if(shoppingCartItemDto.getVariationId() != null){
+             existingShoppingCartItem = shoppingCartItemService.findByVariationAndShoppingCart(shoppingCartItemDto.getVariationId(), id);
+        }else{
+            existingShoppingCartItem = shoppingCartItemService.findByProductAndShoppingCart(shoppingCartItemDto.getProductId(), id);
+        }
 
-//        ShoppingCartItem existingShoppingCartItem = shoppingCartItemService.findByVariationAndShoppingCart(shoppingCartItemDto.getVariationId(), id);
-
-        ShoppingCartItem existingShoppingCartItem = shoppingCartItemService.findByProductAndShoppingCart(shoppingCartItemDto.getProductId(), id);
 
         if(existingShoppingCartItem != null) {
             existingShoppingCartItem.setQuantity(existingShoppingCartItem.getQuantity() + shoppingCartItemDto.getQuantity());

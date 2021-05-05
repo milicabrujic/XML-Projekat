@@ -1,4 +1,4 @@
-package com.main.app.domain.model.product_attributes;
+package com.main.app.domain.model.product_prominent_attributes;
 
 import com.main.app.domain.model.AbstractEntity;
 import com.main.app.domain.model.attribute.Attribute;

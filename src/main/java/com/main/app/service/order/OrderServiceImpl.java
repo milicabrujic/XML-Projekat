@@ -7,6 +7,7 @@ import com.main.app.domain.model.order_item.OrderItem;
 import com.main.app.domain.model.product.Product;
 import com.main.app.domain.model.shopping_cart.ShoppingCart;
 import com.main.app.domain.model.shopping_cart_item.ShoppingCartItem;
+import com.main.app.domain.model.variation.Variation;
 import com.main.app.elastic.dto.order.OrdersElasticDTO;
 import com.main.app.elastic.repository.order.OrderElasticRepository;
 import com.main.app.elastic.repository.order.OrderElasticRepositoryBuilder;
@@ -15,6 +16,7 @@ import com.main.app.repository.order.OrderRepository;
 import com.main.app.repository.product.ProductRepository;
 import com.main.app.repository.shopping_cart.ShoppingCartRepository;
 import com.main.app.repository.shopping_cart_item.ShoppingCartItemRepository;
+import com.main.app.repository.variation.VariationRepository;
 import com.main.app.service.order_item.OrderItemService;
 import com.main.app.service.shopping_cart.ShoppingCartService;
 import com.main.app.util.ObjectMapperUtils;
@@ -59,6 +61,8 @@ public class OrderServiceImpl implements OrderService {
 
     private final ProductRepository productRepository;
 
+    private final VariationRepository variationRepository;
+
     @Override
     public CustomerOrder createOrder(OrderDto orderDto) {
         ShoppingCart shoppingCart = shoppingCartService.findShoppingCartById(orderDto.getShoppingCartId());
@@ -87,6 +91,14 @@ public class OrderServiceImpl implements OrderService {
             Integer quantity = Integer.valueOf(product.getAvailable()) - Integer.valueOf(item.getQuantity());
             product.setAvailable(quantity);
             productRepository.save(product);
+
+            if(item.getVariation() != null){
+                Variation variation = variationRepository.findById(item.getVariation().getId()).get();
+                Integer kolicina = Integer.valueOf(variation.getAvailable()) - Integer.valueOf(item.getQuantity());
+                variation.setAvailable(kolicina);
+                variationRepository.save(variation);
+            }
+
 
             if(item.getVariation() != null){
                 total += item.getQuantity() * item.getVariation().getPrice();
@@ -147,6 +159,12 @@ public class OrderServiceImpl implements OrderService {
         product.setAvailable(quantity);
         productRepository.save(product);
 
+        if(orderItem.getVariation() != null){
+            Variation variation = variationRepository.findById(orderItem.getVariation().getId()).get();
+            Integer kolicina = Integer.valueOf(variation.getAvailable()) + Integer.valueOf(orderItem.getQuantity());
+            variation.setAvailable(kolicina);
+            variationRepository.save(variation);
+        }
 
         customerOrder.getOrderItems().remove(orderItem);
         orderItemService.removeItemById(itemId);

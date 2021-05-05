@@ -41,5 +41,6 @@ public class OrderDto {
 
     private List<OrderItemDto> items;
 
+    private String shop;
 
 }

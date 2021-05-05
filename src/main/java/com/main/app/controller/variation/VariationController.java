@@ -93,4 +93,14 @@ public class VariationController {
         return new ResponseEntity<>(variationService.findAllForProductId(id),HttpStatus.OK);
     }
 
+
+
+
+    @GetMapping(path="/find")
+    public ResponseEntity<VariationDTO> getVariationByAttributeValueNames(@RequestParam(name = "searchParam") List<String> searchParam,
+                                                                          @RequestParam(name = "productId") String productId) throws Exception {
+        return new ResponseEntity<>(entityToDTO(variationService.getVariationByAttributeValueIdCombination(searchParam, productId)), HttpStatus.OK);
+    }
+
+
 }

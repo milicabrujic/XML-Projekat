@@ -27,6 +27,8 @@ public class VariationDTO {
 
     private Double price;
 
+    private Integer available;
+
     private boolean active;
 
     private String primaryImageUrl;

@@ -1,4 +1,4 @@
-package com.main.app.domain.dto.product_attributes;
+package com.main.app.domain.dto.product_prominent_attributes;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

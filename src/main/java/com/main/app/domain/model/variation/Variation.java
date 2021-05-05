@@ -35,6 +35,8 @@ public class Variation extends AbstractEntity {
 
     private Double price;
 
+    private Integer available;
+
     private boolean active;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "variation")

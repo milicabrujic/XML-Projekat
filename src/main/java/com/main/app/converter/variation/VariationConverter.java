@@ -30,6 +30,7 @@ public class VariationConverter {
                 .price(variationDTO.getPrice())
                 .primaryImageUrl(variationDTO.getPrimaryImageUrl())
                 .active(variationDTO.isActive())
+                .available(variationDTO.getAvailable())
                 .build();
     }
 
@@ -46,6 +47,7 @@ public class VariationConverter {
                 .dateCreated(variation.getDateCreated())
                 .active(variation.isActive())
                 .price(variation.getPrice())
+                .available(variation.getAvailable())
                 .build();
     }
 

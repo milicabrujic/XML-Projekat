@@ -12,11 +12,9 @@ import com.main.app.domain.model.image.Image;
 import com.main.app.domain.model.product.Product;
 import com.main.app.domain.model.product_attribute_category.ProductAttributeCategory;
 import com.main.app.domain.model.product_attribute_values.ProductAttributeValues;
-import com.main.app.domain.model.product_attributes.ProductAttributes;
+import com.main.app.domain.model.product_prominent_attributes.ProductAttributes;
 import com.main.app.domain.model.variation.Variation;
-import com.main.app.elastic.dto.attribute.AttributeElasticDTO;
 import com.main.app.elastic.dto.product.ProductElasticDTO;
-import com.main.app.elastic.repository.attribute.AttributeElasticRepository;
 import com.main.app.elastic.repository.product.ProductElasticRepository;
 import com.main.app.elastic.repository.product.ProductElasticRepositoryBuilder;
 import com.main.app.repository.attribute.AttributeRepository;
@@ -28,7 +26,7 @@ import com.main.app.repository.product.ProductAttributeAttrValueRepository;
 import com.main.app.repository.product.ProductRepository;
 import com.main.app.repository.product_attribute_category.ProductAttributeCategoryRepository;
 import com.main.app.repository.product_attribute_values.ProductAttributeValuesRepository;
-import com.main.app.repository.product_attributes.ProductAttributesRepository;
+import com.main.app.repository.product_prominent_attributes.ProductAttributesRepository;
 import com.main.app.repository.variation.VariationRepository;
 import com.main.app.util.ObjectMapperUtils;
 import com.main.app.util.Slug;
@@ -137,6 +135,21 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getOneBySlug(String productSlug) {
         return productRepository.findBySlug(productSlug).get();
+    }
+
+    @Override
+    public Integer getPossiblyAvailableForProductId(Long id) {
+        Product product = productRepository.getOne(id);
+        List<Variation> variationList = variationRepository.findAllByProductId(product.getId());
+
+        Integer varAvailableCount = 0;
+        for (Variation variation: variationList) {
+            if(variation.getAvailable() == null){
+                continue;
+            }
+            varAvailableCount += variation.getAvailable();
+        }
+        return product.getAvailable() - varAvailableCount;
     }
 
     @Override
@@ -283,6 +296,7 @@ public class ProductServiceImpl implements ProductService {
             foundProduct.setVremeIsporuke(product.getVremeIsporuke());
         }
 
+        foundProduct.setSelfTransport(product.isSelfTransport());
         foundProduct.setProductCategory(product.getProductCategory());
         foundProduct.setDescription(product.getDescription());
         foundProduct.setBrand(product.getBrand());

@@ -11,6 +11,7 @@ CREATE TABLE `variation`(
     `name` varchar(255) DEFAULT NULL,
     `product_id` bigint(20) DEFAULT NULL,
     `price` double DEFAULT NULL,
+    `available` bigint(20) DEFAULT NULL,
     `primary_image_url` varchar(255) DEFAULT NULL,
     `active` boolean DEFAULT FALSE,
     `slug` varchar(255) DEFAULT NULL,

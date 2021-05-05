@@ -2,13 +2,11 @@ package com.main.app.controller.product;
 
 import com.main.app.converter.product_attributes.ProductAttributeConverter;
 import com.main.app.domain.dto.Entities;
-import com.main.app.domain.dto.product.ProductAttributeAttrValueDTO;
 import com.main.app.domain.dto.product.ProductAttributeValueDTO;
 import com.main.app.domain.dto.product.ProductDTO;
 import com.main.app.domain.dto.product_attribute_category.ProductAttributeCategoryDTO;
-import com.main.app.domain.dto.product_attributes.ProductAttributesDTO;
+import com.main.app.domain.dto.product_prominent_attributes.ProductAttributesDTO;
 import com.main.app.domain.model.product.Product;
-import com.main.app.domain.model.product_attributes.ProductAttributes;
 import com.main.app.service.product.ProductService;
 import com.main.app.service.variation.VariationService;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 import static com.main.app.converter.product_attribute_category.ProductAttributeCategoryConverter.*;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import static com.main.app.converter.product.ProductConverter.*;
-import static com.main.app.converter.product_attributes.ProductAttributeConverter.*;
 
 @RestController
 @RequestMapping("/product")
@@ -64,7 +60,10 @@ public class ProductController {
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ProductDTO> add(@RequestBody @Valid ProductDTO productDTO) {
         Product product = productService.save(productDTO,DTOtoEntity(productDTO));
-        variationService.save(productDTO, product.getId());
+
+        if(productDTO.getAttributeValueIds().size() > 0){
+            variationService.save(productDTO, product.getId());
+        }
         return new ResponseEntity<>(entityToDTO(product), HttpStatus.OK);
     }
 
@@ -117,6 +116,11 @@ public class ProductController {
     @GetMapping(path = "/suggested/{id}")
     public ResponseEntity<List<ProductDTO>> getSuggestedProducts(@PathVariable Long id) {
         return new ResponseEntity<>(productService.getAllSuggestedProducts(id), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/possibly-available/{id}")
+    public ResponseEntity<Integer> getPossiblyAvailable(@PathVariable Long id) {
+        return new ResponseEntity<>(productService.getPossiblyAvailableForProductId(id), HttpStatus.OK);
     }
 
 }

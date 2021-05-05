@@ -24,6 +24,7 @@ public class OrderConverter {
                 .note(orderDto.getNote())
                 .deliveryType(orderDto.getDeliveryMethod() == 1 ? "STORE" : "HOME ADDRESS")
                 .paymentProcessType(orderDto.getPaymentMethod() == 1 ? "ON DELIVERY" : "ONLINE")
+                .shop(orderDto.getShop())
                 .build();
     }
 
@@ -45,6 +46,7 @@ public class OrderConverter {
                 .status(order.getStatus())
                 .items(toDtoListItems(order.getOrderItems()))
                 .user_id(order.getUser() != null ? order.getUser().getId() : null)
+                .shop(order.getShop())
                 .build();
     }
 

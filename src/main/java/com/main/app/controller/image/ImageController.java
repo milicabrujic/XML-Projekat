@@ -45,7 +45,7 @@ public class ImageController {
 
 
     @GetMapping(path = "/variation/{variationId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<ImageDTO>> getAllByVariationId(@PathVariable Long variationId) {
         return new ResponseEntity<>(listToDTOList(imageService.getAllImagesByVariationId(variationId)), HttpStatus.OK);
     }

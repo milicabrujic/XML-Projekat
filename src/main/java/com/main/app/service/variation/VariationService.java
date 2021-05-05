@@ -36,4 +36,5 @@ public interface VariationService {
 
     Entities findAllForProductId(Long product_id);
 
+    Variation getVariationByAttributeValueIdCombination(List<String> searchParam, String productId);
 }

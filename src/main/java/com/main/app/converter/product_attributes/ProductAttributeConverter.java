@@ -1,9 +1,7 @@
 package com.main.app.converter.product_attributes;
 
-import com.main.app.domain.dto.product_attribute_category.ProductAttributeCategoryDTO;
-import com.main.app.domain.dto.product_attributes.ProductAttributesDTO;
-import com.main.app.domain.model.product_attribute_category.ProductAttributeCategory;
-import com.main.app.domain.model.product_attributes.ProductAttributes;
+import com.main.app.domain.dto.product_prominent_attributes.ProductAttributesDTO;
+import com.main.app.domain.model.product_prominent_attributes.ProductAttributes;
 
 import java.util.List;
 import java.util.stream.Collectors;
