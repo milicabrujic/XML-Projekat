@@ -1,5 +1,6 @@
 package com.main.app.domain.dto.product;
 
+import com.main.app.domain.dto.product_category.ProductCategoryDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +24,10 @@ public class ProductDTO {
 
     private String name;
 
-    private Long productCategoryId;
+//    private Long productCategoryId;
+    private List<Long> productCategoriesIds;
+
+    private List<ProductCategoryDTO> productCategoryDTOS;
 
     private String description;
 
@@ -63,7 +67,7 @@ public class ProductDTO {
 
     private String brandName;
 
-    private String categoryName;
+//    private String categoryName;
 
     private Integer available;
 

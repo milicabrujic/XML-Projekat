@@ -30,4 +30,6 @@ public class ShoppingCart extends AbstractEntity {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "shoppingCart")
     private List<ShoppingCartItem> items = new ArrayList<>();
 
+
+
 }

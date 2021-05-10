@@ -45,3 +45,42 @@ INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALU
 INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (5,96);
 INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (5,101);
 INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (5,102);
+
+
+
+
+
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (6,92);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (6,93);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (6,94);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (6,95);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (6,96);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (6,97);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (6,98);
+
+
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (7,91);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (7,92);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (7,93);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (7,94);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (7,95);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (7,96);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (7,97);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (7,98);
+
+
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (8,92);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (8,93);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (8,94);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (8,95);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (8,96);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (8,97);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (8,98);
+
+
+
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (9,92);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (9,93);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (9,94);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (9,95);
+INSERT INTO `product_attribute_values` (`product_id`, `attribute_value_id`) VALUES (9,96);

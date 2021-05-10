@@ -31,8 +31,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findAllByBrandId(Long Id);
 
-    List<Product> findAllByProductCategoryId(Long id);
-
     Optional<Product> findOneByProductPosition(Long id);
 
     Optional<Product> findOneByDiscountProductPosition(Long id);

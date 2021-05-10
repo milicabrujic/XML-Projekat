@@ -27,3 +27,7 @@ INSERT INTO `attribute` (`name`,`participates_in_variation`,`entered_manually`) 
 INSERT INTO `attribute` (`name`,`participates_in_variation`,`entered_manually`) VALUES ('Vreme cvetanja-Dekor','0','0');
 INSERT INTO `attribute` (`name`,`participates_in_variation`,`entered_manually`) VALUES ('Oblik krošnje','0','0');
 INSERT INTO `attribute` (`name`,`participates_in_variation`,`entered_manually`) VALUES ('Primena smeše','0','0');
+INSERT INTO `attribute` (`name`,`participates_in_variation`,`entered_manually`) VALUES ('C5 L','1','0');
+INSERT INTO `attribute` (`name`,`participates_in_variation`,`entered_manually`) VALUES ('C2.5 L','1','0');
+INSERT INTO `attribute` (`name`,`participates_in_variation`,`entered_manually`) VALUES ('C3 L','1','0');
+INSERT INTO `attribute` (`name`,`participates_in_variation`,`entered_manually`) VALUES ('P11','1','0');

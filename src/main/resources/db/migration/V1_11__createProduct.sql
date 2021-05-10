@@ -10,7 +10,7 @@ CREATE TABLE `product`(
     `date_updated` datetime DEFAULT NULL,
     `name` varchar(255) NOT NULL,
     `description` text DEFAULT NULL,
-    `product_category_id` bigint(20) DEFAULT NULL,
+--     `product_category_id` bigint(20) DEFAULT NULL,
     `brand_id` bigint(20) DEFAULT NULL,
     `price` double DEFAULT NULL,
     `active` boolean DEFAULT TRUE,

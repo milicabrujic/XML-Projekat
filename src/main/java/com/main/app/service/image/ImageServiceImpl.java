@@ -54,7 +54,7 @@ public class ImageServiceImpl implements ImageService {
 
         Product product = productService.getOne(productId);
         product.setPrimaryImageUrl(newPrimaryImage.getUrl());
-        productService.edit(product, productId);
+        productService.edit(product,null,productId);
 
         return newPrimaryImage;
     }
@@ -95,7 +95,7 @@ public class ImageServiceImpl implements ImageService {
         if(foundImage.isPrimaryImage()){
             Product product = productService.getOne(productId);
             product.setPrimaryImageUrl("");
-            productService.edit(product, productId);
+            productService.edit(product,null,productId);
         }
 
         return imageRepository.save(foundImage);

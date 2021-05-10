@@ -4,10 +4,12 @@ import com.main.app.domain.model.category.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     Page<Category> findAllByIdIn(List<Long> idsList, Pageable pageable);
@@ -16,11 +18,11 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     Optional<Category> findOneById(Long id);
 
-    List<Category> findAllByParentCategoryIdIsNull(Pageable pageable);
+//    List<Category> findAllByParentCategoryIdIsNull(Pageable pageable);
+//
+//    List<Category> findAllByParentCategoryId(Long id);
 
-    List<Category> findAllByParentCategoryId(Long id);
+//    Optional<Category> findOneByParentCategoryId(Long parentId);
 
-    Optional<Category> findOneByParentCategoryId(Long parentId);
-
-    List<Category> findAllByParentCategoryName(String name);
+//    List<Category> findAllByParentCategoryName(String name);
 }

@@ -21,15 +21,15 @@ public class CategoryElasticDTO extends EntityElasticDTO {
     @Field(type = FieldType.Text, fielddata = true)
     private String name;
 
-    @Field(type = FieldType.Text, fielddata = true)
-    private String parentProductCategoryName;
+//    @Field(type = FieldType.Text, fielddata = true)
+//    private String parentProductCategoryName;
 
     private Date dateCreated;
 
     public CategoryElasticDTO(Category category) {
         super(category.getId());
         this.name = category.getName();
-        this.parentProductCategoryName = category.getParentCategory() != null ? category.getParentCategory().getName() : null;
+//        this.parentProductCategoryName = category.getParentCategory() != null ? category.getParentCategory().getName() : null;
         this.dateCreated = Date.from(category.getDateCreated());
     }
 

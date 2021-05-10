@@ -6,11 +6,16 @@ import com.main.app.domain.model.attribute.Attribute;
 import com.main.app.domain.model.attribute_value.AttributeValue;
 import com.main.app.domain.model.brand.Brand;
 import com.main.app.domain.model.category.Category;
+import com.main.app.domain.model.product_category.ProductCategory;
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 
@@ -32,9 +37,13 @@ public class Product extends AbstractEntity {
     @NotBlank @Column(unique = true)
     private String slug;
 
-    @JsonIgnore
-    @ManyToOne
-    private Category productCategory;
+//    @JsonIgnore
+//    @ManyToOne
+//    private Category productCategory;
+//
+//    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    private List<ProductCategory> productCategories = new ArrayList<>();
+
 
     @NotBlank
     private String description;

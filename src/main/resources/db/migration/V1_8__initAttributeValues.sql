@@ -168,3 +168,21 @@ INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Univerzalna',29)
 INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Na Sunce',29);
 INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Podsejavanje',29);
 
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('30/40 cm',30);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('40/60 cm',30);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('30/40 cm',31);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('40/60 cm',31);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('30/40 cm',32);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('40/60 cm',32);
+
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Smaragdna tuja',26);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Budleja, Letnji jorgovan',26);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Beverli',18);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('2007',21);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Beverly',17);
+
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('20 cm',33);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('40 cm',33);
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('60 cm',33);
+
+INSERT INTO `attribute_value` (`name`, `attribute_id`) VALUES ('Klematis',26);

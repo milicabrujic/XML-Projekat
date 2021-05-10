@@ -16,8 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-import static com.main.app.converter.variation.VariationConverter.DTOtoEntity;
-import static com.main.app.converter.variation.VariationConverter.entityToDTO;
+import static com.main.app.converter.variation.VariationConverter.*;
 
 
 @RestController
@@ -50,7 +49,7 @@ public class VariationController {
     @PutMapping(path = "/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<VariationDTO> edit(@RequestBody VariationDTO variationDTO, @PathVariable Long id) {
-        return new ResponseEntity<>(entityToDTO(variationService.edit(DTOtoEntity(variationDTO), id)), HttpStatus.OK);
+        return new ResponseEntity<>(entityToDTO2(variationService.edit(DTOtoEntity(variationDTO), id)), HttpStatus.OK);
     }
 
 

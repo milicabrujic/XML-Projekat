@@ -4,6 +4,7 @@ import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.product.ProductAttributeAttrValueDTO;
 import com.main.app.domain.dto.product.ProductAttributeValueDTO;
 import com.main.app.domain.dto.product.ProductDTO;
+import com.main.app.domain.dto.product_category.ProductCategoryDTO;
 import com.main.app.domain.model.product.Product;
 import com.main.app.domain.model.product_attribute_category.ProductAttributeCategory;
 import com.main.app.domain.model.product_prominent_attributes.ProductAttributes;
@@ -27,7 +28,7 @@ public interface ProductService {
 
     Product save(ProductDTO productDTO, Product product);
 
-    Product edit(Product product, Long id);
+    Product edit(Product product,ProductDTO productDTO, Long id);
 
     Product delete(Long id);
 
@@ -50,6 +51,11 @@ public interface ProductService {
     Product getOneBySlug(String productSlug);
 
     Integer getPossiblyAvailableForProductId(Long id);
+
+    List<ProductCategoryDTO> getAllProductCategoriesForProductId(Long productId);
+
+    ProductCategoryDTO findByCategoryId(Long categoryId);
+
 }
 
 

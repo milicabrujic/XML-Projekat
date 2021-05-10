@@ -103,6 +103,12 @@ public class VariationServiceImpl implements VariationService{
         return entities;
     }
 
+    @Override
+    public Long getVariationCountForProductId(Long product_id) {
+        List<Variation> variationList = variationRepository.findAllByProductId(product_id);
+        return Long.valueOf(variationList.size());
+    }
+
 
     @Override
     public Entities getAllBySearchParam(String searchParam, String productId, Pageable pageable) {
@@ -129,7 +135,7 @@ public class VariationServiceImpl implements VariationService{
     @Override
     public boolean save(ProductDTO productDTO, Long productId) {
 
-        if(productDTO.getProductCategoryId() == null){
+        if(productDTO.getProductCategoriesIds().size() == 0 || productDTO.getProductCategoriesIds() == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_PRODUCT_CATEGORY_CANT_BE_NULL);
         }
 //        if(productDTO.getBrandId() == null){
@@ -170,30 +176,28 @@ public class VariationServiceImpl implements VariationService{
         }
 
         List<Long> savedVariationsIds = new ArrayList<>();
-        for(String attributeValueName : combinations(combined, 0)){
-//            AttributeValue attrVal = attributeValueRepository.findOneByName(attributeValueName).get();
-            String variationName = productDTO.getName() + "•" +
-//                    product.getProductCategory().getName() + "-" +
-//                    product.getBrand().getName() + "-" +
-//                    attrVal.getAttribute().getName() + "•" +
-                    attributeValueName;
+        for(List<String> attributeValueNames : combined){
+            for (String attributeValueName : attributeValueNames) {
+                String variationName = productDTO.getName() + "•" + attributeValueName;
 
-            Variation variation = new Variation();
-            variation.setName(variationName);
-            variation.setPrice(product.getPrice());
-            variation.setProduct(product);
-            variation.setSlug(Slug.makeSlug(variationName));
+                Variation variation = new Variation();
+                variation.setName(variationName);
+                variation.setPrice(product.getPrice());
+                variation.setProduct(product);
+                variation.setSlug(Slug.makeSlug(variationName));
 
-            Variation savedVariation = variationRepository.save(variation);
-            variationElasticRepository.save(new VariationElasticDTO(savedVariation));
-            savedVariationsIds.add(savedVariation.getId());
+                Variation savedVariation = variationRepository.save(variation);
+                variationElasticRepository.save(new VariationElasticDTO(savedVariation));
+                savedVariationsIds.add(savedVariation.getId());
+            }
+
         }
 
         List<Long> savedVariationMultipliedIds = new ArrayList<>();
         for(Long savedVariationId : savedVariationsIds){
-            for (int i = 0; i < productDTO.getAttributeValueIds().keySet().size(); i++) {
+//            for (int i = 0; i < productDTO.getAttributeValueIds().keySet().size(); i++) {
                 savedVariationMultipliedIds.add(savedVariationId);
-            }
+//            }
         }
 
         List<Long> repeatedAttributeIds = new ArrayList<>();
@@ -203,11 +207,11 @@ public class VariationServiceImpl implements VariationService{
             }
         }
 
+
         List<Long> variationsOfStringIds = new ArrayList<>();
-        for(String oneStringVariation : combinations(combinedIds, 0)){
-            String[] parts = oneStringVariation.split("•");
-            for(int i = 0; i < parts.length; i++){
-                variationsOfStringIds.add(Long.parseLong(parts[i]));
+        for(List<String> stringVariationIds : combinedIds){
+            for (String  oneStringVariationId : stringVariationIds) {
+                variationsOfStringIds.add(Long.parseLong(oneStringVariationId));
             }
         }
 
@@ -216,25 +220,25 @@ public class VariationServiceImpl implements VariationService{
             VariationAttributeValue variationAttributeValue = new VariationAttributeValue();
 
             Variation variation = variationRepository.getOne(savedVariationMultipliedIds.get(i));
-            Attribute attribute = attributeService.getOne(repeatedAttributeIds.get(i));
             AttributeValue attributeValue = attributeValueService.getOne(variationsOfStringIds.get(i));
+            Attribute rightAttribute = attributeValue.getAttribute();
 
             variationAttributeValue.setVariation(variation);
-            variationAttributeValue.setAttribute(attribute);
+            variationAttributeValue.setAttribute(rightAttribute);
             variationAttributeValue.setAttributeValue(attributeValue);
 
             variationAttributeValueRepository.save(variationAttributeValue);
         }
 
-        for(int i = 0; i < productAttributeValueIds.size(); i++){
-            ProductAttributeValues productAttributeValues = new ProductAttributeValues();
-            AttributeValue attributeValue = attributeValueService.getOne(productAttributeValueIds.get(i));
-
-            productAttributeValues.setProduct(product);
-            productAttributeValues.setAttributeValue(attributeValue);
-
-            productAttributeValuesRepository.save(productAttributeValues);
-        }
+//        for(int i = 0; i < productAttributeValueIds.size(); i++){
+//            ProductAttributeValues productAttributeValues = new ProductAttributeValues();
+//            AttributeValue attributeValue = attributeValueService.getOne(productAttributeValueIds.get(i));
+//
+//            productAttributeValues.setProduct(product);
+//            productAttributeValues.setAttributeValue(attributeValue);
+//
+//            productAttributeValuesRepository.save(productAttributeValues);
+//        }
 
         return true;
     }
@@ -421,6 +425,8 @@ public class VariationServiceImpl implements VariationService{
     }
 
 
+
+
     private List<VariationAttributeAttributeValueProductDTO> findVariationsWithAttributeValueIds(List<String> attributeValueIds, String productId){
 
         String standardSQLQueryPart = "SELECT \n" +
@@ -497,3 +503,8 @@ public class VariationServiceImpl implements VariationService{
         return result;
     }
 }
+
+
+
+
+

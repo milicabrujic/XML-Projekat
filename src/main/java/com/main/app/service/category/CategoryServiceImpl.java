@@ -1,12 +1,16 @@
 package com.main.app.service.category;
 
+import com.main.app.converter.category_parent.ParentCategoryConverter;
 import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.category.CategoryDTO;
+import com.main.app.domain.dto.category_parent.ParentCategoryDTO;
 import com.main.app.domain.model.category.Category;
+import com.main.app.domain.model.category_parent.ParentCategory;
 import com.main.app.elastic.dto.category.CategoryElasticDTO;
 import com.main.app.elastic.repository.category.CategoryElasticRepository;
 import com.main.app.elastic.repository.category.CategoryElasticRepositoryBuilder;
 import com.main.app.repository.category.CategoryRepository;
+import com.main.app.repository.category_parent.ParentCategoryRepository;
 import com.main.app.service.product.ProductService;
 import com.main.app.util.ObjectMapperUtils;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +35,6 @@ import java.util.Optional;
 import java.util.*;
 
 import static com.main.app.converter.category.CategoryConverter.listToDTOList;
-import static com.main.app.converter.category.CategoryConverter.listToFilterDTOList;
 import static com.main.app.static_data.Messages.*;
 import static com.main.app.util.MD5HashUtil.md5;
 import static com.main.app.util.Util.categoriesToIds;
@@ -50,6 +53,8 @@ public class CategoryServiceImpl implements CategoryService {
     private  final CategoryElasticRepositoryBuilder categoryElasticRepositoryBuilder;
 
     private final ProductService productService;
+
+    private final ParentCategoryRepository parentCategoryRepository;
 
 
     @Override
@@ -85,7 +90,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category save(Category category) {
+    public Category save(Category category,CategoryDTO categoryDTO) {
         Optional<Category> oneProductCategory = categoryRepository.findOneByName(category.getName());
 
         if(oneProductCategory.isPresent()){
@@ -99,11 +104,22 @@ public class CategoryServiceImpl implements CategoryService {
         Category savedCategory = categoryRepository.save(category);
         categoryElasticRepository.save(new CategoryElasticDTO(savedCategory));
 
+        for (Long parentCategoryId : categoryDTO.getParentCategoriesIds()) {
+            Category cat = categoryRepository.findById(parentCategoryId).get();
+            if(cat == null){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, CATEGORY_NOT_EXIST);
+            }
+            ParentCategory parentCategory = new ParentCategory();
+            parentCategory.setCategory(category);
+            parentCategory.setParentCategory(cat);
+            ParentCategory savedParentCategory = parentCategoryRepository.save(parentCategory);
+        }
+
         return savedCategory;
     }
 
     @Override
-    public Category edit(Category category, Long id) {
+    public Category edit(Category category, CategoryDTO categoryDTO, Long id) {
         Optional<Category> oneProductCategory = categoryRepository.findOneByName(category.getName());
 
         if(oneProductCategory.isPresent() && !id.equals(oneProductCategory.get().getId())){
@@ -133,11 +149,71 @@ public class CategoryServiceImpl implements CategoryService {
         if(category.getDescription() != null){
             foundProductCategory.setDescription(category.getDescription());
         }
+        foundProductCategory.setFirstOrderCategory(category.isFirstOrderCategory());
+        foundProductCategory.setSecondOrderCategory(category.isSecondOrderCategory());
+        foundProductCategory.setThirdOrderCategory(category.isThirdOrderCategory());
 
-        foundProductCategory.setParentCategory(category.getParentCategory());
+//        foundProductCategory.setParentCategory(category.getParentCategory());
 
         Category savedProductCategory = categoryRepository.save(foundProductCategory);
         categoryElasticRepository.save(new CategoryElasticDTO(savedProductCategory));
+
+
+        if(categoryDTO != null){
+            List<ParentCategory> parentCategoryList = parentCategoryRepository.findAllByCategoryId(categoryDTO.getId());
+            ArrayList<Long> temp = new ArrayList<>();
+
+            for (ParentCategory parentCategory : parentCategoryList) {
+                temp.add(parentCategory.getParentCategory().getId());
+            }
+
+            temp.removeAll(categoryDTO.getParentCategoriesIds());
+            ArrayList<Long> toDelete = temp;
+            ArrayList<Long> toADD = new ArrayList<>();
+
+            for(Long parentCategoryId : categoryDTO.getParentCategoriesIds()){
+                List<ParentCategory> parentCategories = parentCategoryRepository.findAllByParentCategoryId(parentCategoryId);
+                ParentCategory pcTemp = null;
+                for (ParentCategory pc : parentCategories) {
+                    if(pc.getCategory().getId() == savedProductCategory.getId()){
+                        pcTemp =  pc;
+                    }
+                }
+
+                if(pcTemp != null && pcTemp.getCategory().getId() == savedProductCategory.getId()){
+
+                }else{
+                    toADD.add(parentCategoryId);
+                }
+            }
+
+
+            for (Long catId : toDelete) {
+                List<ParentCategory> pcList = parentCategoryRepository.findAllByParentCategoryId(catId);
+                for (ParentCategory parentCat : pcList) {
+                    if(parentCat.getCategory().getId() == savedProductCategory.getId()){
+                        parentCat.setDeleted(true);
+                        parentCat.setDateDeleted(Calendar.getInstance().toInstant());
+                        parentCategoryRepository.save(parentCat);
+                    }
+                }
+            }
+
+            for (Long pcId : toADD) {
+                Category parentCat = categoryRepository.findById(pcId).get();
+                if(parentCat == null){
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, CATEGORY_NOT_EXIST);
+                }
+                ParentCategory parentCategory = new ParentCategory();
+                parentCategory.setCategory(savedProductCategory);
+                parentCategory.setParentCategory(parentCat);
+                ParentCategory savedParentCategory = parentCategoryRepository.save(parentCategory);
+            }
+
+        }
+
+
+
 
         return savedProductCategory;
     }
@@ -160,6 +236,15 @@ public class CategoryServiceImpl implements CategoryService {
         Category savedProductCategory = categoryRepository.save(foundCategory);
         categoryElasticRepository.save(ObjectMapperUtils.map(foundCategory, CategoryElasticDTO.class));
 
+        List<ParentCategory> parentCategoryList = parentCategoryRepository.findAllByCategoryId(id);
+
+        for (ParentCategory parentCategoryCateg: parentCategoryList) {
+            parentCategoryCateg.setDeleted(true);
+            parentCategoryCateg.setDateDeleted(Calendar.getInstance().toInstant());
+            parentCategoryRepository.save(parentCategoryCateg);
+        }
+
+
         return savedProductCategory;
     }
 
@@ -178,14 +263,14 @@ public class CategoryServiceImpl implements CategoryService {
             Category category = this.getOne(id);
             category.setPrimaryImageUrl("images/" + folderName + "/" + imageName + ".png");
 
-            this.edit(category, id);
+            this.edit(category, null , id);
         }
 
     }
 
     @Override
     public List<CategoryDTO> getAllWhereNameIsParentCategory(String name) {
-        List<Category> parentCategories = categoryRepository.findAllByParentCategoryName(name);
+//        List<Category> parentCategories = categoryRepository.findAllByParentCategoryName(name);
 
 //        List<Long> categoryListIds = new ArrayList<>();                                                               //        Algoritam za dobijanje svih mogucih podkategorija parenta
 //        for(Category productCategory : parentCategories){
@@ -210,12 +295,19 @@ public class CategoryServiceImpl implements CategoryService {
 //
 //        parentCategories.add(categoryRepository.findOneByName(name).get());
 
-        return listToFilterDTOList(parentCategories);
+//        return listToFilterDTOList(parentCategories);
+        return null;
     }
 
     @Override
     public Category findByCategoryName(String name) {
         return categoryRepository.findOneByName(name).get();
+    }
+
+    @Override
+    public List<ParentCategoryDTO> getAllParentCategoriesForCategoryId(Long category_id) {
+        List<ParentCategory> parentCategories = parentCategoryRepository.findAllByCategoryId(category_id);
+        return ParentCategoryConverter.listToDTOList(parentCategories);
     }
 
 

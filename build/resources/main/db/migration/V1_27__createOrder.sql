@@ -21,5 +21,6 @@ CREATE TABLE `customer_order`(
     `total_price` integer DEFAULT 0,
     `note` varchar(255) DEFAULT NULL,
     `user_id` bigint(20) DEFAULT NULL,
+    `shop` varchar(255) DEFAULT NULL,
     PRIMARY KEY(`id`)
 )DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

@@ -39,7 +39,7 @@ public class ProductElasticRepositoryBuilderImpl implements ProductElasticReposi
                         .should(QueryBuilders.wildcardQuery("sku", "*" + filter + "*"))
                         .should(QueryBuilders.wildcardQuery("slug", "*" + filter + "*"))
                         .should(QueryBuilders.wildcardQuery("brandName", "*" + filter + "*"))
-                        .should(QueryBuilders.wildcardQuery("categoryName", "*" + filter + "*"))
+//                        .should(QueryBuilders.wildcardQuery("categoryName", "*" + filter + "*"))
         );
 
         return searchQuery.must(boolQuery);

@@ -38,11 +38,19 @@ public class Category extends AbstractEntity {
     @NotBlank
     private String description;
 
-
-    @ManyToOne
-    @JoinColumn(name="parent_category_id")
-    private Category parentCategory;
-
     private String primaryImageUrl;
+
+    private boolean firstOrderCategory;
+
+    private boolean secondOrderCategory;
+
+    private boolean thirdOrderCategory;
+
+
+//    @ManyToOne
+//    @JoinColumn(name="parent_category_id")
+//    private Category parentCategory;
+
+
 
 }

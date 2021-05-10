@@ -19,4 +19,6 @@ public interface AttributeRepository extends JpaRepository<Attribute, Long> {
     Optional<Attribute> findOneById(Long id);
 
     Page<Attribute> findAllByParticipatesInVariationFalse(Pageable pageable);
+
+    List<Attribute> findAllById(Long id);
 }

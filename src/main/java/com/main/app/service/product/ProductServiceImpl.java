@@ -1,17 +1,21 @@
 package com.main.app.service.product;
 
+import com.main.app.converter.product_cateogry.ProductCategoryConverter;
 import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.product.ProductAttributeAttrValueDTO;
 import com.main.app.domain.dto.product.ProductAttributeValueDTO;
 import com.main.app.domain.dto.product.ProductDTO;
+import com.main.app.domain.dto.product_category.ProductCategoryDTO;
 import com.main.app.domain.model.attribute.Attribute;
 import com.main.app.domain.model.attribute_category.AttributeCategory;
 import com.main.app.domain.model.attribute_value.AttributeValue;
+import com.main.app.domain.model.category.Category;
 import com.main.app.domain.model.counter_slug.CounterSlug;
 import com.main.app.domain.model.image.Image;
 import com.main.app.domain.model.product.Product;
 import com.main.app.domain.model.product_attribute_category.ProductAttributeCategory;
 import com.main.app.domain.model.product_attribute_values.ProductAttributeValues;
+import com.main.app.domain.model.product_category.ProductCategory;
 import com.main.app.domain.model.product_prominent_attributes.ProductAttributes;
 import com.main.app.domain.model.variation.Variation;
 import com.main.app.elastic.dto.product.ProductElasticDTO;
@@ -20,12 +24,14 @@ import com.main.app.elastic.repository.product.ProductElasticRepositoryBuilder;
 import com.main.app.repository.attribute.AttributeRepository;
 import com.main.app.repository.attribute_category.AttributeCategoryRepository;
 import com.main.app.repository.attribute_value.AttributeValueRepository;
+import com.main.app.repository.category.CategoryRepository;
 import com.main.app.repository.counter_slug.CounterSlugRepository;
 import com.main.app.repository.image.ImageRepository;
 import com.main.app.repository.product.ProductAttributeAttrValueRepository;
 import com.main.app.repository.product.ProductRepository;
 import com.main.app.repository.product_attribute_category.ProductAttributeCategoryRepository;
 import com.main.app.repository.product_attribute_values.ProductAttributeValuesRepository;
+import com.main.app.repository.product_category.ProductCategoryRepository;
 import com.main.app.repository.product_prominent_attributes.ProductAttributesRepository;
 import com.main.app.repository.variation.VariationRepository;
 import com.main.app.util.ObjectMapperUtils;
@@ -53,6 +59,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.main.app.converter.product.ProductConverter.listToDTOList;
+import static com.main.app.converter.product_cateogry.ProductCategoryConverter.listToDTOList;
 import static com.main.app.static_data.Messages.*;
 import static com.main.app.util.MD5HashUtil.md5;
 import static com.main.app.util.Util.productsToIds;
@@ -87,6 +94,9 @@ public class ProductServiceImpl implements ProductService {
 
     private final AttributeRepository attributeRepository;
 
+    private final ProductCategoryRepository productCategoryRepository;
+
+    private final CategoryRepository categoryRepository;
 
     private final AttributeValueRepository attributeValueRepository;
 
@@ -193,16 +203,27 @@ public class ProductServiceImpl implements ProductService {
 
         CounterSlug counterSlug = counterSlugRepository.findByEntityName(product.getName());
         int numberOfRepeat = counterSlug.getCurrentCount();
-
         String slug = buildSlug(product.getName(),numberOfRepeat);
         product.setSlug(slug);
+
 
         Product savedProduct = productRepository.save(product);
         productElasticRepository.save(new ProductElasticDTO(savedProduct));
 
 
-        for (String attrKey: productDTO.getAttrCategoryContent().keySet()){
+        for (Long productCategoryId : productDTO.getProductCategoriesIds()) {
+            Category cat = categoryRepository.findById(productCategoryId).get();
+            if(cat == null){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, CATEGORY_NOT_EXIST);
+            }
+            ProductCategory productCategory = new ProductCategory();
+            productCategory.setCategory(cat);
+            productCategory.setProduct(product);
+            ProductCategory savedProductCategory = productCategoryRepository.save(productCategory);
+        }
 
+
+        for (String attrKey: productDTO.getAttrCategoryContent().keySet()){
             Attribute tempAttr = attributeRepository.findOneByName(attrKey).get();
             AttributeCategory attributeCategory = attributeCategoryRepository.findOneByAttributeId(tempAttr.getId()).get();
             AttributeValue value = new AttributeValue();
@@ -254,7 +275,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product edit(Product product, Long id) {
+    public Product edit(Product product,ProductDTO productDTO, Long id) {
 //        Optional<Product> oneProduct = productRepository.findOneByNameAndDeletedFalse(product.getName());
 
         if(product.getProductPosition() != null) {
@@ -297,7 +318,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         foundProduct.setSelfTransport(product.isSelfTransport());
-        foundProduct.setProductCategory(product.getProductCategory());
+//        foundProduct.setProductCategory(product.getProductCategory());
         foundProduct.setDescription(product.getDescription());
         foundProduct.setBrand(product.getBrand());
         foundProduct.setDiscount(product.getDiscount());
@@ -320,6 +341,50 @@ public class ProductServiceImpl implements ProductService {
         if(product.getSuggestedProductIdSlot4() != null){
             foundProduct.setSuggestedProductIdSlot4(product.getSuggestedProductIdSlot4());
         }
+
+
+        if(productDTO != null){
+
+            List<ProductCategory> productCategoryList = productCategoryRepository.findAllByProductId(productDTO.getId());
+            ArrayList<Long> temp = new ArrayList<>();
+
+            for (ProductCategory prodCat: productCategoryList) {
+                temp.add(prodCat.getCategory().getId());
+            }
+
+            temp.removeAll(productDTO.getProductCategoriesIds());
+            ArrayList<Long> toDelete = temp;
+            ArrayList<Long> toADD = new ArrayList<>();
+
+            for (Long productCategoryId : productDTO.getProductCategoriesIds()) {
+                Category cat = categoryRepository.findById(productCategoryId).get();
+                if(productCategoryRepository.findByCategoryId(cat.getId()).isPresent()){
+                    continue;
+                }else{
+                    toADD.add(productCategoryId);
+                }
+            }
+
+            for (Long catId : toDelete) {
+                ProductCategory pc = productCategoryRepository.findByCategoryId(catId).get();
+                pc.setDeleted(true);
+                pc.setDateDeleted(Calendar.getInstance().toInstant());
+                productCategoryRepository.save(pc);
+            }
+
+            for (Long pcId : toADD) {
+                Category cat = categoryRepository.findById(pcId).get();
+                if(cat == null){
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, CATEGORY_NOT_EXIST);
+                }
+                ProductCategory productCategory = new ProductCategory();
+                productCategory.setCategory(cat);
+                productCategory.setProduct(foundProduct);
+                ProductCategory savedProductCategory = productCategoryRepository.save(productCategory);
+            }
+
+        }
+
 
 
         //Ako je novi jednak starom
@@ -365,6 +430,13 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductAttributeCategory> productAttributeCategories = productAttributeCategoryRepository.findAllByProductId(savedProduct.getId());
         List<ProductAttributeValues> productAttributeValues = productAttributeValuesRepository.findAllByProductId(savedProduct.getId());
+        List<ProductCategory> productCategoryList = productCategoryRepository.findAllByProductId(savedProduct.getId());
+
+        for (ProductCategory prodCateg: productCategoryList) {
+            prodCateg.setDeleted(true);
+            prodCateg.setDateDeleted(Calendar.getInstance().toInstant());
+            productCategoryRepository.save(prodCateg);
+        }
 
         for (ProductAttributeCategory productAttributeCategory:productAttributeCategories) {
             productAttributeCategory.setDeleted(true);
@@ -465,9 +537,15 @@ public class ProductServiceImpl implements ProductService {
             }
         }else if(entity.equals("category")){
             for(Product product : products){
-                if(product.getProductCategory().getId().equals(id)){
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_CATEGORY_IN_PRODUCT_EXISTS);
+                List<ProductCategory> productCategoryList = productCategoryRepository.findAllByProductId(product.getId());
+                for (ProductCategory productCategory : productCategoryList) {
+                    if(productCategory.getCategory().getId() == id){
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_CATEGORY_IN_PRODUCT_EXISTS);
+                    }
                 }
+//                if(product.getProductCategory().getId().equals(id)){
+//                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PRODUCT_CATEGORY_IN_PRODUCT_EXISTS);
+//                }
             }
         }else if(entity.equals("attribute")){
             List<AttributeValue> list = attributeValueRepository.findAllByAttributeId(id);
@@ -562,6 +640,19 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return listToDTOList(products);
+    }
+
+
+    @Override
+    public List<ProductCategoryDTO> getAllProductCategoriesForProductId(Long productId) {
+        List<ProductCategory> productCategories = productCategoryRepository.findAllByProductId(productId);
+        return ProductCategoryConverter.listToDTOList(productCategories);
+    }
+
+    @Override
+    public ProductCategoryDTO findByCategoryId(Long categoryId) {
+        ProductCategory productCategory = productCategoryRepository.findByCategoryId(categoryId).get();
+        return ProductCategoryConverter.entityToDTO(productCategory);
     }
 
 

@@ -51,6 +51,22 @@ public class VariationConverter {
                 .build();
     }
 
+    public static VariationDTO entityToDTO2(Variation variation){
+        return VariationDTO
+                .builder()
+                .id(variation.getId())
+                .slug(variation.getSlug())
+                .sku(variation.getSku())
+                .name(variation.getName())
+                .productId(variation.getProduct() != null ? variation.getProduct().getId() : null)
+                .primaryImageUrl(variation.getPrimaryImageUrl())
+                .dateCreated(variation.getDateCreated())
+                .active(variation.isActive())
+                .price(variation.getPrice())
+                .available(variation.getAvailable())
+                .build();
+    }
+
     public static List<VariationDTO> listToDTOList(List<Variation> variations) {
         return variations
                 .stream()

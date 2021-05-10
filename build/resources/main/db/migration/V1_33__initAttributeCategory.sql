@@ -25,3 +25,6 @@ INSERT INTO `attribute_category` (`name`, `attribute_id`, `attribute_name`) VALU
 INSERT INTO `attribute_category` (`name`, `attribute_id`, `attribute_name`) VALUES ('Cvet',16,'Veličina cveta');
 INSERT INTO `attribute_category` (`name`, `attribute_id`, `attribute_name`) VALUES ('Cvet',15,'Broj latica');
 INSERT INTO `attribute_category` (`name`, `attribute_id`, `attribute_name`) VALUES ('Cvet',7,'Vreme cvetanja');
+
+INSERT INTO `attribute_category` (`name`, `attribute_id`, `attribute_name`) VALUES ('Dekorativnost',24,'Dekorativnost');
+

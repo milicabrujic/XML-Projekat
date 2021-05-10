@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -25,12 +26,24 @@ public class CategoryDTO {
 
     private String description;
 
-    private Long parentProductCategoryId;
-
-    private String parentProductCategoryName;
-
     private String primaryImageUrl;
 
     private Instant dateCreated;
+
+    private boolean firstOrderCategory;
+
+    private boolean secondOrderCategory;
+
+    private boolean thirdOrderCategory;
+
+    private Integer categoryOrder;
+
+    private List<Long> parentCategoriesIds;
+
+//    private Long parentProductCategoryId;
+//
+//    private String parentProductCategoryName;
+
+
 
 }

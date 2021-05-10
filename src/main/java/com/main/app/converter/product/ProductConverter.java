@@ -1,5 +1,6 @@
 package com.main.app.converter.product;
 
+import com.main.app.converter.product_cateogry.ProductCategoryConverter;
 import com.main.app.domain.dto.product.ProductDTO;
 import com.main.app.domain.model.product.Product;
 import com.main.app.service.brand.BrandService;
@@ -7,7 +8,7 @@ import com.main.app.service.category.CategoryService;
 import com.main.app.service.variation.VariationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import static com.main.app.converter.product_cateogry.ProductCategoryConverter.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,7 @@ public class ProductConverter {
                 .slug(productDTO.getSlug())
                 .sku(productDTO.getSku())
                 .description(productDTO.getDescription())
-                .productCategory(productDTO.getProductCategoryId() != null ? categoryService.getOne(productDTO.getProductCategoryId()) : null)
+//                .productCategory(productDTO.getProductCategoryId() != null ? categoryService.getOne(productDTO.getProductCategoryId()) : null)
                 .brand(productDTO.getBrandId() != null ? brandService.getOne(productDTO.getBrandId()) : null)
                 .primaryImageUrl(productDTO.getPrimaryImageUrl())
                 .price(productDTO.getPrice())
@@ -65,7 +66,7 @@ public class ProductConverter {
                 .sku(product.getSku())
                 .name(product.getName())
                 .description(product.getDescription())
-                .productCategoryId(product.getProductCategory() != null ? product.getProductCategory().getId() : null)
+//                .productCategoryId(product.getProductCategory() != null ? product.getProductCategory().getId() : null)
                 .brandId(product.getBrand() != null ? product.getBrand().getId() : null)
                 .brandPrimaryImageUrl(product.getBrand() != null ? product.getBrand().getPrimaryImageUrl() : null)
                 .primaryImageUrl(product.getPrimaryImageUrl())
@@ -78,11 +79,12 @@ public class ProductConverter {
                 .discount(product.getDiscount())
                 .discountProductPosition(product.getDiscountProductPosition())
                 .brandName(product.getBrand() != null ? product.getBrand().getName()  : null )
-                .categoryName(product.getProductCategory().getName())
+//                .categoryName(product.getProductCategory().getName())
                 .vremeIsporuke(product.getVremeIsporuke())
                 .available(product.getAvailable())
                 .selfTransport(product.isSelfTransport())
-                .variationCount(variationService.findAllForProductId(product.getId())  != null ? variationService.findAllForProductId(product.getId()).getTotal() : null)
+                .variationCount(variationService.getVariationCountForProductId(product.getId())  != null ? variationService.getVariationCountForProductId(product.getId()) : null)
+//                .productCategoryDTOS(product.getProductCategories() != null ? ProductCategoryConverter.listToDTOList(product.getProductCategories()) : null)
                 .suggestedProductIdSlot1(product.getSuggestedProductIdSlot1())
                 .suggestedProductIdSlot2(product.getSuggestedProductIdSlot2())
                 .suggestedProductIdSlot3(product.getSuggestedProductIdSlot3())
@@ -95,7 +97,7 @@ public class ProductConverter {
                 .builder()
                 .name(product.getName())
                 .description(product.getDescription())
-                .productCategoryId(product.getProductCategory() != null ? product.getProductCategory().getId() : null)
+//                .productCategoryId(product.getProductCategory() != null ? product.getProductCategory().getId() : null)
                 .brandId(product.getBrand() != null ? product.getBrand().getId() : null)
                 .brandPrimaryImageUrl(product.getBrand() != null ? product.getBrand().getPrimaryImageUrl() : null)
                 .primaryImageUrl(product.getPrimaryImageUrl())
@@ -111,6 +113,7 @@ public class ProductConverter {
                 .slug(product.getSlug())
                 .available(product.getAvailable())
                 .selfTransport(product.isSelfTransport())
+//                .productCategoryDTOS(product.getProductCategories() != null ? ProductCategoryConverter.listToDTOList(product.getProductCategories()) : null)
                 .suggestedProductIdSlot1(product.getSuggestedProductIdSlot1())
                 .suggestedProductIdSlot2(product.getSuggestedProductIdSlot2())
                 .suggestedProductIdSlot3(product.getSuggestedProductIdSlot3())

@@ -5,8 +5,10 @@ import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.product.ProductAttributeValueDTO;
 import com.main.app.domain.dto.product.ProductDTO;
 import com.main.app.domain.dto.product_attribute_category.ProductAttributeCategoryDTO;
+import com.main.app.domain.dto.product_category.ProductCategoryDTO;
 import com.main.app.domain.dto.product_prominent_attributes.ProductAttributesDTO;
 import com.main.app.domain.model.product.Product;
+import com.main.app.domain.model.product_category.ProductCategory;
 import com.main.app.service.product.ProductService;
 import com.main.app.service.variation.VariationService;
 import lombok.RequiredArgsConstructor;
@@ -76,7 +78,7 @@ public class ProductController {
     @PutMapping(path = "/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ProductDTO> edit(@RequestBody ProductDTO productDTO, @PathVariable Long id) {
-        return new ResponseEntity<>(entityToDTO(productService.edit(DTOtoEntity(productDTO), id)), HttpStatus.OK);
+        return new ResponseEntity<>(entityToDTO(productService.edit(DTOtoEntity(productDTO),productDTO, id)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -121,6 +123,18 @@ public class ProductController {
     @GetMapping(path = "/possibly-available/{id}")
     public ResponseEntity<Integer> getPossiblyAvailable(@PathVariable Long id) {
         return new ResponseEntity<>(productService.getPossiblyAvailableForProductId(id), HttpStatus.OK);
+    }
+
+
+    @GetMapping(path = "/product-categories/{id}")
+    public ResponseEntity<List<ProductCategoryDTO>> getCategoriesForProductId(@PathVariable Long id) {
+        return new ResponseEntity<>(productService.getAllProductCategoriesForProductId(id), HttpStatus.OK);
+    }
+
+
+    @GetMapping(path = "/category/{id}")
+    public ResponseEntity<ProductCategoryDTO> getCategoryForProduct(@PathVariable Long id) {
+        return new ResponseEntity<>(productService.findByCategoryId(id), HttpStatus.OK);
     }
 
 }

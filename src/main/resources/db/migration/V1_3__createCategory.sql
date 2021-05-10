@@ -13,8 +13,11 @@ CREATE TABLE `category`(
     `subtitle` text DEFAULT NULL,
     `content_text` text DEFAULT NULL,
     `description` text DEFAULT NULL,
-    `parent_category_id`  bigint(20),
+--     `parent_category_id`  bigint(20),
     `primary_image_url` varchar(255) DEFAULT NULL,
-    PRIMARY KEY(`id`),
-    FOREIGN KEY(`parent_category_id`) REFERENCES `category`(id)
+    `first_order_category` boolean DEFAULT FALSE,
+    `second_order_category` boolean DEFAULT FALSE,
+    `third_order_category` boolean DEFAULT FALSE,
+    PRIMARY KEY(`id`)
+--     FOREIGN KEY(`parent_category_id`) REFERENCES `category`(id)
 )DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

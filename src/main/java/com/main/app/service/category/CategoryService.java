@@ -3,6 +3,7 @@ package com.main.app.service.category;
 
 import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.category.CategoryDTO;
+import com.main.app.domain.dto.category_parent.ParentCategoryDTO;
 import com.main.app.domain.model.category.Category;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,16 +19,18 @@ public interface CategoryService {
 
     Category getOne(Long id);
 
-    Category save(Category category);
+    Category save(Category category,CategoryDTO categoryDTO);
 
-    Category edit(Category category, Long id);
+    Category edit(Category category, CategoryDTO categoryDTO ,Long id);
 
     Category delete(Long id);
 
     void uploadImage(Long id, MultipartFile[] images) throws IOException;
 
-
     List<CategoryDTO> getAllWhereNameIsParentCategory(String name);
 
     Category findByCategoryName(String name);
+
+   List<ParentCategoryDTO> getAllParentCategoriesForCategoryId(Long category_id);
+
 }

@@ -2,6 +2,7 @@ package com.main.app.controller.category;
 
 import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.category.CategoryDTO;
+import com.main.app.domain.dto.category_parent.ParentCategoryDTO;
 import com.main.app.domain.model.category.Category;
 import com.main.app.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +57,7 @@ public class CategoryController {
     @PostMapping(path = "/")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CategoryDTO> add(@RequestBody @Valid CategoryDTO productCategoryDTO) {
-        return new ResponseEntity<>(entityToDTO(categoryService.save(DTOtoEntity(productCategoryDTO))), HttpStatus.OK);
+        return new ResponseEntity<>(entityToDTO(categoryService.save(DTOtoEntity(productCategoryDTO),productCategoryDTO)), HttpStatus.OK);
     }
 
     @PostMapping(path = "/image/{id}")
@@ -68,7 +69,7 @@ public class CategoryController {
     @PutMapping(path = "/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CategoryDTO> edit(@RequestBody CategoryDTO productCategoryDTO, @PathVariable Long id) {
-        return new ResponseEntity<>(entityToDTO(categoryService.edit(DTOtoEntity(productCategoryDTO), id)), HttpStatus.OK);
+        return new ResponseEntity<>(entityToDTO(categoryService.edit(DTOtoEntity(productCategoryDTO), productCategoryDTO , id)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -81,5 +82,12 @@ public class CategoryController {
     public ResponseEntity<List<CategoryDTO>> getAllWhereNameIsParentCategory(@PathVariable String name) {
         return new ResponseEntity<>(categoryService.getAllWhereNameIsParentCategory(name), HttpStatus.OK);
     }
+
+
+    @GetMapping(path = "/parent-categories/{id}")
+    public ResponseEntity<List<ParentCategoryDTO>> getParentCateogriesForCategory(@PathVariable Long id) {
+        return new ResponseEntity<>(categoryService.getAllParentCategoriesForCategoryId(id), HttpStatus.OK);
+    }
+
 
 }
