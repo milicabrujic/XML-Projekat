@@ -52,10 +52,6 @@ public class VariationController {
         return new ResponseEntity<>(entityToDTO2(variationService.edit(DTOtoEntity(variationDTO), id)), HttpStatus.OK);
     }
 
-
-
-
-
     @PostMapping(path = "/image/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void uploadImage(@PathVariable Long id, @RequestPart MultipartFile[] images) throws IOException {
@@ -67,12 +63,6 @@ public class VariationController {
     public ResponseEntity<VariationDTO> toggleActive(@PathVariable Long id) {
         return new ResponseEntity<>(entityToDTO(variationService.toggleActivate(id)), HttpStatus.OK);
     }
-
-
-
-
-
-
 
     @GetMapping(path = "/attributes/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -91,9 +81,6 @@ public class VariationController {
     public  ResponseEntity<Entities<VariationDTO>> geByProductId(@PathVariable Long id){
         return new ResponseEntity<>(variationService.findAllForProductId(id),HttpStatus.OK);
     }
-
-
-
 
     @GetMapping(path="/find")
     public ResponseEntity<VariationDTO> getVariationByAttributeValueNames(@RequestParam(name = "searchParam") List<String> searchParam,

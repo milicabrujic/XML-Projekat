@@ -9,6 +9,7 @@ import com.main.app.domain.dto.product_category.ProductCategoryDTO;
 import com.main.app.domain.dto.product_prominent_attributes.ProductAttributesDTO;
 import com.main.app.domain.model.product.Product;
 import com.main.app.domain.model.product_category.ProductCategory;
+import com.main.app.service.category.CategoryService;
 import com.main.app.service.product.ProductService;
 import com.main.app.service.variation.VariationService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,8 @@ public class ProductController {
     private final ProductService productService;
 
     private final VariationService variationService;
+
+    private final CategoryService categoryService;
 
     @GetMapping(path="/all")
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -133,8 +136,23 @@ public class ProductController {
 
 
     @GetMapping(path = "/category/{id}")
-    public ResponseEntity<ProductCategoryDTO> getCategoryForProduct(@PathVariable Long id) {
+    public ResponseEntity<List<ProductCategoryDTO>> getCategoriesForProduct(@PathVariable Long id) {
         return new ResponseEntity<>(productService.findByCategoryId(id), HttpStatus.OK);
+    }
+
+    @GetMapping(path="/find")
+    public ResponseEntity<Entities<Product>> findAllBySearchParam(
+            Pageable pageable,
+            @RequestParam(name = "searchParam", required = false) String searchParam,
+            @RequestParam(name = "category") String productCategoryId,
+            @RequestParam(name = "findByNewAdded", required = false) boolean findByNewAdded){
+
+        List<Long> productCategoryIds = categoryService.getAllSubCategories(Long.valueOf(productCategoryId));
+        if(productCategoryIds.size() == 0){
+            productCategoryIds.add(Long.valueOf(productCategoryId));
+        }
+
+        return new ResponseEntity<>(productService.findAllBySearchParam(searchParam, productCategoryIds,findByNewAdded,pageable), HttpStatus.OK);
     }
 
 }

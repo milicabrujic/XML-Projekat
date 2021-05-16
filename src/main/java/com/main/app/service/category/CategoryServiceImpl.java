@@ -35,6 +35,7 @@ import java.util.Optional;
 import java.util.*;
 
 import static com.main.app.converter.category.CategoryConverter.listToDTOList;
+import static com.main.app.converter.category.CategoryConverter.listToFilterDTOList;
 import static com.main.app.static_data.Messages.*;
 import static com.main.app.util.MD5HashUtil.md5;
 import static com.main.app.util.Util.categoriesToIds;
@@ -153,7 +154,7 @@ public class CategoryServiceImpl implements CategoryService {
         foundProductCategory.setSecondOrderCategory(category.isSecondOrderCategory());
         foundProductCategory.setThirdOrderCategory(category.isThirdOrderCategory());
 
-//        foundProductCategory.setParentCategory(category.getParentCategory());
+
 
         Category savedProductCategory = categoryRepository.save(foundProductCategory);
         categoryElasticRepository.save(new CategoryElasticDTO(savedProductCategory));
@@ -270,34 +271,20 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDTO> getAllWhereNameIsParentCategory(String name) {
-//        List<Category> parentCategories = categoryRepository.findAllByParentCategoryName(name);
 
-//        List<Long> categoryListIds = new ArrayList<>();                                                               //        Algoritam za dobijanje svih mogucih podkategorija parenta
-//        for(Category productCategory : parentCategories){
-//            categoryListIds.add(productCategory.getId());
-//        }
-//
-//        for(Long categoryId : categoryListIds){
-//            List<Category> categoryChildList = categoryRepository.findAllByParentCategoryId(categoryId);
-//
-//            if(categoryChildList.size() != 0){
-//                for(Category cat : categoryChildList) {
-//                    parentCategories.add(cat);
-//                }
-//            }
-//        }
-//
-//        Category categ = categoryRepository.findOneByName(name).get();
-//
-//        if(categ.getParentCategory() != null){
-//            parentCategories.add(categoryRepository.getOne(categ.getParentCategory().getId()));
-//        }
-//
-//        parentCategories.add(categoryRepository.findOneByName(name).get());
+        Category cat = categoryRepository.findOneByName(name).get();
+        List<ParentCategory> parentCategoriesList = parentCategoryRepository.findAllByParentCategoryId(cat.getId());
 
-//        return listToFilterDTOList(parentCategories);
-        return null;
+        List<Category> parentCategories = new ArrayList<>();
+        for (ParentCategory pc : parentCategoriesList) {
+            parentCategories.add(pc.getCategory());
+        }
+
+        return listToFilterDTOList(parentCategories);
+
     }
+
+
 
     @Override
     public Category findByCategoryName(String name) {
@@ -308,6 +295,28 @@ public class CategoryServiceImpl implements CategoryService {
     public List<ParentCategoryDTO> getAllParentCategoriesForCategoryId(Long category_id) {
         List<ParentCategory> parentCategories = parentCategoryRepository.findAllByCategoryId(category_id);
         return ParentCategoryConverter.listToDTOList(parentCategories);
+    }
+
+    @Override
+    public List<Long> getAllSubCategories(Long category_id) {
+        List <Long> ids = new ArrayList<>();
+        List<ParentCategory> parentCategoriesList = parentCategoryRepository.findAllByParentCategoryId(category_id);
+
+        List<Category> parentCategories = new ArrayList<>();
+        for (ParentCategory pc : parentCategoriesList) {
+            parentCategories.add(pc.getCategory());
+            ids.add(pc.getCategory().getId());
+        }
+
+        for (Category cat : parentCategories) {
+            if(parentCategoryRepository.findAllByParentCategoryId(cat.getId()) != null){
+                List<ParentCategory> list = parentCategoryRepository.findAllByParentCategoryId(cat.getId());
+                for (ParentCategory parCat : list) {
+                    ids.add(parCat.getCategory().getId());
+                }
+            }
+        }
+        return ids;
     }
 
 

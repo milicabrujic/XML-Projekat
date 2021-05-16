@@ -27,7 +27,6 @@ public class CategoryConverter {
                 .subtitle(categoryDTO.getSubtitle())
                 .contentText(categoryDTO.getContentText())
                 .description(categoryDTO.getDescription())
-//                .parentCategory(categoryDTO.getParentProductCategoryId() != null ? categoryService.getOne(categoryDTO.getParentProductCategoryId()) : null)
                 .firstOrderCategory(categoryDTO.isFirstOrderCategory())
                 .secondOrderCategory(categoryDTO.isSecondOrderCategory())
                 .thirdOrderCategory(categoryDTO.isThirdOrderCategory())
@@ -39,8 +38,6 @@ public class CategoryConverter {
                 .builder()
                 .id(category.getId())
                 .name(category.getName())
-//                .parentProductCategoryId(category.getParentCategory() != null ? category.getParentCategory().getId() : null)
-//                .parentProductCategoryName(category.getParentCategory() != null ? category.getParentCategory().getName() : null)
                 .title(category.getTitle())
                 .subtitle(category.getSubtitle())
                 .contentText(category.getContentText())
@@ -66,8 +63,6 @@ public class CategoryConverter {
                 .builder()
                 .id(productCategory.getId())
                 .name(productCategory.getName())
-//                .parentProductCategoryId(productCategory.getParentCategory().getId())
-//                .parentProductCategoryName(productCategory.getParentCategory().getName())
                 .primaryImageUrl(productCategory.getPrimaryImageUrl())
                 .title(productCategory.getTitle())
                 .subtitle(productCategory.getSubtitle())
@@ -77,6 +72,7 @@ public class CategoryConverter {
                 .firstOrderCategory(productCategory.isFirstOrderCategory())
                 .secondOrderCategory(productCategory.isSecondOrderCategory())
                 .thirdOrderCategory(productCategory.isThirdOrderCategory())
+                .categoryOrder(productCategory.isFirstOrderCategory() ? 1 : (productCategory.isSecondOrderCategory() ? 2 : (productCategory.isThirdOrderCategory() ? 3 : 0)))
                 .build();
     }
 

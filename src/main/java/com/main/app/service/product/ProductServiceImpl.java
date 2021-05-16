@@ -5,6 +5,7 @@ import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.product.ProductAttributeAttrValueDTO;
 import com.main.app.domain.dto.product.ProductAttributeValueDTO;
 import com.main.app.domain.dto.product.ProductDTO;
+import com.main.app.domain.dto.product.ProductSearchDTO;
 import com.main.app.domain.dto.product_category.ProductCategoryDTO;
 import com.main.app.domain.model.attribute.Attribute;
 import com.main.app.domain.model.attribute_category.AttributeCategory;
@@ -101,6 +102,7 @@ public class ProductServiceImpl implements ProductService {
     private final AttributeValueRepository attributeValueRepository;
 
     private final ProductAttributeCategoryRepository productAttributeCategoryRepository;
+
 
     @Override
     public Entities getAll() {
@@ -208,9 +210,9 @@ public class ProductServiceImpl implements ProductService {
 
 
         Product savedProduct = productRepository.save(product);
-        productElasticRepository.save(new ProductElasticDTO(savedProduct));
 
 
+        List<ProductCategory> prodCatList = new ArrayList<>();
         for (Long productCategoryId : productDTO.getProductCategoriesIds()) {
             Category cat = categoryRepository.findById(productCategoryId).get();
             if(cat == null){
@@ -220,7 +222,12 @@ public class ProductServiceImpl implements ProductService {
             productCategory.setCategory(cat);
             productCategory.setProduct(product);
             ProductCategory savedProductCategory = productCategoryRepository.save(productCategory);
+            prodCatList.add(savedProductCategory);
         }
+
+        ProductElasticDTO productElasticDTO = new ProductElasticDTO(savedProduct);
+        productElasticDTO.setProductCategories(ProductCategoryConverter.listToDTOList(prodCatList));
+        productElasticRepository.save(productElasticDTO);
 
 
         for (String attrKey: productDTO.getAttrCategoryContent().keySet()){
@@ -318,7 +325,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         foundProduct.setSelfTransport(product.isSelfTransport());
-//        foundProduct.setProductCategory(product.getProductCategory());
+        foundProduct.setNewAdded(product.isNewAdded());
         foundProduct.setDescription(product.getDescription());
         foundProduct.setBrand(product.getBrand());
         foundProduct.setDiscount(product.getDiscount());
@@ -343,6 +350,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
 
+        List<ProductCategory> prodCatList = new ArrayList<>();
         if(productDTO != null){
 
             List<ProductCategory> productCategoryList = productCategoryRepository.findAllByProductId(productDTO.getId());
@@ -358,19 +366,33 @@ public class ProductServiceImpl implements ProductService {
 
             for (Long productCategoryId : productDTO.getProductCategoriesIds()) {
                 Category cat = categoryRepository.findById(productCategoryId).get();
-                if(productCategoryRepository.findByCategoryId(cat.getId()).isPresent()){
-                    continue;
+                List<ProductCategory> list = productCategoryRepository.findAllByCategoryId(cat.getId());
+
+                if(list.size() > 0){
+                    for (ProductCategory item : list) {
+                        if(item.getProduct().getId() == foundProduct.getId()){
+                            continue;
+                        }else{
+                            toADD.add(productCategoryId);
+                        }
+                    }
                 }else{
                     toADD.add(productCategoryId);
                 }
             }
 
             for (Long catId : toDelete) {
-                ProductCategory pc = productCategoryRepository.findByCategoryId(catId).get();
-                pc.setDeleted(true);
-                pc.setDateDeleted(Calendar.getInstance().toInstant());
-                productCategoryRepository.save(pc);
+                List<ProductCategory> pc = productCategoryRepository.findAllByCategoryId(catId);
+                for (ProductCategory p : pc) {
+                    if(p.getProduct().getId() == foundProduct.getId()){
+                        p.setDeleted(true);
+                        p.setDateDeleted(Calendar.getInstance().toInstant());
+                        productCategoryRepository.save(p);
+                    }
+                }
+
             }
+
 
             for (Long pcId : toADD) {
                 Category cat = categoryRepository.findById(pcId).get();
@@ -381,11 +403,11 @@ public class ProductServiceImpl implements ProductService {
                 productCategory.setCategory(cat);
                 productCategory.setProduct(foundProduct);
                 ProductCategory savedProductCategory = productCategoryRepository.save(productCategory);
+                prodCatList.add(savedProductCategory);
             }
 
+
         }
-
-
 
         //Ako je novi jednak starom
         String slug = Slug.makeSlug(product.getSlug());
@@ -410,7 +432,14 @@ public class ProductServiceImpl implements ProductService {
         }
 
         Product savedProduct = productRepository.save(foundProduct);
-        productElasticRepository.save(new ProductElasticDTO(savedProduct));
+        ProductElasticDTO productElasticDTO = new ProductElasticDTO(savedProduct);
+        productElasticDTO.setAttributeValues(getAllAttributeValsForProductId(savedProduct.getId()));
+        if(prodCatList.size() > 0){
+            productElasticDTO.setProductCategories(ProductCategoryConverter.listToDTOList(prodCatList));
+        }else{
+            productElasticDTO.setProductCategories(getAllProductCategoriesForProductId(savedProduct.getId()));
+        }
+        productElasticRepository.save(productElasticDTO);
 
         return savedProduct;
     }
@@ -452,8 +481,6 @@ public class ProductServiceImpl implements ProductService {
 
         return savedProduct;
     }
-
-
 
     @Override
     public void uploadImage(Long id, MultipartFile[] images) throws IOException {
@@ -574,7 +601,6 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-
     @Override
     public List<ProductAttributeValueDTO> getAllAttributeValuesForProductId(Long productId) {
         List<ProductAttributeAttrValueDTO> productAttributeAttrValueDTOS = productAttributeAttrValueRepository.findAllAttributeValuesForProductId(productId);
@@ -597,7 +623,6 @@ public class ProductServiceImpl implements ProductService {
 
         return productAttributeValues;
     }
-
 
     @Override
     public List<ProductAttributeAttrValueDTO> getAllAttributeValsForProductId(Long productId) {
@@ -642,7 +667,6 @@ public class ProductServiceImpl implements ProductService {
         return listToDTOList(products);
     }
 
-
     @Override
     public List<ProductCategoryDTO> getAllProductCategoriesForProductId(Long productId) {
         List<ProductCategory> productCategories = productCategoryRepository.findAllByProductId(productId);
@@ -650,11 +674,34 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductCategoryDTO findByCategoryId(Long categoryId) {
-        ProductCategory productCategory = productCategoryRepository.findByCategoryId(categoryId).get();
-        return ProductCategoryConverter.entityToDTO(productCategory);
+    public List<ProductCategoryDTO> findByCategoryId(Long categoryId) {
+        List<ProductCategory> productCategory = productCategoryRepository.findAllByCategoryId(categoryId);
+        return ProductCategoryConverter.listToDTOList(productCategory);
     }
 
+    @Override
+    public Entities findAllBySearchParam(String searchParam, List<Long> productCategoryIds, boolean findByNewAdded ,Pageable pageable) {
+        ProductSearchDTO productSearchDTO = new ProductSearchDTO();
+        productSearchDTO.setSearchParam(searchParam);
+        productSearchDTO.setProductCategoryIds(productCategoryIds);
+        productSearchDTO.setFindByNewAdded(findByNewAdded);
+//        productSearchDTO.setFilter(filters);
+//        productSearchDTO.setAdditionalFilter(additionalFilters);
+
+        Page<ProductElasticDTO> pagedProducts = productElasticRepository.search(productElasticRepositoryBuilder.generateSearchQuery(productSearchDTO), pageable);
+
+        List<Long> ids = productsToIds(pagedProducts);
+
+        Pageable mySqlPaging = PageRequest.of(0, pageable.getPageSize(), pageable.getSort());
+        List<Product> products = productRepository.findAllByIdIn(ids, mySqlPaging).getContent();
+
+        Entities entities = new Entities();
+        entities.setEntities(listToDTOList(products));
+        entities.setTotal(pagedProducts.getTotalElements());
+        entities.setTotalPages(pagedProducts.getTotalPages());
+
+        return entities;
+    }
 
 
     private String createDirectory() {

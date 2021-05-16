@@ -173,6 +173,8 @@ INSERT INTO `category` (`name`, `primary_image_url` , `first_order_category`, `s
 INSERT INTO `category` (`name`, `primary_image_url` , `first_order_category`, `second_order_category`, `third_order_category`) VALUES ('Mediteransko voće', 'images/3-2021/1d32f8c3217a3da4788aa18871f77983.png',false,false,true);
 INSERT INTO `category` (`name`, `primary_image_url` , `first_order_category`, `second_order_category`, `third_order_category`) VALUES ('Voće-Novo', 'images/3-2021/1d32f8c3217a3da4788aa18871f77983.png',false,false,true);
 
+INSERT INTO `category` (`name`, `primary_image_url` , `first_order_category`, `second_order_category`, `third_order_category`) VALUES ('Četinari-Novo', 'images/3-2021/1d32f8c3217a3da4788aa18871f77983.png',false,false,true);
+INSERT INTO `category` (`name`, `primary_image_url` , `first_order_category`, `second_order_category`, `third_order_category`) VALUES ('Topijarne forme-Novo', 'images/3-2021/1d32f8c3217a3da4788aa18871f77983.png',false,false,true);
 
 
 

@@ -77,3 +77,5 @@ INSERT INTO `parent_category` (`parent_category_id`,`category_id`) VALUES (18,73
 INSERT INTO `parent_category` (`parent_category_id`,`category_id`) VALUES (6,74);
 INSERT INTO `parent_category` (`parent_category_id`,`category_id`) VALUES (8,75);
 INSERT INTO `parent_category` (`parent_category_id`,`category_id`) VALUES (8,76);
+INSERT INTO `parent_category` (`parent_category_id`,`category_id`) VALUES (7,77);
+INSERT INTO `parent_category` (`parent_category_id`,`category_id`) VALUES (7,78);

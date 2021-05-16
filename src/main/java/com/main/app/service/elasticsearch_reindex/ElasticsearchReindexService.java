@@ -157,6 +157,7 @@ public class ElasticsearchReindexService {
         productList.forEach(product -> {
             ProductElasticDTO productElasticDTO = new ProductElasticDTO(product);
             productElasticDTO.setAttributeValues(productService.getAllAttributeValsForProductId(product.getId()));
+            productElasticDTO.setProductCategories(productService.getAllProductCategoriesForProductId(product.getId()));
             productElasticRepository.save(productElasticDTO);
         });
         logger.info("[RE-INDEX]Successfully re-indexed PRODUCT");
@@ -183,8 +184,6 @@ public class ElasticsearchReindexService {
         attributeCategories.forEach(attributeCategory -> {
             attributeCategoryElasticRepository.save(new AttributeCategoryElasticDTO(attributeCategory));
         });
-//        logger.info("[RE-INDEX]Successfully re-indexed ATTRIBUTE CATEGORY");
-
 
         ArrayList<AttributeCategoryUniqueDTO> uniqueNames = new ArrayList<>();
         for (AttributeCategory category: attributeCategories) {
@@ -196,9 +195,7 @@ public class ElasticsearchReindexService {
             }
             if(brojac == 0){
                 uniqueNames.add(new AttributeCategoryUniqueDTO(category.getId(),category.getName(),category.getDateCreated()));
-
             }
-
         }
 
         uniqueNames.forEach(unique -> {

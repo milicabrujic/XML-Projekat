@@ -33,4 +33,6 @@ public interface CategoryService {
 
    List<ParentCategoryDTO> getAllParentCategoriesForCategoryId(Long category_id);
 
+   List<Long> getAllSubCategories(Long category_id);
+
 }
