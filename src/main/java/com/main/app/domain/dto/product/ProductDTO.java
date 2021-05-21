@@ -47,7 +47,9 @@ public class ProductDTO {
 
     private boolean selfTransport;
 
-    private String vremeIsporuke;
+    private String vremeIsporukeDo;
+
+    private String vremeIsporukeOd;
 
     private HashMap<Long, List<Long>> sunshineUseIds;
 

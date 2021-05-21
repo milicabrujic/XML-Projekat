@@ -17,8 +17,6 @@ public class ProductSearchDTO {
 
     private boolean findByNewAdded;
 
-//    private List<Integer> filter;
-//
-//    private List<Integer> additionalFilter;
+    private List<Long> attributeValuesFiltersIds;
 
 }

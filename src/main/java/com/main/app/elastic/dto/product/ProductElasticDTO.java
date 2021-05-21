@@ -1,6 +1,7 @@
 package com.main.app.elastic.dto.product;
 
 import com.main.app.domain.dto.product.ProductAttributeAttrValueDTO;
+import com.main.app.domain.dto.product_attribute_category.ProductAttributeCategoryDTO;
 import com.main.app.domain.dto.product_category.ProductCategoryDTO;
 import com.main.app.domain.model.product.Product;
 import com.main.app.elastic.dto.EntityElasticDTO;
@@ -35,6 +36,9 @@ public class ProductElasticDTO extends EntityElasticDTO {
     @Field(type = FieldType.Nested)
     private List<ProductCategoryDTO> productCategories;
 
+    @Field(type = FieldType.Nested)
+    private List<ProductAttributeCategoryDTO> attributeCategoriesValues;
+
     @Field(type = FieldType.Text, fielddata = true)
     private String slug;
 
@@ -46,6 +50,8 @@ public class ProductElasticDTO extends EntityElasticDTO {
     private boolean newAdded;
 
     private Date dateCreated;
+
+    private Double price;
 
     private Long productPosition;
     private Long discountProductPosition;
@@ -60,6 +66,7 @@ public class ProductElasticDTO extends EntityElasticDTO {
         this.dateCreated = Date.from(product.getDateCreated());
         this.productPosition = product.getProductPosition();
         this.newAdded = product.isNewAdded();
+        this.price = product.getPrice();
         this.discountProductPosition = product.getDiscountProductPosition();
     }
 

@@ -19,7 +19,8 @@ public class OrderItemConverter {
                 .price(item.getVariation() != null? item.getVariation().getPrice().toString() : (item.getProduct() != null ? item.getProduct().getPrice().toString()  : null))
                 .imageUrl(item.getVariation() != null? item.getVariation().getPrimaryImageUrl() : (item.getProduct() != null ? item.getProduct().getPrimaryImageUrl() : null))
                 .sku(item.getVariation() != null? item.getVariation().getSku() : (item.getProduct() != null? item.getProduct().getSku() : null))
-                .vremeIsporuke(item.getVariation() != null ? item.getVariation().getProduct().getVremeIsporuke() : (item.getProduct() != null? item.getProduct().getVremeIsporuke() : null))
+                .vremeIsporukeOd(item.getVariation() != null ? item.getVariation().getProduct().getVremeIsporukeOd() : (item.getProduct() != null? item.getProduct().getVremeIsporukeOd() : null))
+                .vremeIsporukeDo(item.getVariation() != null ? item.getVariation().getProduct().getVremeIsporukeDo() : (item.getProduct() != null? item.getProduct().getVremeIsporukeDo() : null))
                 .build();
     }
 

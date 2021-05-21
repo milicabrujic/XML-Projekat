@@ -30,6 +30,8 @@ public class OrderItemDto {
 
     private String imageUrl;
 
-    private String vremeIsporuke;
+    private String vremeIsporukeOd;
+
+    private String vremeIsporukeDo;
 
 }

@@ -1,11 +1,13 @@
 package com.main.app.service.product;
 
+import com.main.app.converter.product_attribute_category.ProductAttributeCategoryConverter;
 import com.main.app.converter.product_cateogry.ProductCategoryConverter;
 import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.product.ProductAttributeAttrValueDTO;
 import com.main.app.domain.dto.product.ProductAttributeValueDTO;
 import com.main.app.domain.dto.product.ProductDTO;
 import com.main.app.domain.dto.product.ProductSearchDTO;
+import com.main.app.domain.dto.product_attribute_category.ProductAttributeCategoryDTO;
 import com.main.app.domain.dto.product_category.ProductCategoryDTO;
 import com.main.app.domain.model.attribute.Attribute;
 import com.main.app.domain.model.attribute_category.AttributeCategory;
@@ -225,10 +227,6 @@ public class ProductServiceImpl implements ProductService {
             prodCatList.add(savedProductCategory);
         }
 
-        ProductElasticDTO productElasticDTO = new ProductElasticDTO(savedProduct);
-        productElasticDTO.setProductCategories(ProductCategoryConverter.listToDTOList(prodCatList));
-        productElasticRepository.save(productElasticDTO);
-
 
         for (String attrKey: productDTO.getAttrCategoryContent().keySet()){
             Attribute tempAttr = attributeRepository.findOneByName(attrKey).get();
@@ -278,6 +276,17 @@ public class ProductServiceImpl implements ProductService {
                 productAttributeValuesRepository.save(productAttributeValues);
             }
         }
+
+        ProductElasticDTO productElasticDTO = new ProductElasticDTO(savedProduct);
+        List<ProductAttributeAttrValueDTO> sunUsageList = ProductAttributeCategoryConverter.listAttrCatToDTO(getAllAttributeCategoryForProduct(product.getId()));
+        List<ProductAttributeAttrValueDTO> attributeCategoryList = getAllAttributeValsForProductId(product.getId());
+        List<ProductAttributeAttrValueDTO> fullList = new ArrayList<>();
+        fullList.addAll(sunUsageList);
+        fullList.addAll(attributeCategoryList);
+        productElasticDTO.setAttributeValues(fullList);
+        productElasticDTO.setProductCategories(ProductCategoryConverter.listToDTOList(prodCatList));
+        productElasticRepository.save(productElasticDTO);
+
         return savedProduct;
     }
 
@@ -320,8 +329,11 @@ public class ProductServiceImpl implements ProductService {
         if(product.getAvailable() != null){
             foundProduct.setAvailable(product.getAvailable());
         }
-        if(product.getVremeIsporuke() != null){
-            foundProduct.setVremeIsporuke(product.getVremeIsporuke());
+        if(product.getVremeIsporukeDo() != null){
+            foundProduct.setVremeIsporukeDo(product.getVremeIsporukeDo());
+        }
+        if(product.getVremeIsporukeOd() != null){
+            foundProduct.setVremeIsporukeOd(product.getVremeIsporukeOd());
         }
 
         foundProduct.setSelfTransport(product.isSelfTransport());
@@ -431,9 +443,17 @@ public class ProductServiceImpl implements ProductService {
             foundProduct.setSku(foundProduct.getSku());
         }
 
+
         Product savedProduct = productRepository.save(foundProduct);
         ProductElasticDTO productElasticDTO = new ProductElasticDTO(savedProduct);
-        productElasticDTO.setAttributeValues(getAllAttributeValsForProductId(savedProduct.getId()));
+
+        List<ProductAttributeAttrValueDTO> sunUsageList = ProductAttributeCategoryConverter.listAttrCatToDTO(getAllAttributeCategoryForProduct(savedProduct.getId()));
+        List<ProductAttributeAttrValueDTO> attributeCategoryList = getAllAttributeValsForProductId(savedProduct.getId());
+        List<ProductAttributeAttrValueDTO> fullList = new ArrayList<>();
+        fullList.addAll(sunUsageList);
+        fullList.addAll(attributeCategoryList);
+        productElasticDTO.setAttributeValues(fullList);
+
         if(prodCatList.size() > 0){
             productElasticDTO.setProductCategories(ProductCategoryConverter.listToDTOList(prodCatList));
         }else{
@@ -680,13 +700,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Entities findAllBySearchParam(String searchParam, List<Long> productCategoryIds, boolean findByNewAdded ,Pageable pageable) {
+    public Entities findAllBySearchParam(String searchParam, List<Long> productCategoryIds, List<Long> attributeValuesFiltersIds ,boolean findByNewAdded ,Pageable pageable) {
         ProductSearchDTO productSearchDTO = new ProductSearchDTO();
         productSearchDTO.setSearchParam(searchParam);
         productSearchDTO.setProductCategoryIds(productCategoryIds);
         productSearchDTO.setFindByNewAdded(findByNewAdded);
-//        productSearchDTO.setFilter(filters);
-//        productSearchDTO.setAdditionalFilter(additionalFilters);
+        productSearchDTO.setAttributeValuesFiltersIds(attributeValuesFiltersIds);
 
         Page<ProductElasticDTO> pagedProducts = productElasticRepository.search(productElasticRepositoryBuilder.generateSearchQuery(productSearchDTO), pageable);
 

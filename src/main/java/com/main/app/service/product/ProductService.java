@@ -56,7 +56,7 @@ public interface ProductService {
 
     List<ProductCategoryDTO> findByCategoryId(Long categoryId);
 
-    Entities findAllBySearchParam(String searchParam, List<Long> productCategoryIds, boolean findByNewAdded ,Pageable pageable);
+    Entities findAllBySearchParam(String searchParam, List<Long> productCategoryIds, List<Long> attributeValuesFiltersIds , boolean findByNewAdded ,Pageable pageable);
 }
 
 

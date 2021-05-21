@@ -1,12 +1,14 @@
 package com.main.app.service.elasticsearch_reindex;
+import com.main.app.converter.product_attribute_category.ProductAttributeCategoryConverter;
 import com.main.app.domain.dto.attribute_category.AttributeCategoryUniqueDTO;
+import com.main.app.domain.dto.product.ProductAttributeAttrValueDTO;
+import com.main.app.domain.dto.product_attribute_category.ProductAttributeCategoryDTO;
 import com.main.app.domain.model.attribute.Attribute;
 import com.main.app.domain.model.attribute_category.AttributeCategory;
 import com.main.app.domain.model.attribute_value.AttributeValue;
 import com.main.app.domain.model.brand.Brand;
 import com.main.app.domain.model.category.Category;
 import com.main.app.domain.model.order.CustomerOrder;
-import com.main.app.domain.model.order_item.OrderItem;
 import com.main.app.domain.model.product.Product;
 import com.main.app.domain.model.user.User;
 import com.main.app.domain.model.variation.Variation;
@@ -46,7 +48,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -156,7 +157,12 @@ public class ElasticsearchReindexService {
         List<Product> productList = productRepository.findAll();
         productList.forEach(product -> {
             ProductElasticDTO productElasticDTO = new ProductElasticDTO(product);
-            productElasticDTO.setAttributeValues(productService.getAllAttributeValsForProductId(product.getId()));
+            List<ProductAttributeAttrValueDTO> sunUsageList = ProductAttributeCategoryConverter.listAttrCatToDTO(productService.getAllAttributeCategoryForProduct(product.getId()));
+            List<ProductAttributeAttrValueDTO> attributeCategoryList = productService.getAllAttributeValsForProductId(product.getId());
+            List<ProductAttributeAttrValueDTO> fullList = new ArrayList<>();
+            fullList.addAll(sunUsageList);
+            fullList.addAll(attributeCategoryList);
+            productElasticDTO.setAttributeValues(fullList);
             productElasticDTO.setProductCategories(productService.getAllProductCategoriesForProductId(product.getId()));
             productElasticRepository.save(productElasticDTO);
         });

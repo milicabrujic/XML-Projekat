@@ -44,7 +44,6 @@ public class ProductElasticRepositoryBuilderImpl implements ProductElasticReposi
                         .should(QueryBuilders.wildcardQuery("sku", "*" + filter + "*"))
                         .should(QueryBuilders.wildcardQuery("slug", "*" + filter + "*"))
                         .should(QueryBuilders.wildcardQuery("brandName", "*" + filter + "*"))
-//                        .should(QueryBuilders.wildcardQuery("categoryName", "*" + filter + "*"))
         );
 
         return searchQuery.must(boolQuery);
@@ -76,6 +75,10 @@ public class ProductElasticRepositoryBuilderImpl implements ProductElasticReposi
 
         if(productSearchDTO.getProductCategoryIds().size() > 0){
                 searchQuery.filter(nestedQuery("productCategories", QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("productCategories.categoryId", productSearchDTO.getProductCategoryIds())), ScoreMode.None));
+        }
+
+        if(productSearchDTO.getAttributeValuesFiltersIds().size() > 0){
+            searchQuery.filter(nestedQuery("attributeValues", QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("attributeValues.attributeValueId", productSearchDTO.getAttributeValuesFiltersIds())), ScoreMode.None));
         }
 
 

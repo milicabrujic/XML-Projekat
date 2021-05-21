@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import static com.main.app.converter.product_attribute_category.ProductAttributeCategoryConverter.*;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import static com.main.app.converter.product.ProductConverter.*;
 
@@ -145,6 +146,8 @@ public class ProductController {
             Pageable pageable,
             @RequestParam(name = "searchParam", required = false) String searchParam,
             @RequestParam(name = "category") String productCategoryId,
+            @RequestParam(name = "filterCategoryValues") List<String> filterCategoryValues,
+            @RequestParam(name = "filtersAttributeValues") List<String> filtersAttributeValues,
             @RequestParam(name = "findByNewAdded", required = false) boolean findByNewAdded){
 
         List<Long> productCategoryIds = categoryService.getAllSubCategories(Long.valueOf(productCategoryId));
@@ -152,7 +155,30 @@ public class ProductController {
             productCategoryIds.add(Long.valueOf(productCategoryId));
         }
 
-        return new ResponseEntity<>(productService.findAllBySearchParam(searchParam, productCategoryIds,findByNewAdded,pageable), HttpStatus.OK);
+        List<Long> filterCategoryIds = new ArrayList<>();
+        if(filterCategoryValues.size() > 0){
+            for (String catId : filterCategoryValues) {
+                List<Long> filterCategorySubIds = categoryService.getAllSubCategories(Long.valueOf(catId));
+                if(filterCategoryIds != null){
+                    for (Long subId : filterCategorySubIds) {
+                        filterCategoryIds.add(subId);
+                    }
+                }
+                if(filterCategoryIds.size() == 0){
+                    filterCategoryIds.add(Long.valueOf(catId));
+                }
+            }
+        }
+
+        List<Long> attributeValuesFiltersIds = new ArrayList<>();
+        if(filtersAttributeValues.size() > 0){
+            for (String attrValId : filtersAttributeValues) {
+                attributeValuesFiltersIds.add(Long.valueOf(attrValId));
+
+            }
+        }
+
+        return new ResponseEntity<>(productService.findAllBySearchParam(searchParam, filterCategoryIds.size() > 0 ? filterCategoryIds : productCategoryIds, attributeValuesFiltersIds ,findByNewAdded,pageable), HttpStatus.OK);
     }
 
 }
