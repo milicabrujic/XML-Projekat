@@ -150,6 +150,8 @@ com/main/app/service/user_favourites/UserFavouritesImpl.java
  com.main.app.service.user_favourites.UserFavouritesImpl
 com/main/app/converter/order/OrderItemConverter.java
  com.main.app.converter.order.OrderItemConverter
+com/main/app/converter/product_attribute_value_converter/ProductAttributeValuesConverter.java
+ com.main.app.converter.product_attribute_value_converter.ProductAttributeValuesConverter
 com/main/app/domain/dto/brand/BrandDTO.java
  com.main.app.domain.dto.brand.BrandDTO
  com.main.app.domain.dto.brand.BrandDTO$BrandDTOBuilder
@@ -161,6 +163,8 @@ com/main/app/service/email/CommentVerifiedEmailServiceImpl.java
  com.main.app.service.email.CommentVerifiedEmailServiceImpl
 com/main/app/controller/comment/CommentController.java
  com.main.app.controller.comment.CommentController
+com/main/app/service/email/OrderConfirmEmailService.java
+ com.main.app.service.email.OrderConfirmEmailService
 com/main/app/domain/dto/order_item/OrderItemDto.java
  com.main.app.domain.dto.order_item.OrderItemDto
  com.main.app.domain.dto.order_item.OrderItemDto$OrderItemDtoBuilder
@@ -226,6 +230,7 @@ com/main/app/repository/brand/BrandRepository.java
  com.main.app.repository.brand.BrandRepository
 com/main/app/domain/dto/product/ProductAttributeValueDTO.java
  com.main.app.domain.dto.product.ProductAttributeValueDTO
+ com.main.app.domain.dto.product.ProductAttributeValueDTO$ProductAttributeValueDTOBuilder
 com/main/app/config/SecurityUtils.java
  com.main.app.config.SecurityUtils
 com/main/app/domain/model/shopping_cart/ShoppingCart.java
@@ -382,6 +387,8 @@ com/main/app/service/category/CategoryServiceImpl.java
  com.main.app.service.category.CategoryServiceImpl
 com/main/app/elastic/dto/variation/VariationElasticDTO.java
  com.main.app.elastic.dto.variation.VariationElasticDTO
+com/main/app/service/email/OrderConfirmEmailServiceImpl.java
+ com.main.app.service.email.OrderConfirmEmailServiceImpl
 com/main/app/converter/attribute_category/AttributeCategoryConverter.java
  com.main.app.converter.attribute_category.AttributeCategoryConverter
 com/main/app/service/shopping_cart_item/ShoppingCartItemServiceImpl.java

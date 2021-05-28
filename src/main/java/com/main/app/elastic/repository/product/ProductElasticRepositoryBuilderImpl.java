@@ -4,11 +4,15 @@ import com.main.app.domain.dto.product.ProductSearchDTO;
 import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.springframework.stereotype.Repository;
 
-import static org.elasticsearch.index.query.QueryBuilders.nestedQuery;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 @Repository
 public class ProductElasticRepositoryBuilderImpl implements ProductElasticRepositoryBuilder {
@@ -64,13 +68,19 @@ public class ProductElasticRepositoryBuilderImpl implements ProductElasticReposi
             searchQuery.filter(QueryBuilders.termsQuery("newAdded", "true"));
         }
 
-        BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
+        BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();                                                                                                                 // filter + "*"
+        QueryBuilder nestedAttributeValueName = nestedQuery("attributeValues", QueryBuilders.boolQuery().should(wildcardQuery("attributeValues.attributeValueName", "*" + filter + "*")),ScoreMode.None);
+        QueryBuilder nestedAttributeName = nestedQuery("attributeValues", QueryBuilders.boolQuery().should(wildcardQuery("attributeValues.attributeName", "*" + filter + "*")),ScoreMode.None);
+        QueryBuilder nestedCategoryName = nestedQuery("productCategories", QueryBuilders.boolQuery().should(wildcardQuery("productCategories.categoryName", "*" + filter + "*")),ScoreMode.None);
 
         boolQuery.must(
                 new BoolQueryBuilder()
                         .should(QueryBuilders.wildcardQuery("name", "*" + filter + "*"))
                         .should(QueryBuilders.fuzzyQuery("name", filter).fuzziness(Fuzziness.TWO).transpositions(true))
-                        .should(QueryBuilders.wildcardQuery("description", "*" + filter + "*"))
+//                            .should(QueryBuilders.wildcardQuery("description", "*" + filter + "*"))
+                        .should(nestedAttributeValueName)
+                        .should(nestedAttributeName)
+                        .should(nestedCategoryName)
         );
 
         if(productSearchDTO.getProductCategoryIds().size() > 0){
@@ -81,9 +91,6 @@ public class ProductElasticRepositoryBuilderImpl implements ProductElasticReposi
             searchQuery.filter(nestedQuery("attributeValues", QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("attributeValues.attributeValueId", productSearchDTO.getAttributeValuesFiltersIds())), ScoreMode.None));
         }
 
-
         return searchQuery.must(boolQuery);
     }
-
-
 }

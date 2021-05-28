@@ -1,5 +1,6 @@
 package com.main.app.service.order;
 
+import com.main.app.converter.order.OrderItemConverter;
 import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.order.OrderDto;
 import com.main.app.domain.model.order.CustomerOrder;
@@ -17,11 +18,12 @@ import com.main.app.repository.product.ProductRepository;
 import com.main.app.repository.shopping_cart.ShoppingCartRepository;
 import com.main.app.repository.shopping_cart_item.ShoppingCartItemRepository;
 import com.main.app.repository.variation.VariationRepository;
+import com.main.app.service.email.OrderConfirmEmailService;
 import com.main.app.service.order_item.OrderItemService;
 import com.main.app.service.shopping_cart.ShoppingCartService;
-import com.main.app.util.ObjectMapperUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -43,6 +45,9 @@ import static com.main.app.util.Util.dtoOrdersToIds;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class OrderServiceImpl implements OrderService {
 
+    @Value("${spring.mail.username}")
+    private String emailFrom;
+
     private final ShoppingCartService shoppingCartService;
 
     private final ShoppingCartRepository shoppingCartRepository;
@@ -62,6 +67,9 @@ public class OrderServiceImpl implements OrderService {
     private final ProductRepository productRepository;
 
     private final VariationRepository variationRepository;
+
+    private final OrderConfirmEmailService orderConfirmEmailService;
+
 
     @Override
     public CustomerOrder createOrder(OrderDto orderDto) {
@@ -231,5 +239,36 @@ public class OrderServiceImpl implements OrderService {
         orderElasticRepository.save(new OrdersElasticDTO(order));
 
         return savedOrder;
+    }
+
+    @Override
+    public void sendMailToOrderer(Long order_id, List<Long> canDelivery, List<Long> cantDelivery, List<Long> selfTransportDelivery) {
+        CustomerOrder customerOrder = orderRepository.findById(order_id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ORDER_NOT_EXIST));
+        List<OrderItem> canDeleveryItems = new ArrayList<>();
+        List<OrderItem> cantDeleveryItems = new ArrayList<>();
+        List<OrderItem> selfTransportDeliveryItems = new ArrayList<>();
+
+        for (Long canId : canDelivery) {
+            OrderItem ordItem = orderItemRepository.findById(canId).get();
+            if(ordItem.getCustomerOrder().getId() == order_id){
+                canDeleveryItems.add(ordItem);
+            }
+        }
+
+        for (Long cantId : cantDelivery) {
+            OrderItem ordItem = orderItemRepository.findById(cantId).get();
+            if(ordItem.getCustomerOrder().getId() == order_id){
+                cantDeleveryItems.add(ordItem);
+            }
+        }
+
+        for (Long selfId : selfTransportDelivery) {
+            OrderItem ordItem = orderItemRepository.findById(selfId).get();
+            if(ordItem.getCustomerOrder().getId() == order_id){
+                selfTransportDeliveryItems.add(ordItem);
+            }
+        }
+
+        orderConfirmEmailService.sendEmail(customerOrder,emailFrom,customerOrder.getBuyerEmail(), OrderItemConverter.toDtoListItems(canDeleveryItems),OrderItemConverter.toDtoListItems(cantDeleveryItems),OrderItemConverter.toDtoListItems(selfTransportDeliveryItems));
     }
 }

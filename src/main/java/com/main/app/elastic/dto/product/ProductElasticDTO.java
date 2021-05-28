@@ -1,6 +1,7 @@
 package com.main.app.elastic.dto.product;
 
 import com.main.app.domain.dto.product.ProductAttributeAttrValueDTO;
+import com.main.app.domain.dto.product.ProductAttributeValueDTO;
 import com.main.app.domain.dto.product_attribute_category.ProductAttributeCategoryDTO;
 import com.main.app.domain.dto.product_category.ProductCategoryDTO;
 import com.main.app.domain.model.product.Product;
@@ -31,7 +32,7 @@ public class ProductElasticDTO extends EntityElasticDTO {
     private String brandName;
 
     @Field(type = FieldType.Nested)
-    private List<ProductAttributeAttrValueDTO> attributeValues;
+    private List<ProductAttributeValueDTO> attributeValues;
 
     @Field(type = FieldType.Nested)
     private List<ProductCategoryDTO> productCategories;

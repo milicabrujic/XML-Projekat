@@ -21,6 +21,7 @@ public class OrderItemConverter {
                 .sku(item.getVariation() != null? item.getVariation().getSku() : (item.getProduct() != null? item.getProduct().getSku() : null))
                 .vremeIsporukeOd(item.getVariation() != null ? item.getVariation().getProduct().getVremeIsporukeOd() : (item.getProduct() != null? item.getProduct().getVremeIsporukeOd() : null))
                 .vremeIsporukeDo(item.getVariation() != null ? item.getVariation().getProduct().getVremeIsporukeDo() : (item.getProduct() != null? item.getProduct().getVremeIsporukeDo() : null))
+                .selfTransport(item.getVariation() != null ? item.getVariation().getProduct().isSelfTransport() : (item.getProduct() != null ? item.getProduct().isSelfTransport() : null))
                 .build();
     }
 

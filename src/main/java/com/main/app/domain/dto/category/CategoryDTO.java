@@ -40,10 +40,4 @@ public class CategoryDTO {
 
     private List<Long> parentCategoriesIds;
 
-//    private Long parentProductCategoryId;
-//
-//    private String parentProductCategoryName;
-
-
-
 }

@@ -34,4 +34,5 @@ public class OrderItemDto {
 
     private String vremeIsporukeDo;
 
+    private boolean selfTransport;
 }

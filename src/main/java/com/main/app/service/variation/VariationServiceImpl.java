@@ -230,15 +230,15 @@ public class VariationServiceImpl implements VariationService{
             variationAttributeValueRepository.save(variationAttributeValue);
         }
 
-//        for(int i = 0; i < productAttributeValueIds.size(); i++){
-//            ProductAttributeValues productAttributeValues = new ProductAttributeValues();
-//            AttributeValue attributeValue = attributeValueService.getOne(productAttributeValueIds.get(i));
-//
-//            productAttributeValues.setProduct(product);
-//            productAttributeValues.setAttributeValue(attributeValue);
-//
-//            productAttributeValuesRepository.save(productAttributeValues);
-//        }
+        for(int i = 0; i < productAttributeValueIds.size(); i++){
+            ProductAttributeValues productAttributeValues = new ProductAttributeValues();
+            AttributeValue attributeValue = attributeValueService.getOne(productAttributeValueIds.get(i));
+
+            productAttributeValues.setProduct(product);
+            productAttributeValues.setAttributeValue(attributeValue);
+
+            productAttributeValuesRepository.save(productAttributeValues);
+        }
 
         return true;
     }

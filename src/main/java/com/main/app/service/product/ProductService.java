@@ -40,7 +40,7 @@ public interface ProductService {
 
     List<ProductAttributeValueDTO> getAllAttributeValuesForProductId(Long productId);
 
-    List<ProductAttributeAttrValueDTO> getAllAttributeValsForProductId(Long productId);
+    List<ProductAttributeValueDTO> getAllAttributeValsForProductId(Long productId);
 
     List<ProductAttributeCategory> getAllAttributeCategoryForProduct(Long id);
 
@@ -55,6 +55,8 @@ public interface ProductService {
     List<ProductCategoryDTO> getAllProductCategoriesForProductId(Long productId);
 
     List<ProductCategoryDTO> findByCategoryId(Long categoryId);
+
+    List<Long> getAllSubCategories(Long category_id);
 
     Entities findAllBySearchParam(String searchParam, List<Long> productCategoryIds, List<Long> attributeValuesFiltersIds , boolean findByNewAdded ,Pageable pageable);
 }

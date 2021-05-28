@@ -5,13 +5,6 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-
-/**
- * The service used for building email body with email templates.
- *
- * @author simona
- *
- */
 @Service
 public class MailContentBuilder {
 

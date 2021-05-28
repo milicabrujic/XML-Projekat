@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.main.app.converter.order.OrderConverter.toDto;
 
 @RestController
@@ -52,8 +54,9 @@ public class OrderController {
     }
 
 
-    @PostMapping(path = "/status/{id}")
-    public ResponseEntity<OrderDto> changeOrderStatus(@PathVariable("id") Long id){
+    @GetMapping(path = "/status/{id}")
+    public ResponseEntity<OrderDto> changeOrderStatus(@PathVariable("id") Long id, @RequestParam(name = "canDelivery") List<Long> canDelivery, @RequestParam(name = "cantDelivery")  List<Long> cantDelivery, @RequestParam(name = "selfTransportDelivery") List<Long> selfTransportDelivery){
+        orderService.sendMailToOrderer(id,canDelivery,cantDelivery,selfTransportDelivery);
         return ResponseEntity.ok().body(toDto(orderService.changeStatusOfOrder(id)));
     }
 

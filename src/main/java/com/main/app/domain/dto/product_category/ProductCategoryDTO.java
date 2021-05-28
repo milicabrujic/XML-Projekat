@@ -22,4 +22,7 @@ public class ProductCategoryDTO {
 
     private String categoryName;
 
+    private Integer categoryOrder;
+
+
 }

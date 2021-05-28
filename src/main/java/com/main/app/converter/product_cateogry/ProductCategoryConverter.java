@@ -38,6 +38,7 @@ public class ProductCategoryConverter {
                 .categoryName(productCategory.getCategory() != null ? productCategory.getCategory().getName() : null)
                 .productId(productCategory.getProduct() != null ? productCategory.getProduct().getId() : null)
                 .productName(productCategory.getProduct() != null ? productCategory.getProduct().getName() : null)
+                .categoryOrder(productCategory.getCategory().isFirstOrderCategory() ? 1 : (productCategory.getCategory().isSecondOrderCategory() ? 2 : (productCategory.getCategory().isThirdOrderCategory() ? 3 : 0)))
                 .build();
     }
 

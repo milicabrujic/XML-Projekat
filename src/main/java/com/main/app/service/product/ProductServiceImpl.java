@@ -1,6 +1,7 @@
 package com.main.app.service.product;
 
 import com.main.app.converter.product_attribute_category.ProductAttributeCategoryConverter;
+import com.main.app.converter.product_attribute_value_converter.ProductAttributeValuesConverter;
 import com.main.app.converter.product_cateogry.ProductCategoryConverter;
 import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.product.ProductAttributeAttrValueDTO;
@@ -13,6 +14,7 @@ import com.main.app.domain.model.attribute.Attribute;
 import com.main.app.domain.model.attribute_category.AttributeCategory;
 import com.main.app.domain.model.attribute_value.AttributeValue;
 import com.main.app.domain.model.category.Category;
+import com.main.app.domain.model.category_parent.ParentCategory;
 import com.main.app.domain.model.counter_slug.CounterSlug;
 import com.main.app.domain.model.image.Image;
 import com.main.app.domain.model.product.Product;
@@ -28,6 +30,7 @@ import com.main.app.repository.attribute.AttributeRepository;
 import com.main.app.repository.attribute_category.AttributeCategoryRepository;
 import com.main.app.repository.attribute_value.AttributeValueRepository;
 import com.main.app.repository.category.CategoryRepository;
+import com.main.app.repository.category_parent.ParentCategoryRepository;
 import com.main.app.repository.counter_slug.CounterSlugRepository;
 import com.main.app.repository.image.ImageRepository;
 import com.main.app.repository.product.ProductAttributeAttrValueRepository;
@@ -105,6 +108,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductAttributeCategoryRepository productAttributeCategoryRepository;
 
+    private final ParentCategoryRepository parentCategoryRepository;
 
     @Override
     public Entities getAll() {
@@ -278,12 +282,15 @@ public class ProductServiceImpl implements ProductService {
         }
 
         ProductElasticDTO productElasticDTO = new ProductElasticDTO(savedProduct);
-        List<ProductAttributeAttrValueDTO> sunUsageList = ProductAttributeCategoryConverter.listAttrCatToDTO(getAllAttributeCategoryForProduct(product.getId()));
-        List<ProductAttributeAttrValueDTO> attributeCategoryList = getAllAttributeValsForProductId(product.getId());
-        List<ProductAttributeAttrValueDTO> fullList = new ArrayList<>();
-        fullList.addAll(sunUsageList);
+
+        List<ProductAttributeValueDTO> attributeCategoryList = ProductAttributeValuesConverter.listCategoriesToDTOList(getAllAttributeCategoryForProduct(savedProduct.getId()));
+        List<ProductAttributeValueDTO> sunUsageVariationAttrsList = getAllAttributeValsForProductId(savedProduct.getId());
+        List<ProductAttributeValueDTO> fullList = new ArrayList<>();
+        fullList.addAll(sunUsageVariationAttrsList);
         fullList.addAll(attributeCategoryList);
         productElasticDTO.setAttributeValues(fullList);
+
+
         productElasticDTO.setProductCategories(ProductCategoryConverter.listToDTOList(prodCatList));
         productElasticRepository.save(productElasticDTO);
 
@@ -364,7 +371,6 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductCategory> prodCatList = new ArrayList<>();
         if(productDTO != null){
-
             List<ProductCategory> productCategoryList = productCategoryRepository.findAllByProductId(productDTO.getId());
             ArrayList<Long> temp = new ArrayList<>();
 
@@ -405,7 +411,6 @@ public class ProductServiceImpl implements ProductService {
 
             }
 
-
             for (Long pcId : toADD) {
                 Category cat = categoryRepository.findById(pcId).get();
                 if(cat == null){
@@ -417,8 +422,6 @@ public class ProductServiceImpl implements ProductService {
                 ProductCategory savedProductCategory = productCategoryRepository.save(productCategory);
                 prodCatList.add(savedProductCategory);
             }
-
-
         }
 
         //Ako je novi jednak starom
@@ -447,18 +450,14 @@ public class ProductServiceImpl implements ProductService {
         Product savedProduct = productRepository.save(foundProduct);
         ProductElasticDTO productElasticDTO = new ProductElasticDTO(savedProduct);
 
-        List<ProductAttributeAttrValueDTO> sunUsageList = ProductAttributeCategoryConverter.listAttrCatToDTO(getAllAttributeCategoryForProduct(savedProduct.getId()));
-        List<ProductAttributeAttrValueDTO> attributeCategoryList = getAllAttributeValsForProductId(savedProduct.getId());
-        List<ProductAttributeAttrValueDTO> fullList = new ArrayList<>();
-        fullList.addAll(sunUsageList);
+        List<ProductAttributeValueDTO> attributeCategoryList = ProductAttributeValuesConverter.listCategoriesToDTOList(getAllAttributeCategoryForProduct(savedProduct.getId()));
+        List<ProductAttributeValueDTO> sunUsageVariationAttrsList = getAllAttributeValsForProductId(savedProduct.getId());
+        List<ProductAttributeValueDTO> fullList = new ArrayList<>();
+        fullList.addAll(sunUsageVariationAttrsList);
         fullList.addAll(attributeCategoryList);
         productElasticDTO.setAttributeValues(fullList);
+        productElasticDTO.setProductCategories(getAllProductCategoriesForProductId(savedProduct.getId()));
 
-        if(prodCatList.size() > 0){
-            productElasticDTO.setProductCategories(ProductCategoryConverter.listToDTOList(prodCatList));
-        }else{
-            productElasticDTO.setProductCategories(getAllProductCategoriesForProductId(savedProduct.getId()));
-        }
         productElasticRepository.save(productElasticDTO);
 
         return savedProduct;
@@ -645,8 +644,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductAttributeAttrValueDTO> getAllAttributeValsForProductId(Long productId) {
-        return productAttributeAttrValueRepository.findAllAttributeValuesForProductId(productId);
+    public List<ProductAttributeValueDTO> getAllAttributeValsForProductId(Long productId) {
+        List<ProductAttributeValues> productAttributeValues = productAttributeValuesRepository.findAllByProductId(productId);
+        return ProductAttributeValuesConverter.listToDTOList(productAttributeValues);
     }
 
     @Override
@@ -699,8 +699,32 @@ public class ProductServiceImpl implements ProductService {
         return ProductCategoryConverter.listToDTOList(productCategory);
     }
 
+
+    @Override
+    public List<Long> getAllSubCategories(Long category_id) {
+        List <Long> ids = new ArrayList<>();
+        List<ParentCategory> parentCategoriesList = parentCategoryRepository.findAllByParentCategoryId(category_id);
+
+        List<Category> parentCategories = new ArrayList<>();
+        for (ParentCategory pc : parentCategoriesList) {
+            parentCategories.add(pc.getCategory());
+            ids.add(pc.getCategory().getId());
+        }
+
+        for (Category cat : parentCategories) {
+            if(parentCategoryRepository.findAllByParentCategoryId(cat.getId()) != null){
+                List<ParentCategory> list = parentCategoryRepository.findAllByParentCategoryId(cat.getId());
+                for (ParentCategory parCat : list) {
+                    ids.add(parCat.getCategory().getId());
+                }
+            }
+        }
+        return ids;
+    }
+
     @Override
     public Entities findAllBySearchParam(String searchParam, List<Long> productCategoryIds, List<Long> attributeValuesFiltersIds ,boolean findByNewAdded ,Pageable pageable) {
+
         ProductSearchDTO productSearchDTO = new ProductSearchDTO();
         productSearchDTO.setSearchParam(searchParam);
         productSearchDTO.setProductCategoryIds(productCategoryIds);

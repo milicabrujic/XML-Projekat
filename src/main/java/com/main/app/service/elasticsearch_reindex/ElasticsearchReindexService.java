@@ -1,7 +1,9 @@
 package com.main.app.service.elasticsearch_reindex;
 import com.main.app.converter.product_attribute_category.ProductAttributeCategoryConverter;
+import com.main.app.converter.product_attribute_value_converter.ProductAttributeValuesConverter;
 import com.main.app.domain.dto.attribute_category.AttributeCategoryUniqueDTO;
 import com.main.app.domain.dto.product.ProductAttributeAttrValueDTO;
+import com.main.app.domain.dto.product.ProductAttributeValueDTO;
 import com.main.app.domain.dto.product_attribute_category.ProductAttributeCategoryDTO;
 import com.main.app.domain.model.attribute.Attribute;
 import com.main.app.domain.model.attribute_category.AttributeCategory;
@@ -157,10 +159,10 @@ public class ElasticsearchReindexService {
         List<Product> productList = productRepository.findAll();
         productList.forEach(product -> {
             ProductElasticDTO productElasticDTO = new ProductElasticDTO(product);
-            List<ProductAttributeAttrValueDTO> sunUsageList = ProductAttributeCategoryConverter.listAttrCatToDTO(productService.getAllAttributeCategoryForProduct(product.getId()));
-            List<ProductAttributeAttrValueDTO> attributeCategoryList = productService.getAllAttributeValsForProductId(product.getId());
-            List<ProductAttributeAttrValueDTO> fullList = new ArrayList<>();
-            fullList.addAll(sunUsageList);
+            List<ProductAttributeValueDTO> attributeCategoryList = ProductAttributeValuesConverter.listCategoriesToDTOList(productService.getAllAttributeCategoryForProduct(product.getId()));
+            List<ProductAttributeValueDTO> sunUsageVariationAttrsList =  productService.getAllAttributeValsForProductId(product.getId());
+            List<ProductAttributeValueDTO> fullList = new ArrayList<>();
+            fullList.addAll(sunUsageVariationAttrsList);
             fullList.addAll(attributeCategoryList);
             productElasticDTO.setAttributeValues(fullList);
             productElasticDTO.setProductCategories(productService.getAllProductCategoriesForProductId(product.getId()));

@@ -19,9 +19,7 @@ public class CommentVerifiedEmailServiceImpl implements CommentVerifiedEmailServ
             "If you did not requested a verify comment, please ignore this email or let us know.";
 
     private EmailClient emailClient;
-
     private MailContentBuilder mailContentBuilder;
-
     @Autowired
     public CommentVerifiedEmailServiceImpl(EmailClient emailClient, MailContentBuilder mailContentBuilder) {
         this.emailClient = emailClient;

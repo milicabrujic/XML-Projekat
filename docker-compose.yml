@@ -5,7 +5,7 @@ services:
   # App backend service
   app-server:
     # Configuration for building the docker image for the backend service
-    image: lilly021docker/tr-backend:backend-app
+    image: lilly021docker/tr-backend
     ports:
       - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: always
@@ -13,32 +13,32 @@ services:
       - db # This service depends on mysql. Start that first.
       - elasticsearch
     environment: # Pass environment variables to the service
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/db_topalovic_app?createDatabaseIfNotExist=true&serverTimezone=Europe/Belgrade&useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_general_ci
-      SPRING_ELASTICSEARCH_HOST_URL: elasticsearch:9200
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: password
       SPRING_PROFILES_ACTIVE: prod
+#      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/db_topalovic_app?createDatabaseIfNotExist=true&serverTimezone=Europe/Belgrade&useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_general_ci
+      SPRING_ELASTICSEARCH_HOST_URL: elasticsearch:9200
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: password
       DOCUMENT_PRODUCTCATEGORY_PATH:  /home/user/Desktop/Work/images/          #/opt/images/
     volumes:
       - "/home/user/Desktop/Work/images/:/home/user/Desktop/Work/images/"       #"/opt/images/:/opt/images/"
 
 # Admin Frontend Service 
   admin-client:
-    image: lilly021docker/tr-admin:frontend-app
+    image: lilly021docker/tr-admin
     ports:
       - "9090:80" # Map the exposed port 80 on the container to port 9090 on the host machine
     restart: always
     depends_on:
       - app-server
 
-## Webshop Frontend Service
-#  app-client:
-#    image: lilly021docker/tr-frontend:frontend-app
-#    ports:
-#      - "9091:3000" # Map the exposed port 3000 on the container to port 9091 on the host machine
-#    restart: always
-#    depends_on:
-#      - app-server
+# Webshop Frontend Service
+  app-client:
+    image: lilly021docker/tr-front
+    ports:
+      - "9091:3000" # Map the exposed port 3000 on the container to port 9091 on the host machine
+    restart: always
+    depends_on:
+      - app-server
 
 # Elastic search
   elasticsearch:
@@ -67,7 +67,7 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: db_topalovic_app
-      MYSQL_USER: root
+#      MYSQL_USER: root
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: password
     volumes:

@@ -150,8 +150,11 @@ public class ProductController {
             @RequestParam(name = "filtersAttributeValues") List<String> filtersAttributeValues,
             @RequestParam(name = "findByNewAdded", required = false) boolean findByNewAdded){
 
-        List<Long> productCategoryIds = categoryService.getAllSubCategories(Long.valueOf(productCategoryId));
-        if(productCategoryIds.size() == 0){
+        List<Long> productCategoryIds = new ArrayList<>();
+        if(Long.valueOf(productCategoryId) != 0){
+            productCategoryIds = categoryService.getAllSubCategories(Long.valueOf(productCategoryId));
+        }
+        if(productCategoryIds.size() == 0 && Long.valueOf(productCategoryId) != 0){
             productCategoryIds.add(Long.valueOf(productCategoryId));
         }
 

@@ -3,9 +3,10 @@ package com.main.app.service.order;
 import com.main.app.domain.dto.Entities;
 import com.main.app.domain.dto.order.OrderDto;
 import com.main.app.domain.model.order.CustomerOrder;
-import com.main.app.domain.model.user.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface OrderService {
@@ -21,4 +22,6 @@ public interface OrderService {
     CustomerOrder changeStatusOfOrder(Long id);
 
     CustomerOrder removeOrder(Long id);
+
+    void sendMailToOrderer(Long order_id, List<Long> canDelivery, List<Long> cantDelivery, List<Long> selfTransportDelivery);
 }
