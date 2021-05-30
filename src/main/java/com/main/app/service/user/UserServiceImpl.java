@@ -165,7 +165,7 @@ public class UserServiceImpl implements UserService {
                 "?registrationToken=" + userToSave.getRegistrationToken(),
                 emailFrom,
                 user.getEmail(),
-                Constants.URL_PART_USER
+                Constants.URL_PASSWORD_RESET
         );
         return savedUser;
     }
@@ -278,7 +278,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User register(RegisterRequestDTO registerRequestDTO) {
         Optional<User> optionalUser = userRepository.findOneByEmailAndDeletedFalse(registerRequestDTO.getEmail());
-        System.out.println("regitering the user");
+
         if(optionalUser.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, USER_WITH_EMAIL_ALREADY_EXIST);
         }
@@ -353,27 +353,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.getOne(id);
     }
 
-    @Override
-    public void createPassword(String password, String registrationToken) {
-        if (!validatePassword(password)) {
-            throw new InvalidPasswordException();
-        }
-
-        Optional<User> user = userRepository.findOneByRegistrationToken(registrationToken);
-
-        if (!user.isPresent()) {
-            throw new TokenExpiredException();
-        }
-
-        Instant now = new Timestamp(System.currentTimeMillis()).toInstant();
-        if (user.get().getRegistrationTokenExpirationDate().isBefore(now)) {
-            throw new TokenExpiredException();
-        }
-
-        user.get().setPassword(encryptUserPassword(password));
-        user.get().setRegistrationConfirmed(true);
-        userRepository.save(user.get());
-    }
 
     @Override
     public void sendRecoveryPasswordMail(String email) {
@@ -422,10 +401,58 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void setUserRegisterPassword(String password, String registerToken) {
+        if (!validatePassword(password)) {
+            throw new InvalidPasswordException();
+        }
+
+        Optional<User> user = userRepository.findOneByRegistrationToken(registerToken);
+
+        if (!user.isPresent()) {
+            throw new TokenExpiredException();
+        }
+
+        Instant now = new Timestamp(System.currentTimeMillis()).toInstant();
+        if (user.get().getRegistrationTokenExpirationDate().isBefore(now)) {
+            throw new TokenExpiredException();
+        }
+
+        user.get().setPassword(encryptUserPassword(password));
+        user.get().setResetToken(null);
+        user.get().setResetTokenExpirationDate(null);
+
+        userRepository.save(user.get());
+    }
+
+    @Override
     public void changePassword(String email, String password) {
         User user = userRepository.findOneByEmailAndDeletedFalse(email).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
         user.setPassword(encryptUserPassword(password));
 
         userRepository.save(user);
     }
+
+    @Override
+    public void createPassword(String password, String registrationToken) {
+        if (!validatePassword(password)) {
+            throw new InvalidPasswordException();
+        }
+
+        Optional<User> user = userRepository.findOneByRegistrationToken(registrationToken);
+
+        if (!user.isPresent()) {
+            throw new TokenExpiredException();
+        }
+
+        Instant now = new Timestamp(System.currentTimeMillis()).toInstant();
+        if (user.get().getRegistrationTokenExpirationDate().isBefore(now)) {
+            throw new TokenExpiredException();
+        }
+
+        user.get().setPassword(encryptUserPassword(password));
+        user.get().setRegistrationConfirmed(true);
+        userRepository.save(user.get());
+    }
+
 }
+

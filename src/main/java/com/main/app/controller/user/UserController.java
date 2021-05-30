@@ -65,6 +65,13 @@ public class UserController {
         userService.resetPassword(passwordDTO.password, resetToken);
     }
 
+    @PutMapping("/registerPassword/{registerToken}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void saveUserRegisterPassword(@PathVariable String registerToken, @RequestBody PasswordDTO passwordDTO) {
+        userService.setUserRegisterPassword(passwordDTO.password, registerToken);
+    }
+
+
     @PostMapping(path = "/update-password")
     @PreAuthorize("hasRole('ROLE_USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)

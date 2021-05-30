@@ -4,19 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-/**
- * The implementation of EmailService used for sending email to drivers for registration.
- *
- * @author Nikola
- *
- */
 @Service
 public class RegistrationEmailServiceImpl implements RegistrationEmailService {
 
-    private static final String EMAIL_SUBJECT = "Registration";
+    private static final String EMAIL_SUBJECT = "Potvrda Registracije!";
 
     private static final String MESSAGE_BEFORE =
-            "Hi, your contract is saved by our admin team. You can register on link bellow.";
+            "Pozdrav, naš administratorski tim je dodao i sačuvao vaš korisničlo nalog. <br/>" +
+                    "&nbsp;&nbsp;&nbsp;&nbsp; Potvrda registracije je moguća na donjem linku.";
 
     private static final String MESSAGE_AFTER =
             "";

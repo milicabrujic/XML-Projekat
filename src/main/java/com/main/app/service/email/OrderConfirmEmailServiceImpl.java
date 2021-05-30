@@ -2,12 +2,16 @@ package com.main.app.service.email;
 
 import com.main.app.domain.dto.order_item.OrderItemDto;
 import com.main.app.domain.model.order.CustomerOrder;
-import com.main.app.domain.model.order_item.OrderItem;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -16,11 +20,11 @@ public class OrderConfirmEmailServiceImpl implements OrderConfirmEmailService{
     private static final String EMAIL_SUBJECT = "Narudžbina primljena-Informacije";
 
     private EmailClient emailClient;
-    private MailContentBuilder mailContentBuilder;
+    private OrderMailContentBuilder orderMailContentBuilder;
     @Autowired
-    public OrderConfirmEmailServiceImpl(EmailClient emailClient, MailContentBuilder mailContentBuilder) {
+    public OrderConfirmEmailServiceImpl(EmailClient emailClient, OrderMailContentBuilder orderMailContentBuilder) {
         this.emailClient = emailClient;
-        this.mailContentBuilder = mailContentBuilder;
+        this.orderMailContentBuilder = orderMailContentBuilder;
     }
 
     @Override
@@ -29,28 +33,32 @@ public class OrderConfirmEmailServiceImpl implements OrderConfirmEmailService{
         String itemsCanDelivery = "";
         String itemsCantDelivery = "";
         String itemsSelfTransport = "";
+        DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
+                .withZone(ZoneId.systemDefault());
+        DateTimeFormatter DATE_TIME_FORMATTER_2 = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+                .withZone(ZoneId.systemDefault());
 
         for (OrderItemDto item : canDelivery) {
-            itemsCanDelivery += item.getName() + "  Cena: " + item.getPrice() + "  Količina: " + item.getQuantity() + " Kom.\n";
+            itemsCanDelivery += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "*&nbsp;Naziv:"  +  "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+ "<b>" + item.getName() + "</b>" + "<br/>"  +"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "-&nbsp;Cena: " +  "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"  + item.getPrice() + "0 RSD" +  "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "-&nbsp;Količina: " + item.getQuantity() + " kom." + "<br/><br/>";
         }
         for (OrderItemDto item : cantDelivery) {
-            itemsCantDelivery += item.getName() + "  Cena: " + item.getPrice() + "  Količina: " + item.getQuantity() + " Kom.\n";
+            Instant instantOd = Instant.parse(item.getVremeIsporukeOd());
+            Instant instantDo = Instant.parse(item.getVremeIsporukeDo());
+            itemsCantDelivery += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "*&nbsp;Naziv:"  +  "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "<b>" + item.getName() + "</b>" +  "<br/>"  +  "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "-&nbsp;Cena: " +  "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"  + item.getPrice() + "0 RSD" +  "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "-&nbsp;Količina: " + item.getQuantity() + " kom." + "<br/> " +
+                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "-&nbsp;Moguće preuzeti u periodu:" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "od" + "&nbsp;&nbsp;&nbsp;" + DATE_TIME_FORMATTER_2.format(instantOd) + "&nbsp;&nbsp;&nbsp;" + "do" + "&nbsp;&nbsp;&nbsp;" + DATE_TIME_FORMATTER_2.format(instantDo) + "<br/><br/>";
         }
         for (OrderItemDto item : selfTransportDelivery) {
-            itemsSelfTransport += item.getName() + "  Cena: " + item.getPrice() + "  Količina: " + item.getQuantity() + " Kom.\n";
+            itemsSelfTransport +="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "*&nbsp;Naziv:"  +  "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "<b>" + item.getName() + "</b>" +  "<br/>"  + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "-&nbsp;Cena: " +  "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"  + item.getPrice() + "0 RSD" +  "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "-&nbsp;Količina: " + item.getQuantity() + " kom." + "<br/><br/>";
         }
 
-        String MESSAGE_BEFORE = "Poštovani " + order.getBuyerName() + " " + order.getBuyerSurname() + "  u sledećem tekstu nalaze se osnovne informacije o vašoj porudžbini."
-                                + "Molimo vas pročitajte kako biste znali i bili informisani o tačnom vremenu isporuke i načinu preuzimanja proizvoda iz našeg vrta.";
+        String MESSAGE_USER_NAME_SURNAME = "Pozdrav, " + order.getBuyerName() + " " + order.getBuyerSurname() + "!";
 
-        String MESSAGE_AFTER = "-Poručeni proizvodi koji će biti isporučeni u periodu od 5 do 10 dana: \n"
-                                + itemsCanDelivery + "\n"
-                                + " -Poručeni proizvodi koji će biti isporučeni sa zakašnjenjem: \n"
-                                + itemsCantDelivery + "\n"
-                                + " -Poručeni proizvodi koje preuzimate lično u našoj poslovnici: \n"
-                                + itemsSelfTransport;
 
-        String content = mailContentBuilder.buildContentWithLink("", MESSAGE_BEFORE, MESSAGE_AFTER);
+        String ORDER_DATE_CREATED = "-Datum kreiranja porudžbine:" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + DATE_TIME_FORMATTER.format(order.getDateCreated());;
+
+        String ORDER_PRICE = "-Ukupna cena:" +  "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + order.getTotalPrice().toString() + ",00 RSD.";
+
+        String content = orderMailContentBuilder.buildOrderContentWithLink(MESSAGE_USER_NAME_SURNAME,itemsCanDelivery, itemsCantDelivery,itemsSelfTransport,ORDER_DATE_CREATED,ORDER_PRICE);
         String emailToSend = "stefan.roganovic@lilly021.com";
         emailClient.sendMimeEmail(emailFrom,emailToSend,EMAIL_SUBJECT,content);
     }

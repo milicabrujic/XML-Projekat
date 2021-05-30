@@ -8,11 +8,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
-/**
- * The client for sending emails.
- *
- * @author simona
- */
 @Service
 public class EmailClient {
 

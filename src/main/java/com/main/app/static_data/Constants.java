@@ -8,7 +8,7 @@ public class Constants {
     public static final String EMAIL_REGEX = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
 
     public static final String URL_PART_USER = "/userConfirmation";
-    public static final String URL_PASSWORD_RESET = "/resetPassword";
+    public static final String URL_PASSWORD_RESET = "/reset-password";
     public static final String URL_COMMENT_ID = "/comment/details";
 
     public static final int VALIDITY_OF_TOKEN_IN_DAYS = 5;

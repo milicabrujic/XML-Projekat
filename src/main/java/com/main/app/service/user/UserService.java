@@ -9,11 +9,6 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
-/**
- * The service used for management of the User data.
- *
- * @author Nikola
- */
 public interface UserService {
     Optional<User> findByEmail(String email);
 
@@ -36,6 +31,8 @@ public interface UserService {
     void sendRecoveryPasswordMail(String email);
 
     void resetPassword(String password, String registrationToken);
+
+    void setUserRegisterPassword(String password, String registerToken);
 
     void changePassword(String email, String password);
 

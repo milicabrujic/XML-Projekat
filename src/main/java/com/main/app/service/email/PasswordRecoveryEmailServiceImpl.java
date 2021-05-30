@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class PasswordRecoveryEmailServiceImpl implements PasswordRecoveryEmailService {
 
-    private static final String EMAIL_SUBJECT = "Forgot Password";
+    private static final String EMAIL_SUBJECT = "Zaboravljena lozinka";
 
     private static final String MESSAGE_BEFORE =
-            "Hi, you recently requested to reset your password. Click the link below to reset it.";
+            "Poštovani, zatražili ste resetovanje vaše lozinke. Kliknite na link ispod kako biste je resetovali.";
 
     private static final String MESSAGE_AFTER =
-            "If you did not requested a password reset, please ignore this email or let us know." +
-                    "  This password reset is valid for next " + Constants.VALIDITY_OF_TOKEN_IN_DAYS + " days.";
+            "Ukoliko vi niste zatražili resetovanje lozinke, molimo vas da ignorišete ovaj email ili nas obavestite o istom. " +
+                    " Link za resetovanje vaše lozinke će biti validan u narednih " + Constants.VALIDITY_OF_TOKEN_IN_DAYS + " dana.";
 
     private EmailClient emailClient;
 
