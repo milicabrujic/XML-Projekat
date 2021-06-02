@@ -13,8 +13,9 @@ com/main/app/exception/InvalidPasswordException.java
 com/main/app/domain/model/attribute_category/AttributeCategory.java
  com.main.app.domain.model.attribute_category.AttributeCategory
  com.main.app.domain.model.attribute_category.AttributeCategory$AttributeCategoryBuilder
-com/main/app/service/product/ProductServiceImpl.java
- com.main.app.service.product.ProductServiceImpl
+com/main/app/domain/dto/user/UserDTO.java
+ com.main.app.domain.dto.user.UserDTO
+ com.main.app.domain.dto.user.UserDTO$UserDTOBuilder
 com/main/app/repository/shopping_cart/ShoppingCartRepository.java
  com.main.app.repository.shopping_cart.ShoppingCartRepository
 com/main/app/service/email/SubmitContactEmailServiceImpl.java
@@ -29,31 +30,31 @@ com/main/app/elastic/repository/attribute/AttributeElasticRepositoryBuilder.java
  com.main.app.elastic.repository.attribute.AttributeElasticRepositoryBuilder
 com/main/app/domain/model/AbstractEntity.java
  com.main.app.domain.model.AbstractEntity
-com/main/app/config/OAuth2SecurityConfig.java
- com.main.app.config.OAuth2SecurityConfig
 com/main/app/domain/dto/image/ImageDTO.java
  com.main.app.domain.dto.image.ImageDTO
  com.main.app.domain.dto.image.ImageDTO$ImageDTOBuilder
 com/main/app/service/order_item/OrderItemService.java
  com.main.app.service.order_item.OrderItemService
+com/main/app/config/OAuth2SecurityConfig.java
+ com.main.app.config.OAuth2SecurityConfig
 com/main/app/domain/model/variation/Variation.java
  com.main.app.domain.model.variation.Variation
  com.main.app.domain.model.variation.Variation$VariationBuilder
 com/main/app/elastic/repository/attribute_category_unique/AttributeCategoryUniqueElasticRepositoryBuilderImpl.java
  com.main.app.elastic.repository.attribute_category_unique.AttributeCategoryUniqueElasticRepositoryBuilderImpl
-com/main/app/exception/TokenExpiredException.java
- com.main.app.exception.TokenExpiredException
+com/main/app/service/user/UserService.java
+ com.main.app.service.user.UserService
 com/main/app/controller/image/ImageController.java
  com.main.app.controller.image.ImageController
-com/main/app/controller/order/OrderController.java
- com.main.app.controller.order.OrderController
 com/main/app/controller/user_favourites/UserFavouritesController.java
  com.main.app.controller.user_favourites.UserFavouritesController
+com/main/app/controller/order/OrderController.java
+ com.main.app.controller.order.OrderController
+com/main/app/converter/product/ProductConverter.java
+ com.main.app.converter.product.ProductConverter
 com/main/app/domain/dto/product_attribute_category/ProductAttributeCategoryDTO.java
  com.main.app.domain.dto.product_attribute_category.ProductAttributeCategoryDTO
  com.main.app.domain.dto.product_attribute_category.ProductAttributeCategoryDTO$ProductAttributeCategoryDTOBuilder
-com/main/app/converter/product/ProductConverter.java
- com.main.app.converter.product.ProductConverter
 com/main/app/elastic/repository/variation/VariationElasticRepository.java
  com.main.app.elastic.repository.variation.VariationElasticRepository
 com/main/app/service/image/ImageServiceImpl.java
@@ -73,27 +74,26 @@ com/main/app/elastic/dto/order/OrdersElasticDTO.java
  com.main.app.elastic.dto.order.OrdersElasticDTO
 com/main/app/elastic/repository/attribute_category/AttributeCategoryElasticRepositoryBuilder.java
  com.main.app.elastic.repository.attribute_category.AttributeCategoryElasticRepositoryBuilder
-com/main/app/domain/dto/attribute_category/AttributeCategoryDTO.java
- com.main.app.domain.dto.attribute_category.AttributeCategoryDTO
- com.main.app.domain.dto.attribute_category.AttributeCategoryDTO$AttributeCategoryDTOBuilder
 com/main/app/domain/dto/category/CategoryDTO.java
  com.main.app.domain.dto.category.CategoryDTO
  com.main.app.domain.dto.category.CategoryDTO$CategoryDTOBuilder
+com/main/app/domain/dto/attribute_category/AttributeCategoryDTO.java
+ com.main.app.domain.dto.attribute_category.AttributeCategoryDTO
+ com.main.app.domain.dto.attribute_category.AttributeCategoryDTO$AttributeCategoryDTOBuilder
 com/main/app/enums/Role.java
  com.main.app.enums.Role
 com/main/app/domain/dto/user/EmailDTO.java
  com.main.app.domain.dto.user.EmailDTO
-com/main/app/domain/dto/user/UserDTO.java
- com.main.app.domain.dto.user.UserDTO
- com.main.app.domain.dto.user.UserDTO$UserDTOBuilder
+com/main/app/service/user/UserServiceImpl.java
+ com.main.app.service.user.UserServiceImpl
 com/main/app/converter/variation/VariationConverter.java
  com.main.app.converter.variation.VariationConverter
-com/main/app/static_data/Messages.java
- com.main.app.static_data.Messages
 com/main/app/converter/user/UserConverter.java
  com.main.app.converter.user.UserConverter
 com/main/app/repository/variation_attribute_value_id/VariationAttributeValueRepository.java
  com.main.app.repository.variation_attribute_value_id.VariationAttributeValueRepository
+com/main/app/static_data/Messages.java
+ com.main.app.static_data.Messages
 com/main/app/controller/attribute/AttributeController.java
  com.main.app.controller.attribute.AttributeController
 com/main/app/util/ObjectMapperUtils.java
@@ -101,10 +101,10 @@ com/main/app/util/ObjectMapperUtils.java
 com/main/app/domain/model/user/User.java
  com.main.app.domain.model.user.User
  com.main.app.domain.model.user.User$UserBuilder
-com/main/app/elastic/dto/attribute_category/AttributeCategoryUniqueElasticDTO.java
- com.main.app.elastic.dto.attribute_category.AttributeCategoryUniqueElasticDTO
 com/main/app/service/variation/VariationService.java
  com.main.app.service.variation.VariationService
+com/main/app/elastic/dto/attribute_category/AttributeCategoryUniqueElasticDTO.java
+ com.main.app.elastic.dto.attribute_category.AttributeCategoryUniqueElasticDTO
 com/main/app/converter/category_parent/ParentCategoryConverter.java
  com.main.app.converter.category_parent.ParentCategoryConverter
 com/main/app/util/JmbgValidatorUtil.java
@@ -113,18 +113,18 @@ com/main/app/elastic/dto/EntityElasticDTO.java
  com.main.app.elastic.dto.EntityElasticDTO
 com/main/app/repository/variation/VariationRepository.java
  com.main.app.repository.variation.VariationRepository
-com/main/app/controller/attribute_category/AttributeCategoryController.java
- com.main.app.controller.attribute_category.AttributeCategoryController
+com/main/app/controller/user/UserController.java
+ com.main.app.controller.user.UserController
 com/main/app/util/UserUtil.java
  com.main.app.util.UserUtil
 com/main/app/converter/attribute_value/AttributeValueConverter.java
  com.main.app.converter.attribute_value.AttributeValueConverter
-com/main/app/controller/user/UserController.java
- com.main.app.controller.user.UserController
+com/main/app/service/email/RegistrationEmailServiceImpl.java
+ com.main.app.service.email.RegistrationEmailServiceImpl
 com/main/app/elastic/repository/attribute_value/AttributeValueElasticRepositoryBuilder.java
  com.main.app.elastic.repository.attribute_value.AttributeValueElasticRepositoryBuilder
-com/main/app/domain/dto/user/PasswordDTO.java
- com.main.app.domain.dto.user.PasswordDTO
+com/main/app/exception/TokenExpiredException.java
+ com.main.app.exception.TokenExpiredException
 com/main/app/repository/product_attribute_values/ProductAttributeValuesRepository.java
  com.main.app.repository.product_attribute_values.ProductAttributeValuesRepository
 com/main/app/domain/dto/user_favourites/UserFavouritesDTO.java
@@ -221,10 +221,10 @@ com/main/app/repository/attribute_category/AttributeCategoryRepository.java
  com.main.app.repository.attribute_category.AttributeCategoryRepository
 com/main/app/repository/product_attribute_category/ProductAttributeCategoryRepository.java
  com.main.app.repository.product_attribute_category.ProductAttributeCategoryRepository
-com/main/app/config/CORSFilterConfig.java
- com.main.app.config.CORSFilterConfig
 com/main/app/elastic/repository/attribute_category/AttributeCategoryElasticRepositoryBuilderImpl.java
  com.main.app.elastic.repository.attribute_category.AttributeCategoryElasticRepositoryBuilderImpl
+com/main/app/config/CORSFilterConfig.java
+ com.main.app.config.CORSFilterConfig
 com/main/app/repository/attribute/AttributeRepository.java
  com.main.app.repository.attribute.AttributeRepository
 com/main/app/repository/brand/BrandRepository.java
@@ -234,11 +234,11 @@ com/main/app/domain/dto/product/ProductAttributeValueDTO.java
  com.main.app.domain.dto.product.ProductAttributeValueDTO$ProductAttributeValueDTOBuilder
 com/main/app/config/SecurityUtils.java
  com.main.app.config.SecurityUtils
-com/main/app/elastic/dto/category/CategoryElasticDTO.java
- com.main.app.elastic.dto.category.CategoryElasticDTO
 com/main/app/domain/model/shopping_cart/ShoppingCart.java
  com.main.app.domain.model.shopping_cart.ShoppingCart
  com.main.app.domain.model.shopping_cart.ShoppingCart$ShoppingCartBuilder
+com/main/app/elastic/dto/category/CategoryElasticDTO.java
+ com.main.app.elastic.dto.category.CategoryElasticDTO
 com/main/app/service/order/OrderService.java
  com.main.app.service.order.OrderService
 com/main/app/util/Util.java
@@ -248,10 +248,10 @@ com/main/app/service/email/PasswordRecoveryEmailService.java
 com/main/app/domain/model/attribute/Attribute.java
  com.main.app.domain.model.attribute.Attribute
  com.main.app.domain.model.attribute.Attribute$AttributeBuilder
-com/main/app/elastic/repository/product/ProductElasticRepository.java
- com.main.app.elastic.repository.product.ProductElasticRepository
 com/main/app/converter/user_favourites/UserFavouritesConverter.java
  com.main.app.converter.user_favourites.UserFavouritesConverter
+com/main/app/elastic/repository/product/ProductElasticRepository.java
+ com.main.app.elastic.repository.product.ProductElasticRepository
 com/main/app/domain/dto/user/EmailPassDTO.java
  com.main.app.domain.dto.user.EmailPassDTO
 com/main/app/converter/category/CategoryConverter.java
@@ -352,11 +352,11 @@ com/main/app/service/elasticsearch_reindex/ElasticsearchReindexService.java
 com/main/app/domain/model/order/CustomerOrder.java
  com.main.app.domain.model.order.CustomerOrder
  com.main.app.domain.model.order.CustomerOrder$CustomerOrderBuilder
-com/main/app/config/JpaConfig.java
- com.main.app.config.JpaConfig
 com/main/app/domain/dto/variation/VariationDTO.java
  com.main.app.domain.dto.variation.VariationDTO
  com.main.app.domain.dto.variation.VariationDTO$VariationDTOBuilder
+com/main/app/config/JpaConfig.java
+ com.main.app.config.JpaConfig
 com/main/app/service/email/CommentVerifiedEmailService.java
  com.main.app.service.email.CommentVerifiedEmailService
 com/main/app/domain/dto/shopping_cart/ShoppingCartDto.java
@@ -453,13 +453,13 @@ com/main/app/domain/dto/product_prominent_attributes/ProductAttributesDTO.java
  com.main.app.domain.dto.product_prominent_attributes.ProductAttributesDTO$ProductAttributesDTOBuilder
 com/main/app/util/MD5HashUtil.java
  com.main.app.util.MD5HashUtil
+com/main/app/domain/model/user_favourites/UserFavourites.java
+ com.main.app.domain.model.user_favourites.UserFavourites
+ com.main.app.domain.model.user_favourites.UserFavourites$UserFavouritesBuilder
 com/main/app/elastic/repository/attribute_value/AttributeValueElasticRepository.java
  com.main.app.elastic.repository.attribute_value.AttributeValueElasticRepository
 com/main/app/converter/image/ImageConverter.java
  com.main.app.converter.image.ImageConverter
-com/main/app/domain/model/user_favourites/UserFavourites.java
- com.main.app.domain.model.user_favourites.UserFavourites
- com.main.app.domain.model.user_favourites.UserFavourites$UserFavouritesBuilder
 com/main/app/service/product/ProductService.java
  com.main.app.service.product.ProductService
 com/main/app/service/attribute_category/AttributeCategoryServiceImpl.java
@@ -489,9 +489,9 @@ com/main/app/domain/model/product_attribute_category/ProductAttributeCategory.ja
  com.main.app.domain.model.product_attribute_category.ProductAttributeCategory$ProductAttributeCategoryBuilder
 com/main/app/controller/elasticsearch_reindex/ElasticsearchReindexController.java
  com.main.app.controller.elasticsearch_reindex.ElasticsearchReindexController
-com/main/app/service/user/UserServiceImpl.java
- com.main.app.service.user.UserServiceImpl
-com/main/app/service/user/UserService.java
- com.main.app.service.user.UserService
-com/main/app/service/email/RegistrationEmailServiceImpl.java
- com.main.app.service.email.RegistrationEmailServiceImpl
+com/main/app/controller/attribute_category/AttributeCategoryController.java
+ com.main.app.controller.attribute_category.AttributeCategoryController
+com/main/app/domain/dto/user/PasswordDTO.java
+ com.main.app.domain.dto.user.PasswordDTO
+com/main/app/service/product/ProductServiceImpl.java
+ com.main.app.service.product.ProductServiceImpl

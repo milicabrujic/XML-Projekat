@@ -24,6 +24,8 @@ public class Messages {
     public static final String CATEGORY_WITH_NAME_ALREADY_EXIST = "CATEGORY_WITH_NAME_ALREADY_EXIST";
     public static final String CATEGORY_NAME_CANT_BE_NULL = "CATEGORY_NAME_CANT_BE_NULL";
     public static final String CATEGORY_NOT_EXIST = "CATEGORY_NOT_EXIST";
+    public static final String CANT_DELETE_FIRST_ORDER_CATEGORY = "CANT_DELETE_FIRST_ORDER_CATEGORY";
+    public static final String CANT_DELETE_SUB_CATEGORIES_EXIST = "CANT_DELETE_SUB_CATEGORIES_EXIST";
 
 
     public static final String ATTRIBUTE_WITH_NAME_ALREADY_EXIST = "ATTRIBUTE_WITH_NAME_ALREADY_EXIST";
@@ -74,6 +76,9 @@ public class Messages {
     public static final String ORDER_ITEM_NOT_EXIST = "ORDER_ITEM_NOT_EXIST";
     public static final String ORDER_NOT_EXIST = "ORDER_NOT_EXIST";
     public static final String ORDER_STATUS_IS_FINISHED = "ORDER_STATUS_IS_FINISHED";
+
+    public static final String ITEM_NOT_AVAILABLE = "ITEM_NOT_AVAILABLE";
+
 
     public static final String AMOUNT_OF_SIZE_NOT_GOOD = "AMOUNT OF PRODUCT NOT GOOD";
     public static final String SLUG_VALUE_ALREADY_EXIST = "SLUG_VALUE_ALREADY_EXIST";

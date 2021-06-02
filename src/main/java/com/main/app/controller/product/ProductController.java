@@ -51,7 +51,7 @@ public class ProductController {
     }
 
     @GetMapping(path = "/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ProductDTO> getById(@PathVariable Long id) {
         return new ResponseEntity<>(entityToDTO(productService.getOne(id)), HttpStatus.OK);
     }

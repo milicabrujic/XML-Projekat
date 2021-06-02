@@ -383,18 +383,11 @@ public class ProductServiceImpl implements ProductService {
             ArrayList<Long> toADD = new ArrayList<>();
 
             for (Long productCategoryId : productDTO.getProductCategoriesIds()) {
-                Category cat = categoryRepository.findById(productCategoryId).get();
-                List<ProductCategory> list = productCategoryRepository.findAllByCategoryId(cat.getId());
 
-                if(list.size() > 0){
-                    for (ProductCategory item : list) {
-                        if(item.getProduct().getId() == foundProduct.getId()){
-                            continue;
-                        }else{
-                            toADD.add(productCategoryId);
-                        }
-                    }
-                }else{
+                Category cat = categoryRepository.findById(productCategoryId).get();
+
+                List<ProductCategory> list = productCategoryRepository.findAllByCategoryIdAndProductId(cat.getId(),foundProduct.getId());
+                if(list.size() == 0){
                     toADD.add(productCategoryId);
                 }
             }
@@ -479,6 +472,13 @@ public class ProductServiceImpl implements ProductService {
         List<ProductAttributeCategory> productAttributeCategories = productAttributeCategoryRepository.findAllByProductId(savedProduct.getId());
         List<ProductAttributeValues> productAttributeValues = productAttributeValuesRepository.findAllByProductId(savedProduct.getId());
         List<ProductCategory> productCategoryList = productCategoryRepository.findAllByProductId(savedProduct.getId());
+        List<ProductAttributes> prominentList = productAttributesRepository.findAllByProductIdAndDeletedFalse(savedProduct.getId());
+
+        for (ProductAttributes prodAttr: prominentList) {
+            prodAttr.setDeleted(true);
+            prodAttr.setDateDeleted(Calendar.getInstance().toInstant());
+            productAttributesRepository.save(prodAttr);
+        }
 
         for (ProductCategory prodCateg: productCategoryList) {
             prodCateg.setDeleted(true);

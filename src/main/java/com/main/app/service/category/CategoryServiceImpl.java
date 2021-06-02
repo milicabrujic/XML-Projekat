@@ -228,6 +228,18 @@ public class CategoryServiceImpl implements CategoryService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, CATEGORY_NOT_EXIST);
         }
 
+        if(optionalProductCategory.get().isFirstOrderCategory()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, CANT_DELETE_FIRST_ORDER_CATEGORY);
+        }
+
+        if(optionalProductCategory.get().isSecondOrderCategory()){
+            List<Long> subIds = getAllSubCategories(optionalProductCategory.get().getId());
+            if(subIds.size() > 0){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, CANT_DELETE_SUB_CATEGORIES_EXIST);
+            }
+        }
+
+
         productService.checkIfHasForeignKey(id, "category");
 
         Category foundCategory = optionalProductCategory.get();

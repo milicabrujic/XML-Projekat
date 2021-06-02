@@ -77,6 +77,21 @@ public class OrderServiceImpl implements OrderService {
         if(shoppingCart.getItems().size() <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, SHOPPING_CART_IS_EMPTY);
         }
+
+        for(ShoppingCartItem shoppingItem: shoppingCart.getItems()){
+            if(shoppingItem.getVariation() != null){
+                Variation var = variationRepository.findById(shoppingItem.getVariation().getId()).get();
+                if(var.getAvailable() == 0){
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ITEM_NOT_AVAILABLE + "-" + var.getName());
+                }
+            }else{
+                Product prod = productRepository.findById(shoppingItem.getProduct().getId()).get();
+                if(prod.getAvailable() == 0){
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ITEM_NOT_AVAILABLE + "-" + prod.getName());
+                }
+            }
+        }
+
         CustomerOrder order = orderRepository.save(toEntity(orderDto));
         order.setOrderItems(new ArrayList<OrderItem>());
 
