@@ -19,14 +19,6 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 
 import javax.servlet.http.HttpServletResponse;
 
-
-/**
- * System security configuration, the custom implementation of
- * the WebSecurityConfigureAdapter class.
- *
- * @author Nikola
- *
- */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)

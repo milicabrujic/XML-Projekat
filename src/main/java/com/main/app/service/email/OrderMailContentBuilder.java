@@ -20,6 +20,11 @@ public class OrderMailContentBuilder {
 
     private static final String TLT_TEMPLATE_MESSAGE_DATE_CREATED = "orderDateCreated";
 
+    private static final String TLT_LINK_SHOP = "shopDelivery";
+
+    private static final String TLT_LINK_HOME = "homeDelivery";
+
+
     private static final String TLT_LINK_ORDER_PRICE = "orderPrice";
 
     private TemplateEngine templateEngine;
@@ -29,7 +34,7 @@ public class OrderMailContentBuilder {
         this.templateEngine = templateEngine;
     }
 
-    public String buildOrderContentWithLink(String messageUserNameSurname,String itemsCanDelivery, String itemsCantDelivery, String itemsSelfTransport,String orderDateCreated,String orderPrice) {
+    public String buildOrderContentWithLink(String messageUserNameSurname,String itemsCanDelivery, String itemsCantDelivery,String itemsSelfTransport,String shopDelivery, String homeDelivery, String orderDateCreated,String orderPrice) {
         Context context = new Context();
         context.setVariable(TLT_TEMPLATE_MESSAGE_POSSIBLE_DELIVERY, itemsCanDelivery);
         context.setVariable(TLT_TEMPLATE_MESSAGE_USER_NAME_SURNAME, messageUserNameSurname);
@@ -37,6 +42,8 @@ public class OrderMailContentBuilder {
         context.setVariable(TLT_TEMPLATE_MESSAGE_SELF_TRANSPORT, itemsSelfTransport);
         context.setVariable(TLT_TEMPLATE_MESSAGE_DATE_CREATED, orderDateCreated);
         context.setVariable(TLT_LINK_ORDER_PRICE, orderPrice);
+        context.setVariable(TLT_LINK_SHOP,shopDelivery);
+        context.setVariable(TLT_LINK_HOME,homeDelivery);
         return templateEngine.process(TLT_TEMPLATE_NAME, context);
     }
 

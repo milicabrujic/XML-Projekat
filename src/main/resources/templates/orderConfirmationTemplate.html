@@ -13,7 +13,8 @@
 <h3 th:utext="${orderDateCreated}"></h3>
 <p th:style="'padding: 10px'">________________________________________________________________________________</p>
 <br/>
-<h3 th:if="${itemsCanDelivery.length() > 0}">-Poručeni proizvodi koji će biti isporučeni u periodu od 5 do 10 dana:</h3>
+<div th:if="${itemsCanDelivery.length() > 0}"><h3 th:utext="${shopDelivery}"></h3></div>
+<div th:if="${itemsCanDelivery.length() > 0}"><h3 th:utext="${homeDelivery}"></h3></div>
 <p th:utext=="${itemsCanDelivery}"></p>
 <h3 th:if="${itemsCantDelivery.length() > 0}">-Poručeni proizvodi koji će biti naknadno isporučeni:</h3>
 <p th:utext=="${itemsCantDelivery}"></p>

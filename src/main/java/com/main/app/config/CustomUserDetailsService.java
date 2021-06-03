@@ -12,12 +12,6 @@ import java.util.Optional;
 
 import static com.main.app.static_data.Messages.USERNAME_NOT_FOUND;
 
-/**
- * The custom implementation of the user details service, providing
- * user data from the system database for authorization.
- *
- * @author Nikola
- */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 

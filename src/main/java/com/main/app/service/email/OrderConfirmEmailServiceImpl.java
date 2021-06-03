@@ -33,6 +33,14 @@ public class OrderConfirmEmailServiceImpl implements OrderConfirmEmailService{
         String itemsCanDelivery = "";
         String itemsCantDelivery = "";
         String itemsSelfTransport = "";
+        String shopDelivery = "";
+        String homeDelivery = "";
+        if(order.getShop() != null){
+            shopDelivery = "Poručeni proizvodi koje preuzimate u našoj poslovnici u periodu od 5 do 10 dana:";
+        }else{
+            homeDelivery = "-Poručeni proizvodi koji će biti isporučeni na adresu u periodu od 5 do 10 dana:";
+        }
+
         DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
                 .withZone(ZoneId.systemDefault());
         DateTimeFormatter DATE_TIME_FORMATTER_2 = DateTimeFormatter.ofPattern("dd-MM-yyyy")
@@ -58,7 +66,7 @@ public class OrderConfirmEmailServiceImpl implements OrderConfirmEmailService{
 
         String ORDER_PRICE = "-Ukupna cena:" +  "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + order.getTotalPrice().toString() + ",00 RSD.";
 
-        String content = orderMailContentBuilder.buildOrderContentWithLink(MESSAGE_USER_NAME_SURNAME,itemsCanDelivery, itemsCantDelivery,itemsSelfTransport,ORDER_DATE_CREATED,ORDER_PRICE);
+        String content = orderMailContentBuilder.buildOrderContentWithLink(MESSAGE_USER_NAME_SURNAME,itemsCanDelivery, itemsCantDelivery,itemsSelfTransport,shopDelivery,homeDelivery,ORDER_DATE_CREATED,ORDER_PRICE);
         String emailToSend = "stefan.roganovic@lilly021.com";
         emailClient.sendMimeEmail(emailFrom,emailToSend,EMAIL_SUBJECT,content);
     }
