@@ -154,7 +154,7 @@ public class ProductController {
         if(Long.valueOf(productCategoryId) != 0){
             productCategoryIds = categoryService.getAllSubCategories(Long.valueOf(productCategoryId));
         }
-        if(productCategoryIds.size() == 0 && Long.valueOf(productCategoryId) != 0){
+        if(Long.valueOf(productCategoryId) != 0){
             productCategoryIds.add(Long.valueOf(productCategoryId));
         }
 
@@ -167,9 +167,7 @@ public class ProductController {
                         filterCategoryIds.add(subId);
                     }
                 }
-                if(filterCategoryIds.size() == 0){
-                    filterCategoryIds.add(Long.valueOf(catId));
-                }
+                filterCategoryIds.add(Long.valueOf(catId));
             }
         }
 

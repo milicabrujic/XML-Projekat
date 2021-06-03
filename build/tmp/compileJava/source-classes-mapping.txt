@@ -419,8 +419,8 @@ com/main/app/service/user/CurrentUserServiceImpl.java
  com.main.app.service.user.CurrentUserServiceImpl
 com/main/app/config/MigrationConfig.java
  com.main.app.config.MigrationConfig
-com/main/app/controller/product/ProductController.java
- com.main.app.controller.product.ProductController
+com/main/app/service/product/ProductServiceImpl.java
+ com.main.app.service.product.ProductServiceImpl
 com/main/app/service/category/CategoryService.java
  com.main.app.service.category.CategoryService
 com/main/app/service/email/CommentRemovedEmailService.java
@@ -493,5 +493,5 @@ com/main/app/controller/attribute_category/AttributeCategoryController.java
  com.main.app.controller.attribute_category.AttributeCategoryController
 com/main/app/domain/dto/user/PasswordDTO.java
  com.main.app.domain.dto.user.PasswordDTO
-com/main/app/service/product/ProductServiceImpl.java
- com.main.app.service.product.ProductServiceImpl
+com/main/app/controller/product/ProductController.java
+ com.main.app.controller.product.ProductController
