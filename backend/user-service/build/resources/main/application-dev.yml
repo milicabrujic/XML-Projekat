@@ -1,0 +1,47 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform:
+      org:
+        hibernate:
+          dialect: MySQL5InnoDBDialect
+  datasource:
+    url: jdbc:mysql://localhost:3306/isa?createDatabaseIfNotExist=true&serverTimezone=Europe/Belgrade&useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_general_ci
+    username: root
+    password:
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+  flyway:
+    baselineOnMigrate: true
+  mail:
+    host: mail.lilly021.com
+    port: 2525
+    username: test@lilly021.com
+    password: Lilly021!
+    properties:
+      mail:
+        smtp:
+          auth: true
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  deeplink: http://localhost:3000
+  main:
+    allow-bean-definition-overriding: true
+document:
+  productcategory:
+    path: /home/user/Desktop/Work/images/
+    filepath: file:/home/user/Desktop/Work/images/
+
+server:
+  servlet:
+    context-path: /api
+  error:
+    include-message: always
+
+
+

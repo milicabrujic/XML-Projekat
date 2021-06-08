@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+<h2 th:text="${messageUserNameSurname}"></h2>
+<br/>
+<div>
+    <span th:style="'padding: 10px'">Poštovani u sledećem tekstu nalaze se osnovne informacije o vašoj porudžbini.</span><br/>
+    <span th:style="'padding: 10px'">Molimo vas pročitajte kako biste znali i bili informisani o tačnom vremenu isporuke,</span><br/>
+    <span th:style="'padding: 10px'">kao i o načinu preuzimanja proizvoda iz našeg vrta.</span>
+</div>
+<br/>
+<h3 th:utext="${orderDateCreated}"></h3>
+<p th:style="'padding: 10px'">________________________________________________________________________________</p>
+<br/>
+<div th:if="${itemsCanDelivery.length() > 0}"><h3 th:utext="${shopDelivery}"></h3></div>
+<div th:if="${itemsCanDelivery.length() > 0}"><h3 th:utext="${homeDelivery}"></h3></div>
+<p th:utext=="${itemsCanDelivery}"></p>
+<h3 th:if="${itemsCantDelivery.length() > 0}">-Poručeni proizvodi koji će biti naknadno isporučeni:</h3>
+<p th:utext=="${itemsCantDelivery}"></p>
+<h3 th:if="${itemsSelfTransport.length() > 0}">-Poručeni proizvodi koje preuzimate lično u našoj poslovnici:</h3>
+<p th:utext=="${itemsSelfTransport}"></p>
+<p th:style="'padding: 10px'">________________________________________________________________________________</p>
+<h3 th:utext="${orderPrice}"></h3>
+</body>
+</html>
