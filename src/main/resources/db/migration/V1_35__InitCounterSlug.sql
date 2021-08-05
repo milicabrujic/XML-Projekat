@@ -1,1 +1,0 @@
-INSERT INTO `counter_slug` (`entity_name`,`current_count`) VALUES ('Rododendron',1)

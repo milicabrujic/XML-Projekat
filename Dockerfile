@@ -10,16 +10,12 @@ COPY --chown=gradle:gradle . /app
 # Build all the dependencies
 RUN gradle build --no-daemon -x test
 
-
-
 #Stage 2: A minimal docker image with command to run the app
 FROM openjdk:8-jdk-alpine
 
 USER root
 RUN apk --update add fontconfig ttf-dejavu
 
-MAINTAINER Stefan Roganovic <stefan.roganovic@gmail.com>
-
 COPY --from=build /app/build/libs/app-0.0.1-SNAPSHOT.jar backend-app.jar 
-ENTRYPOINT ["java", "-jar", "/backend-app.jar"]
+ENTRYPOINT ["java", "-jar", "/user-service.jar"]
 EXPOSE 8080
