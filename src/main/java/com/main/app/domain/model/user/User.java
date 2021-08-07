@@ -2,16 +2,12 @@ package com.main.app.domain.model.user;
 
 import com.main.app.domain.dto.user.UserDTO;
 import com.main.app.domain.model.AbstractEntity;
-import com.main.app.domain.model.user_favourites.UserFavourites;
-import com.main.app.domain.model.variation.Variation;
+import com.main.app.enums.Gender;
 import com.main.app.enums.Role;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -21,11 +17,11 @@ import java.util.List;
 @Builder
 public class User extends AbstractEntity {
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "first_name")
+    private String firstName;
 
-    @Column(name = "surname")
-    private String surname;
+    @Column(name = "last_name")
+    private String lastName;
 
     @Column(name = "email")
     private String email;
@@ -39,52 +35,50 @@ public class User extends AbstractEntity {
     @Column(name = "city")
     private String city;
 
-    @Column(name = "postal_code")
-    private String postalCode;
+    @Column(name = "country")
+    private String country;
 
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "birth_date", columnDefinition = "DATE")
-    private Instant birthDate;
+    @Column(name = "website")
+    private String website;
 
-    @Column(name = "reset_token")
-    private String resetToken;
+    @Column(name = "bio")
+    private String bio;
 
-    @Column(name = "reset_token_expiration_date", columnDefinition = "DATE")
-    private Instant resetTokenExpirationDate;
+    @Column(name = "private_profile")
+    private boolean privateProfile;
 
-    @Column(name = "registration_token")
-    private String registrationToken;
+    @Column(name = "allow_messages")
+    private boolean allowMessages;
 
-    @Column(name = "registration_token_expiration_date", columnDefinition = "DATE")
-    private Instant registrationTokenExpirationDate;
+    @Column(name = "allow_tags")
+    private boolean allowTags;
+
+    @Column(name = "allow_notification")
+    private boolean allowNotification;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(name = "registration_confirmed")
-    private boolean registrationConfirmed;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
-
-    public User(@NotNull String password, @NotNull String email, @NotNull String name, @NotNull String surname) {
+    public User(@NotNull String password, @NotNull String email, @NotNull String firstName, @NotNull String lastName) {
         this.password = password;
         this.email = email;
-        this.name = name;
-        this.surname = surname;
-        this.registrationConfirmed = false;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public User(UserDTO userDTO) {
-//        this.setId(userDTO.getId());
         this.setEmail(userDTO.getEmail());
-        this.setName(userDTO.getName());
+        this.setFirstName(userDTO.getFirstName());
         this.setPassword(userDTO.getPassword());
-        this.setSurname(userDTO.getSurname());
+        this.setLastName(userDTO.getLastName());
         this.setPhoneNumber(userDTO.getPhoneNumber());
         this.setRole(userDTO.getRole());
         this.setAddress(userDTO.getAddress());
-        this.setBirthDate(userDTO.getBirthDate());
-        this.setRegistrationConfirmed(userDTO.isRegistrationConfirmed());
     }
 }

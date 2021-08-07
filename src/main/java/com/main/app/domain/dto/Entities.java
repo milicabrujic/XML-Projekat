@@ -16,6 +16,4 @@ public class Entities<T> {
     private List<T> entities = new ArrayList<T>();
     private long total;
     private long totalPages;
-    private Map<T, T> children;
-
 }

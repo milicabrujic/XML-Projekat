@@ -1,2 +1,5 @@
-package com.main.app.domain.model.user;public enum RestrictionType {
+package com.main.app.domain.model.user;
+
+public enum RestrictionType {
+    MUTE, BLOCK
 }

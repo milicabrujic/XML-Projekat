@@ -1,17 +1,13 @@
 package com.main.app.domain.dto.user;
 
-
 import com.main.app.enums.Role;
 import lombok.*;
 
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.Instant;
 
-/**
- * The dto used for exposing user data through API.
- *
- * @author Nikola
- *
- */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,29 +15,17 @@ import java.time.Instant;
 @Builder
 public class UserDTO {
 
+    private String firstName;
+    private String lastName;
     private String email;
-
-    private String name;
-
-    private String surname;
-
     private String password;
-
-    private String phoneNumber;
-
-    private Instant dateCreated;
-
     private String address;
-
     private String city;
-
-    private String postalCode;
-
-    private Instant birthDate;
-
+    private String country;
+    private String phoneNumber;
     private Role role;
-
-    private boolean registrationConfirmed;
-
-
+    private boolean privateProfile;
+    private boolean allowMessages;
+    private boolean allowTags;
+    private boolean allowNotification;
 }

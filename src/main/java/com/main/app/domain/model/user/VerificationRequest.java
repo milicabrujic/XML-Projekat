@@ -1,10 +1,10 @@
-package com.main.app.domain.model.post;
+package com.main.app.domain.model.user;
 
 import com.main.app.domain.model.AbstractEntity;
+import com.main.app.enums.Gender;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
@@ -26,4 +26,9 @@ public class VerificationRequest extends AbstractEntity {
     @Column(name = "document")
     private String document;
 
+    @Enumerated(EnumType.STRING)
+    private VerificationRequestStatus status;
+
+    @ManyToOne
+    private User user;
 }

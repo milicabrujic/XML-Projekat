@@ -32,20 +32,5 @@ public abstract class AbstractEntity implements Serializable {
     )
     private Long id;
 
-    @CreatedBy
-    private String createdBy;
-
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private Instant dateCreated;
-
-    @LastModifiedBy
-    private String lastModifiedBy;
-
-    @LastModifiedDate
-    private Instant dateUpdated;
-
-    private Instant dateDeleted;
-
     private boolean deleted = false;
 }
