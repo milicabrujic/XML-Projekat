@@ -12,13 +12,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
-
-/**
- * OAuth 2 authorization server configuration.
- * Authorization server is the one responsible for verifying credentials and providing the tokens.
- *
- * @author Nikola
- */
 @Configuration
 @EnableAuthorizationServer
 @NoArgsConstructor

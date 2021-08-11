@@ -6,12 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
 
-/**
- * Security utils class - data of user who sent request.
- *
- * @author Nikola
- *
- */
 public final class SecurityUtils {
 
     public static Optional<String> getCurrentUserLogin() {

@@ -12,26 +12,35 @@ public class UserConverter {
         return User
                 .builder()
                 .email(userDTO.getEmail())
-                .name(userDTO.getName())
-                .surname(userDTO.getSurname())
+                .firstName(userDTO.getFirstName())
+                .lastName(userDTO.getLastName())
                 .address(userDTO.getAddress())
+                .password(userDTO.getPassword())
                 .phoneNumber(userDTO.getPhoneNumber())
-                .birthDate(userDTO.getBirthDate())
+                .city(userDTO.getCity())
+                .country(userDTO.getCountry())
+                .allowTags(userDTO.isAllowTags())
+                .allowMessages(userDTO.isAllowMessages())
+                .privateProfile(userDTO.isPrivateProfile())
+                .allowNotification(userDTO.isAllowNotification())
                 .build();
     }
 
     public static UserDTO userEntityToUserDTO(User user){
         return UserDTO
                 .builder()
-                .name(user.getName())
-                .surname(user.getSurname())
+                .firstName(user.getLastName())
+                .lastName(user.getLastName())
                 .email(user.getEmail())
-//                .address(user.getAddress())
-//                .city(user.getCity())
-//                .postalCode(user.getPostalCode())
-//                .phoneNumber(user.getPhoneNumber())
-                .dateCreated(user.getDateCreated())
                 .role(user.getRole())
+                .address(user.getAddress())
+                .city(user.getCity())
+                .country(user.getCountry())
+                .role(user.getRole())
+                .allowTags(user.isAllowTags())
+                .allowMessages(user.isAllowMessages())
+                .privateProfile(user.isPrivateProfile())
+                .allowNotification(user.isAllowNotification())
                 .build();
     }
 
@@ -41,5 +50,4 @@ public class UserConverter {
                 .map(user -> userEntityToUserDTO(user))
                 .collect(Collectors.toList());
     }
-
 }

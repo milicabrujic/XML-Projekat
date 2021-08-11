@@ -13,18 +13,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findOneByEmailAndDeletedFalse(String email);
-
+    Optional<User> findOneById(Long id);
     User save(User user);
-
-    Optional<User> findOneByIdAndDeletedFalse(Long id);
-
-    List<User> findAllByDeletedFalse();
-
-    Page<User> findAllByDeletedFalse(Pageable pageable);
-
-    Optional<User> findOneByResetToken(String recoveryPasswordToken);
-
-    Optional<User> findOneByRegistrationToken(String registrationToken);
-
-    Page<User> findAllByIdInAndDeletedFalse(List<Long> idsList, Pageable pageable);
 }

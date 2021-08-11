@@ -8,11 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * CORSFilter configuration.
- *
- * @author Nikola
- */
 @Component
 public class CORSFilterConfig implements Filter {
 

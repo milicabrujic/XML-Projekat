@@ -7,9 +7,9 @@ spring:
         hibernate:
           dialect: MySQL5InnoDBDialect
   datasource:
-    url: jdbc:mysql://localhost:3306/topalovic_db?createDatabaseIfNotExist=true&serverTimezone=Europe/Belgrade&useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_general_ci
+    url: jdbc:mysql://localhost:3306/xml?createDatabaseIfNotExist=true&serverTimezone=Europe/Belgrade&useUnicode=true&characterEncoding=utf-8&connectionCollation=utf8_general_ci
     username: root
-    password: root
+    password:
   jackson:
     serialization:
       fail-on-empty-beans: false
@@ -29,20 +29,9 @@ spring:
       charset: UTF-8
       enabled: true
       force: true
-  elasticsearch:
-    home: /etc/elasticsearch
-    clustername: elasticsearch
-    host: localhost
-    port: 9200
   deeplink: http://localhost:3000
   main:
     allow-bean-definition-overriding: true
-
-#C:/Users/Korisnik2/Desktop/Work/images/
-#file:C:/Users/Korisnik2/Desktop/Work/images/
-#/home/user/Desktop/Work/images
-
-
 document:
   productcategory:
     path: /home/user/Desktop/Work/images/
