@@ -1,6 +1,7 @@
 package com.main.app.domain.model.post;
 
 import com.main.app.domain.model.AbstractEntity;
+import com.main.app.domain.model.album.Album;
 import com.main.app.domain.model.user.User;
 import com.main.app.enums.PostType;
 import lombok.*;
@@ -34,6 +35,12 @@ public class Post extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private PostType postType;
 
+    @Column(name = "user_id")
+    private Long userId;
+
     @ManyToOne
-    private User user;
+    private Album album;
+
+    @Column
+    private boolean higlight;
 }

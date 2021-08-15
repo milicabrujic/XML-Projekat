@@ -19,8 +19,8 @@ public class Comment extends AbstractEntity {
     @Column(name = "comment")
     private String comment;
 
-    @ManyToOne
-    private User user;
+    @Column(name = "user_id")
+    private Long userId;
 
     @ManyToOne
     private Post post;

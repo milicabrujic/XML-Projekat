@@ -19,14 +19,19 @@ public class PostController {
 
     private final PostService postService;
 
+    @GetMapping(path = "/with-reaction")
+    public ResponseEntity<List<PostDTO>> getWithReaction() {
+        return new ResponseEntity<>(PostConverter.postsListToPostsDTOList(postService.getWithReaction()), HttpStatus.OK);
+    }
+
     @GetMapping(path = "/public/post")
-    public ResponseEntity<List<PostDTO>> getPublicPosts() {
-        return new ResponseEntity<>(PostConverter.postsListToPostsDTOList(postService.findAllByPostType(PostType.POST)), HttpStatus.OK);
+    public ResponseEntity<List<PostDTO>> getPublicPosts(@RequestParam String search) {
+        return new ResponseEntity<>(PostConverter.postsListToPostsDTOList(postService.findAllByPostType(PostType.POST, search)), HttpStatus.OK);
     }
 
     @GetMapping(path = "/public/story")
-    public ResponseEntity<List<PostDTO>> getPublicStories() {
-        return new ResponseEntity<>(PostConverter.postsListToPostsDTOList(postService.findAllByPostType(PostType.STORY)), HttpStatus.OK);
+    public ResponseEntity<List<PostDTO>> getPublicStories(@RequestParam String search) {
+        return new ResponseEntity<>(PostConverter.postsListToPostsDTOList(postService.findAllByPostType(PostType.STORY, search)), HttpStatus.OK);
     }
 
     @GetMapping(path = "/user/post/{id}")

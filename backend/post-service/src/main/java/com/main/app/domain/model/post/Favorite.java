@@ -1,11 +1,11 @@
 package com.main.app.domain.model.post;
 
 import com.main.app.domain.model.AbstractEntity;
-import com.main.app.domain.model.user.User;
-import com.main.app.enums.ReactionType;
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 @Entity
 @NoArgsConstructor
@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @Builder
-public class Reaction extends AbstractEntity {
+public class Favorite extends AbstractEntity {
 
     @ManyToOne
     private Post post;
@@ -21,6 +21,6 @@ public class Reaction extends AbstractEntity {
     @Column(name = "user_id")
     private Long userId;
 
-    @Enumerated(EnumType.STRING)
-    private ReactionType reactionType;
+    @Column(name = "favorite")
+    private boolean favorite;
 }

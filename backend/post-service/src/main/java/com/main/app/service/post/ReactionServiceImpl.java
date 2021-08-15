@@ -41,7 +41,7 @@ public class ReactionServiceImpl implements ReactionService {
 
         Reaction reaction = new Reaction();
         reaction.setPost(post.get());
-        reaction.setUser(currentUserService.getCurrentUser().get());
+        reaction.setUserId(currentUserService.getCurrentUser().getId());
         reaction.setReactionType(reactionType);
 
         return reactionRepository.save(reaction);

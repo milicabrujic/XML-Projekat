@@ -14,4 +14,9 @@ public class PostDTO {
     private String name;
     private String description;
     private String content;
+
+    private String tag;
+    private String location;
+    private Long albumId;
+    private boolean higlight;
 }
