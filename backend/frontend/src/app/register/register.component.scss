@@ -1,0 +1,15 @@
+.page {
+  height: calc(100vh - 100px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-form-field {
+  display: block;
+}
+
+mat-card {
+  width: 50%;
+  margin: 0 auto;
+}
